@@ -1,0 +1,17 @@
+﻿<!doctype html>
+<html>
+<head>
+  <script src="jspm_packages/npm/core-js@2.4.1/client/shim.min.js"></script> <!--musi byt kvuli MSIE-->
+  <script src="jspm_packages/npm/whatwg-fetch@2.0.3/fetch.js"></script> <!--musi byt kvuli MSIE-->
+  <script src="jspm_packages/system.src.js"></script>
+  <script src="jspm.config.js"></script>
+
+  <script>
+    System.import('web/AppEntry.js').then(function (m) { m.init(); }).catch(function (err) { debugger; });
+  </script>
+</head>
+<body>
+  <div id="content"></div>
+</body>
+
+</html>

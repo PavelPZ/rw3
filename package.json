@@ -1,0 +1,96 @@
+{
+  "name": "rw3",
+  "version": "0.0.0",
+  "description": "RE-WISE",
+  "author": "LANGMaster.com",
+  "private": true,
+  "main": "node_modules/expo/AppEntry.js",
+  "dependencies": {
+    "expo": "^18.0.4",
+    "react": "16.0.0-alpha.12",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-18.0.1.tar.gz"
+  },
+  "jspm": {
+    "name": "rw3",
+    "main": "rw3.js",
+    "dependencies": {
+      "@types/js-cookie": "npm:@types/js-cookie@^2.0.28",
+      "@types/lodash": "npm:@types/lodash@^4.14.68",
+      "@types/react": "npm:@types/react@^15.0.35",
+      "@types/react-dom": "npm:@types/react-dom@^15.5.1",
+      "@types/react-intl": "npm:@types/react-intl@^2.3.1",
+      "@types/react-redux": "npm:@types/react-redux@^4.4.45",
+      "core-js": "npm:core-js@^2.4.1",
+      "fela": "npm:fela@^5.0.2",
+      "js-cookie": "npm:js-cookie@^2.1.4",
+      "lodash": "npm:lodash@^4.17.4",
+      "react-dom": "npm:react-dom@^15.6.1",
+      "react-intl": "npm:react-intl@^2.3.0",
+      "react-redux": "npm:react-redux@^5.0.5",
+      "redux-logger": "npm:redux-logger@^3.0.6",
+      "redux-saga": "npm:redux-saga@^0.15.4",
+      "tslib": "npm:tslib@^1.7.1",
+      "whatwg-fetch": "npm:whatwg-fetch@^2.0.3"
+    },
+    "peerDependencies": {
+      "assert": "npm:jspm-nodelibs-assert@^0.2.0",
+      "buffer": "npm:jspm-nodelibs-buffer@^0.2.0",
+      "child_process": "npm:jspm-nodelibs-child_process@^0.2.0",
+      "constants": "npm:jspm-nodelibs-constants@^0.2.0",
+      "crypto": "npm:jspm-nodelibs-crypto@^0.2.0",
+      "domain": "npm:jspm-nodelibs-domain@^0.2.0",
+      "events": "npm:jspm-nodelibs-events@^0.2.0",
+      "fs": "npm:jspm-nodelibs-fs@^0.2.0",
+      "http": "npm:jspm-nodelibs-http@^0.2.0",
+      "https": "npm:jspm-nodelibs-https@^0.2.0",
+      "os": "npm:jspm-nodelibs-os@^0.2.0",
+      "path": "npm:jspm-nodelibs-path@^0.2.0",
+      "process": "npm:jspm-nodelibs-process@^0.2.0",
+      "prop-types": "npm:prop-types@^15.5.4",
+      "react": "npm:react@^15.0.0",
+      "redux": "npm:redux@^3.7.1",
+      "stream": "npm:jspm-nodelibs-stream@^0.2.0",
+      "string_decoder": "npm:jspm-nodelibs-string_decoder@^0.2.0",
+      "url": "npm:jspm-nodelibs-url@^0.2.0",
+      "util": "npm:jspm-nodelibs-util@^0.2.0",
+      "vm": "npm:jspm-nodelibs-vm@^0.2.0",
+      "zlib": "npm:jspm-nodelibs-zlib@^0.2.0"
+    },
+    "overrides": {
+      "npm:browserify-zlib@0.1.4": {
+        "dependencies": {
+          "readable-stream": "^2.0.2",
+          "pako": "~0.2.0"
+        },
+        "map": {
+          "_stream_transform": "readable-stream/transform"
+        }
+      },
+      "npm:inherits@2.0.3": {
+        "ignore": [
+          "test.js"
+        ]
+      },
+      "npm:lodash@4.17.4": {
+        "map": {
+          "buffer": "@empty",
+          "process": "@empty"
+        }
+      },
+      "npm:pbkdf2@3.0.12": {
+        "main": "browser.js"
+      },
+      "npm:safe-buffer@5.1.1": {
+        "browser": "index.js"
+      },
+      "npm:tslib@1.7.1": {
+        "format": "cjs",
+        "meta": {
+          "tslib.js": {
+            "esModule": true
+          }
+        }
+      }
+    }
+  }
+}
