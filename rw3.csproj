@@ -75,6 +75,7 @@
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
     <TypeScriptCompile Include="native\snack\animated.tsx" />
+    <TypeScriptCompile Include="native\snack\navigator\drawer-custom.tsx" />
     <TypeScriptCompile Include="native\snack\navigator\drawer-stack.tsx" />
     <TypeScriptCompile Include="native\snack\navigator\drawer.tsx" />
     <TypeScriptCompile Include="native\snack\navigator\hallo-world.tsx" />
@@ -82,7 +83,10 @@
     <TypeScriptCompile Include="native\snack\navigator\redux.tsx" />
     <TypeScriptCompile Include="native\snack\navigator\stack.tsx" />
     <TypeScriptCompile Include="native\snack\navigator\tab.tsx" />
+    <TypeScriptCompile Include="native\snack\picker.tsx" />
     <TypeScriptCompile Include="native\snack\redux.tsx" />
+    <TypeScriptCompile Include="native\snack\sqlite.tsx" />
+    <TypeScriptCompile Include="typings\expo.d.ts" />
     <TypeScriptCompile Include="typings\react-navigation.d.ts" />
     <TypeScriptCompile Include="web\AppEntry.tsx" />
     <None Include="Web.Debug.config">

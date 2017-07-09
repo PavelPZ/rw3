@@ -1,6 +1,6 @@
 SystemJS.config({
   paths: {
-    "npm:": "jspm_packages/npm/",
+    "npm:": "jspm_packages/npm/"
   },
   browserConfig: {
     "baseURL": "/"
@@ -18,6 +18,7 @@ SystemJS.config({
     "npm:*.json"
   ],
   map: {
+    "@types/fbemitter": "npm:@types/fbemitter@2.0.32",
     "@types/js-cookie": "npm:@types/js-cookie@2.0.28",
     "@types/lodash": "npm:@types/lodash@4.14.68",
     "@types/react": "npm:@types/react@15.0.35",

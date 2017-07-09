@@ -1,6 +1,6 @@
 ﻿//https://quip.com/HCxGAHjCqqLG
 import React, { Component } from 'react';
-import { Text, View, TextInput, Button } from 'react-native';
+import { Text, View, TextInput, Button, Picker } from 'react-native';
 import { createStore } from 'redux';
 import { StackNavigator } from 'react-navigation';
 
@@ -25,7 +25,7 @@ class HomeScreen extends Component<any,any> {
         username: "harley"
       }
     }
-  }
+  } 
 
   _onChangeText = (value) => {
     this.setState({
