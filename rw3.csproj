@@ -75,6 +75,14 @@
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
     <TypeScriptCompile Include="native\snack\animated.tsx" />
+    <TypeScriptCompile Include="native\snack\navigator\drawer.tsx" />
+    <TypeScriptCompile Include="native\snack\navigator\hallo-world.tsx" />
+    <TypeScriptCompile Include="native\snack\navigator\passing-params.tsx" />
+    <TypeScriptCompile Include="native\snack\navigator\redux.tsx" />
+    <TypeScriptCompile Include="native\snack\navigator\stack.tsx" />
+    <TypeScriptCompile Include="native\snack\navigator\tab.tsx" />
+    <TypeScriptCompile Include="native\snack\redux.tsx" />
+    <TypeScriptCompile Include="typings\react-navigation.d.ts" />
     <TypeScriptCompile Include="web\AppEntry.tsx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -93,7 +101,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="typings\fela\dfela.d.ts" />
     <TypeScriptCompile Include="typings\fela\fela.d.ts" />
-    <TypeScriptCompile Include="typings\ReactNative.d.ts" />
+    <TypeScriptCompile Include="typings\react-native.d.ts" />
     <TypeScriptCompile Include="typings\redux-logger.d.ts" />
     <TypeScriptCompile Include="web\react-native\apis\I18nManager.ts" />
     <TypeScriptCompile Include="web\react-native\apis\Platform.ts" />

@@ -3,6 +3,7 @@
 	"compilerOptions": {
 		"target": "es5",
 		"module": "system",
+
 		"inlineSourceMap": true,
 		"inlineSources": true,
 		"strictNullChecks": false,
@@ -13,19 +14,20 @@
 
 		"importHelpers": true,
 		"baseUrl": ".",
-			"paths": {
-				"tslib": [ "jspm_packages/npm/tslib@1.7.1/tslib" ],
-				"js-cookie": [ "jspm_packages/npm/@types/js-cookie@2.0.28/index" ],
-				"react": [ "jspm_packages/npm/@types/react@15.0.35/index" ],
-				"react-dom": [ "jspm_packages/npm/@types/react-dom@15.5.1/index" ],
-				"redux": [ "jspm_packages/npm/redux@3.7.1/index" ],
-				"redux-saga/*": [ "jspm_packages/npm/redux-saga@0.15.4/*" ],
-				"react-redux": [ "jspm_packages/npm/@types/react-redux@4.4.45/index" ],
-				"react-intl": [ "jspm_packages/npm/@types/react-intl@2.3.1/index" ],
-				//"react-native": [ "jspm_packages/npm/@types/react-intl@2.3.1/index" ],
-				"react-native": [ "typings/ReactNative" ],
-				"lodash/*": [ "jspm_packages/npm/@types/lodash@4.14.68/*/index" ]
-			},
+		"paths": {
+			"tslib": [ "jspm_packages/npm/tslib@1.7.1/tslib" ],
+			"js-cookie": [ "jspm_packages/npm/@types/js-cookie@2.0.28/index" ],
+			"react": [ "jspm_packages/npm/@types/react@15.0.35/index" ],
+			"react-dom": [ "jspm_packages/npm/@types/react-dom@15.5.1/index" ],
+			"redux": [ "jspm_packages/npm/redux@3.7.1/index" ],
+			"redux-saga/*": [ "jspm_packages/npm/redux-saga@0.15.4/*" ],
+			"react-redux": [ "jspm_packages/npm/@types/react-redux@4.4.45/index" ],
+			"react-intl": [ "jspm_packages/npm/@types/react-intl@2.3.1/index" ],
+			//"react-native": [ "jspm_packages/npm/@types/react-intl@2.3.1/index" ],
+			"react-native": [ "typings/react-native" ],
+			"react-navigation": [ "typings/react-navigation" ],
+			"lodash/*": [ "jspm_packages/npm/@types/lodash@4.14.68/*/index" ]
+		},
 		"lib": [
 			"dom",
 			"es2015",
@@ -36,6 +38,7 @@
 
 	"exclude": [
 		"jspm_packages/",
-		"node_modules/"
+		"node_modules/",
+		"native/snack/"
 	]
 }

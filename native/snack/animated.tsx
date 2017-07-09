@@ -9,7 +9,7 @@ const AnimatedComponent = ({ children }) => {
 
   return (
     <Animated.View style={{
-      justifyContent: 'center', alignItems: 'center', width: 100, height: 100
+      flex: 1, justifyContent: 'center', alignItems: 'center', width: 100, height: 100
       , backgroundColor: animation.interpolate({ inputRange: [1, 2], outputRange: ['#28d79f', '#c23369'] })
       , transform: [
         { scale: animation },
@@ -27,7 +27,7 @@ const AnimatedComponent = ({ children }) => {
 
 export default class App extends React.Component {
   render() {
-    return (<View style={{ padding: 100 }}>
+    return (<View style={{ flex: 1, padding: 100 }}>
       <AnimatedComponent>
         <Text>Animated text</Text>
       </AnimatedComponent>
