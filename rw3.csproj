@@ -75,6 +75,7 @@
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
     <TypeScriptCompile Include="native\snack\animated.tsx" />
+    <TypeScriptCompile Include="native\snack\navigator\drawer-stack.tsx" />
     <TypeScriptCompile Include="native\snack\navigator\drawer.tsx" />
     <TypeScriptCompile Include="native\snack\navigator\hallo-world.tsx" />
     <TypeScriptCompile Include="native\snack\navigator\passing-params.tsx" />

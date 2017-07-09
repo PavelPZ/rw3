@@ -2,7 +2,7 @@
 import { connect, Provider } from 'react-redux';
 import { combineReducers, createStore } from 'redux';
 import { Button, StyleSheet, Text, View } from 'react-native';
-import { StackNavigator, NavigationActions, addNavigationHelpers } from 'react-navigation';
+import { StackNavigator, NavigationActions, addNavigationHelpers, DrawerNavigator } from 'react-navigation';
 
 // ************ AuthButton
 const AuthButtonLow = ({ logout, loginScreen, isLoggedIn }) => (
@@ -132,7 +132,10 @@ ProfileScreen['navigationOptions'] = {
   title: 'Profile',
 };
 
-// ************ AppNavigator
+// **********************************************
+//              AppNavigator
+// **********************************************
+
 const AppNavigator = StackNavigator({
   Login: { screen: LoginScreen },
   Main: { screen: MainScreen },
@@ -156,7 +159,7 @@ const initialNavState = AppNavigator.router.getStateForAction(
   tempNavState
 );
 
-function nav(state = initialNavState, action) {
+function navReducer(state = initialNavState, action) {
   let nextState;
   switch (action.type) {
     case 'Login':
@@ -182,7 +185,7 @@ function nav(state = initialNavState, action) {
 
 const initialAuthState = { isLoggedIn: false };
 
-function auth(state = initialAuthState, action) {
+function authReducer(state = initialAuthState, action) {
   switch (action.type) {
     case 'Login':
       return { ...state, isLoggedIn: true };
@@ -194,8 +197,8 @@ function auth(state = initialAuthState, action) {
 }
 
 const AppReducer = combineReducers({
-  nav,
-  auth,
+  nav: navReducer,
+  auth: authReducer,
 });
 
 // ***** APP
