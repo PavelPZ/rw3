@@ -1,7 +1,7 @@
 ﻿import React, { HTMLAttributes } from 'react';
-import { TextProperties, AllStyles } from 'react-native';
+import { TextProperties } from 'react-native';
 import PropTypes from 'prop-types';
-import { RNA } from '../../../common/react-native-all';
+import { renderRules } from '../../fela';
 
 type ITextProps = TextProperties & HTMLAttributes<{}>;
 
@@ -15,15 +15,6 @@ export class Text extends React.Component<ITextProps> {
       onPress,
       selectable,
       style,
-      /* eslint-disable */
-      //adjustsFontSizeToFit,
-      //allowFontScaling,
-      //ellipsizeMode,
-      //lineBreakMode,
-      //minimumFontScale,
-      //onLayout,
-      //suppressHighlighting,
-      /* eslint-enable */
       ...otherPropsTyped
     } = this.props;
     const otherProps: ITextProps = otherPropsTyped as any;
@@ -39,7 +30,7 @@ export class Text extends React.Component<ITextProps> {
     // allow browsers to automatically infer the language writing direction
     otherProps.dir = dir !== undefined ? dir : 'auto';
 
-    const ruleProps = {
+    const ruleProps:any = {
       ...styles.initial,
       ...(!this.context.isInAParentText ? styles.preserveWhitespace : null),
       ...(selectable === false ? styles.notSelectable : null),
@@ -47,10 +38,10 @@ export class Text extends React.Component<ITextProps> {
       ...(onPress ? styles.pressable : null)
     };
 
-    otherProps.className = RNA.renderRules(() => ruleProps, () => {
+    otherProps.className = renderRules(() => ruleProps, () => {
       if (!style || !style.textDecorationLine) return style;
       const dl = style.textDecorationLine; delete style.textDecorationLine;
-      return { ...style, textDecoration: dl };
+      return { ...style, textDecoration: dl } as any;
     });
 
     return isInAParentText ? <span {...otherProps} /> : <div {...otherProps} />;
@@ -80,7 +71,7 @@ const styles = {
     padding: 0,
     textDecorationLine: 'none',
     wordWrap: 'break-word'
-  } as AllStyles,
+  },
   preserveWhitespace: {
     whiteSpace: 'pre-wrap'
   },

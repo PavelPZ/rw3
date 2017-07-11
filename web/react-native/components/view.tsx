@@ -1,7 +1,7 @@
 ﻿import React, { HTMLAttributes } from 'react';
-import { ViewProperties, AllStyles } from 'react-native';
+import { ViewProperties } from 'react-native';
 import PropTypes from 'prop-types';
-import { RNA } from '../../../common/react-native-all';
+import { renderCSSs, T } from '../../fela';
 
 type IViewProps = ViewProperties & HTMLAttributes<{}>;
 
@@ -11,13 +11,6 @@ export class View extends React.Component<IViewProps> {
   render(): JSX.Element {
     const {
       style,
-      /* eslint-disable */
-      //collapsable,
-      //onAccessibilityTap,
-      //onLayout,
-      //onMagicTap,
-      //removeClippedSubviews,
-      /* eslint-enable */
       ...otherPropsTyped
     } = this.props;
     const otherProps: IViewProps = otherPropsTyped as any;
@@ -26,9 +19,7 @@ export class View extends React.Component<IViewProps> {
 
     const ruleProps = styles.initial;
 
-    otherProps.className = RNA.renderRules(() => ruleProps, () => style);
-
-    //otherProps.className = [styles.initial, isInAParentText && styles.inline, style];
+    otherProps.className = renderCSSs(ruleProps, style as DFela.TCSS);
 
     // avoid HTML validation errors
     const component = isInAButtonView ? 'span' : 'div';
@@ -61,7 +52,7 @@ const styles = {
     // fix flexbox bugs
     minHeight: 0,
     minWidth: 0
-  } as AllStyles,
+    } as DFela.TCSS,
   inline: {
     display: 'inline-flex'
   }

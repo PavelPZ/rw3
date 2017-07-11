@@ -1,6 +1,5 @@
 ﻿import RN from 'react-native';
 import React from 'react';
-import { createRenderer, combineRules } from 'fela'
 
 export interface IRNA {
   Text?: React.ComponentClass<RN.TextProperties> | React.ClassicComponentClass<RN.TextProperties>;
@@ -11,17 +10,9 @@ export interface IRNA {
   };
   I18nManager?: RN.I18nManager;
   Platform?: RN.PlatformStatic;
-  renderer: DFela.IRenderer;
-  renderRules: (...rules: Array<DFela.TRule>) => string;
-  renderRule: (rule: DFela.TRule) => string;
 }
 
-const r = createRenderer();
-export const RNA: IRNA = {
-  renderer: r,
-  renderRules: (...rules) => r.renderRule(combineRules(...rules)),
-  renderRule: rule => r.renderRule(rule),
-};
+export const RNA: IRNA = {};
 
 interface ValueClass {
   new(value: number);

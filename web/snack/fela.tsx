@@ -1,5 +1,6 @@
 ﻿import React from 'react';
-import { RNA } from '../../common/react-native-all';
+import { renderCSSs } from '../fela';
+
 
 const rule: DFela.TRule = () => ({
   fontSize: '20px',
@@ -18,7 +19,7 @@ export default class Div extends React.Component<{}, { color?: string; }> {
   state = { color: 'red' };
   //state = { color: null };
   render(): JSX.Element {
-    return <h1 className={RNA.renderRules(rule, ruleBlack, () => (this.state ? { color: this.state.color } : {}))} {...this.props} onClick={() => this.setState({ color: this.state.color == 'red' ? 'green' : 'red' })}>
+      return <h1 className={renderCSSs(rule, ruleBlack, () => (this.state ? { color: this.state.color } : {}))} {...this.props} onClick={() => this.setState({ color: this.state.color == 'red' ? 'green' : 'red' })}>
       Animation
   </h1>;
   }

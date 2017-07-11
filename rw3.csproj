@@ -120,7 +120,7 @@
     <TypeScriptCompile Include="typings\fela\fela.d.ts" />
     <TypeScriptCompile Include="typings\react-native.d.ts" />
     <TypeScriptCompile Include="typings\redux-logger.d.ts" />
-    <TypeScriptCompile Include="web\index.tsx" />
+    <TypeScriptCompile Include="web\fela.tsx" />
     <TypeScriptCompile Include="web\react-native\apis\I18nManager.ts" />
     <TypeScriptCompile Include="web\react-native\apis\Platform.ts" />
     <TypeScriptCompile Include="web\react-native\components\text.tsx" />
