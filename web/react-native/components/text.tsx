@@ -1,93 +1,101 @@
-﻿import React from 'react';
-import ReactDOM from 'react-dom';
-////import createDOMElement from '../../modules/createDOMElement';
-//import StyleSheet from '../../apis/StyleSheet';
+﻿import React, { HTMLAttributes } from 'react';
+import { TextProperties, AllStyles } from 'react-native';
+import PropTypes from 'prop-types';
+import { RNA } from '../../../common/react-native-all';
 
+type ITextProps = TextProperties & HTMLAttributes<{}>;
 
-//class Text {
+//d:\rw\know-how\react-native-web\src\components\Text\index.js
+export class Text extends React.Component<ITextProps> {
 
-//  static childContextTypes = { isInAParentText: true };
-//  static contextTypes = { isInAParentText: true };
-//  getChildContext() { return { isInAParentText: true }; }
+  render(): JSX.Element {
+    const {
+      dir,
+      numberOfLines,
+      onPress,
+      selectable,
+      style,
+      /* eslint-disable */
+      //adjustsFontSizeToFit,
+      //allowFontScaling,
+      //ellipsizeMode,
+      //lineBreakMode,
+      //minimumFontScale,
+      //onLayout,
+      //suppressHighlighting,
+      /* eslint-enable */
+      ...otherPropsTyped
+    } = this.props;
+    const otherProps: ITextProps = otherPropsTyped as any;
 
-//  render() {
-//    const {
-//      dir,
-//      numberOfLines,
-//      onPress,
-//      selectable,
-//      style,
-//      /* eslint-disable */
-//      adjustsFontSizeToFit,
-//      allowFontScaling,
-//      ellipsizeMode,
-//      lineBreakMode,
-//      minimumFontScale,
-//      onLayout,
-//      suppressHighlighting,
-//      /* eslint-enable */
-//      ...otherProps
-//    } = this.props;
+    const { isInAParentText } = this.context;
 
-//    const { isInAParentText } = this.context;
+    if (onPress) {
+      //otherProps.accessible = true; //is needed?
+      otherProps.onClick = onPress;
+      otherProps.onKeyDown = this._createEnterHandler(onPress);
+    }
 
-//    if (onPress) {
-//      otherProps.accessible = true;
-//      otherProps.onClick = onPress;
-//      otherProps.onKeyDown = this._createEnterHandler(onPress);
-//    }
+    // allow browsers to automatically infer the language writing direction
+    otherProps.dir = dir !== undefined ? dir : 'auto';
 
-//    // allow browsers to automatically infer the language writing direction
-//    otherProps.dir = dir !== undefined ? dir : 'auto';
-//    otherProps.style = [
-//      styles.initial,
-//      this.context.isInAParentText !== true && styles.preserveWhitespace,
-//      style,
-//      selectable === false && styles.notSelectable,
-//      numberOfLines === 1 && styles.singleLineStyle,
-//      onPress && styles.pressable
-//    ];
+    const ruleProps = {
+      ...styles.initial,
+      ...(!this.context.isInAParentText ? styles.preserveWhitespace : null),
+      ...(selectable === false ? styles.notSelectable : null),
+      ...(numberOfLines === 1 ? styles.singleLineStyle : null),
+      ...(onPress ? styles.pressable : null)
+    };
 
-//    const component = isInAParentText ? 'span' : 'div';
+    otherProps.className = RNA.renderRules(() => ruleProps, () => {
+      if (!style || !style.textDecorationLine) return style;
+      const dl = style.textDecorationLine; delete style.textDecorationLine;
+      return { ...style, textDecoration: dl };
+    });
 
-//    return createDOMElement(component, otherProps);
-//  }
+    return isInAParentText ? <span {...otherProps} /> : <div {...otherProps} />;
+  }
 
-//  _createEnterHandler(fn) {
-//    return e => {
-//      if (e.keyCode === 13) {
-//        fn && fn(e);
-//      }
-//    };
-//  }
-//}
+  _createEnterHandler(fn) {
+    return e => {
+      if (e.keyCode === 13) {
+        fn && fn(e);
+      }
+    };
+  }
 
-//const styles = StyleSheet.create({
-//  initial: {
-//    borderWidth: 0,
-//    color: 'inherit',
-//    display: 'inline',
-//    font: 'inherit',
-//    margin: 0,
-//    padding: 0,
-//    textDecorationLine: 'none',
-//    wordWrap: 'break-word'
-//  },
-//  preserveWhitespace: {
-//    whiteSpace: 'pre-wrap'
-//  },
-//  notSelectable: {
-//    userSelect: 'none'
-//  },
-//  pressable: {
-//    cursor: 'pointer'
-//  },
-//  singleLineStyle: {
-//    maxWidth: '100%',
-//    overflow: 'hidden',
-//    textOverflow: 'ellipsis',
-//    whiteSpace: 'nowrap'
-//  }
-//});
+  //context
+  static childContextTypes = { isInAParentText: PropTypes.any };
+  static contextTypes = { isInAParentText: PropTypes.any };
+  getChildContext() { return { isInAParentText: true }; }
+}
 
-//export default Text);
+const styles = {
+  initial: {
+    borderWidth: 0,
+    color: 'inherit',
+    display: 'inline',
+    font: 'inherit',
+    margin: 0,
+    padding: 0,
+    textDecorationLine: 'none',
+    wordWrap: 'break-word'
+  } as AllStyles,
+  preserveWhitespace: {
+    whiteSpace: 'pre-wrap'
+  },
+  notSelectable: {
+    userSelect: 'none'
+  },
+  pressable: {
+    cursor: 'pointer'
+  },
+  singleLineStyle: {
+    maxWidth: '100%',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap'
+  }
+};
+
+export default Text;

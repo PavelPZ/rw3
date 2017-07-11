@@ -25,6 +25,7 @@ SystemJS.config({
     "@types/react-dom": "npm:@types/react-dom@15.5.1",
     "@types/react-intl": "npm:@types/react-intl@2.3.1",
     "@types/react-redux": "npm:@types/react-redux@4.4.45",
+    "animated": "npm:animated@0.2.0",
     "assert": "npm:jspm-nodelibs-assert@0.2.1",
     "buffer": "npm:jspm-nodelibs-buffer@0.2.3",
     "child_process": "npm:jspm-nodelibs-child_process@0.2.1",
@@ -34,6 +35,7 @@ SystemJS.config({
     "domain": "npm:jspm-nodelibs-domain@0.2.1",
     "events": "npm:jspm-nodelibs-events@0.2.2",
     "fela": "npm:fela@5.0.2",
+    "fela-dom": "npm:fela-dom@5.0.3",
     "fs": "npm:jspm-nodelibs-fs@0.2.1",
     "http": "npm:jspm-nodelibs-http@0.2.0",
     "https": "npm:jspm-nodelibs-https@0.2.2",
@@ -189,7 +191,7 @@ SystemJS.config({
     },
     "npm:promise@7.3.1": {
       "map": {
-        "asap": "npm:asap@2.0.5"
+        "asap": "npm:asap@2.0.6"
       }
     },
     "npm:jspm-nodelibs-stream@0.2.1": {
@@ -488,6 +490,18 @@ SystemJS.config({
     "npm:@types/react-dom@15.5.1": {
       "map": {
         "@types/react": "npm:@types/react@15.0.35"
+      }
+    },
+    "npm:fela-dom@5.0.3": {
+      "map": {
+        "fela-utils": "npm:fela-utils@5.0.2",
+        "fela-tools": "npm:fela-tools@5.0.2"
+      }
+    },
+    "npm:animated@0.2.0": {
+      "map": {
+        "normalize-css-color": "npm:normalize-css-color@1.0.2",
+        "invariant": "npm:invariant@2.2.2"
       }
     }
   }

@@ -1,22 +1,17 @@
 import React from 'react';
-//import { StyleSheet, Text, View } from 'react-native';
+import RN from 'react-native';
+import { RNA } from './common/react-native-all';
+import { render } from 'fela-native';
 
-export class App extends React.Component {
-  render() {
-    return <div>Hallo App</div>
-  }
-  /*
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
-  */
-}
+RNA.Text = RN.Text;
+RNA.View = RN.View;
+RNA.Animated.Value = RN.Animated.Value;
+RNA.Animated.ValueXY = RN.Animated.ValueXY;
+RNA.Platform = RN.Platform;
 
-//const styles = StyleSheet.create({
-//  container: {
-//    flex: 1,
-//    backgroundColor: '#fff',
-//    alignItems: 'center',
-//    justifyContent: 'center',
-//  },
-//});
+render(RNA.renderer);
+
+import App from './common/snack/react-native';
+
+export default App;
+

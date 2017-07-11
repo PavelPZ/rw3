@@ -41,6 +41,6 @@
 	"exclude": [
 		"jspm_packages/",
 		"node_modules/"
-		//,"native/snack/"
+		,"native/snack/"
 	]
 }

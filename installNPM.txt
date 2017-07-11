@@ -1,0 +1,1 @@
+﻿npm install --save fela fela-dom redux react-redux redux-logger redux-saga lodash react-intl

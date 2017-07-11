@@ -1,8 +1,8 @@
 {
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 6120,
+  "expoServerNgrokUrl": "https://xm-vgr.pzika.rw3.exp.direct",
+  "packagerNgrokUrl": "https://packager.xm-vgr.pzika.rw3.exp.direct",
+  "ngrokPid": 8592
 }

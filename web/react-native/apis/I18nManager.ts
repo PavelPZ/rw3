@@ -1,35 +1,39 @@
-class I18nManager {
+import { I18nManager as I18nMan } from 'react-native';
 
-  static isPreferredLanguageRTL = false;
-  static isRTLAllowed = true;
-  static isRTLForced = false;
+class I18nManager implements I18nMan {
 
-  static allowRTL(value: boolean) {
-    I18nManager.isRTLAllowed = value;
-    I18nManager.onChange();
+  isPreferredLanguageRTL = false;
+  isRTLAllowed = true;
+  isRTLForced = false;
+
+  allowRTL(value: boolean):void {
+    this.isRTLAllowed = value;
+    this.onChange();
   }
 
-  static forceRTL(value: boolean) {
-    I18nManager.isRTLForced = value;
-    I18nManager.onChange();
+  forceRTL(value: boolean) {
+    this.isRTLForced = value;
+    this.onChange();
   }
 
-  static setPreferredLanguageRTL(value: boolean) {
-    I18nManager.isPreferredLanguageRTL = value;
-    I18nManager.onChange();
+  setPreferredLanguageRTL(value: boolean) {
+    this.isPreferredLanguageRTL = value;
+    this.onChange();
   }
 
-  static get isRTL(): boolean {
-    if (I18nManager.isRTLForced) return true;
-    return I18nManager.isRTLAllowed && I18nManager.isPreferredLanguageRTL;
+  public get isRTL(): boolean {
+    if (this.isRTLForced) return true;
+    return this.isRTLAllowed && this.isPreferredLanguageRTL;
   }
 
-  static onChange() {
+  onChange() {
     if (document.documentElement && document.documentElement.setAttribute) {
-      document.documentElement.setAttribute('dir', I18nManager.isRTL ? 'rtl' : 'ltr');
+      document.documentElement.setAttribute('dir', this.isRTL ? 'rtl' : 'ltr');
     }
   };
 
 }
 
-export default I18nManager;
+const I18 = new I18nManager();
+
+export default I18;

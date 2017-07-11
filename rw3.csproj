@@ -68,12 +68,18 @@
   <ItemGroup>
     <Content Include=".gitignore" />
     <Content Include="index.html" />
+    <Content Include="installNPM.txt" />
     <Content Include="install.txt" />
     <Content Include="jspm.config.js" />
     <Content Include="packages.config" />
     <Content Include="app.json" />
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
+    <TypeScriptCompile Include="common\snack\animated\simple.tsx" />
+    <TypeScriptCompile Include="common\utils.tsx" />
+    <TypeScriptCompile Include="index.tsx" />
+    <TypeScriptCompile Include="common\react-native-all.ts" />
+    <TypeScriptCompile Include="native\index.tsx" />
     <TypeScriptCompile Include="native\snack\animated.tsx" />
     <TypeScriptCompile Include="native\snack\navigator\drawer-custom.tsx" />
     <TypeScriptCompile Include="native\snack\navigator\drawer-stack.tsx" />
@@ -86,15 +92,21 @@
     <TypeScriptCompile Include="native\snack\picker.tsx" />
     <TypeScriptCompile Include="native\snack\redux.tsx" />
     <TypeScriptCompile Include="native\snack\sqlite.tsx" />
+    <TypeScriptCompile Include="typings\CSStyles.d.ts" />
     <TypeScriptCompile Include="typings\expo.d.ts" />
+    <TypeScriptCompile Include="typings\animated.d.ts" />
+    <TypeScriptCompile Include="typings\prop-types.ts" />
     <TypeScriptCompile Include="typings\react-navigation.d.ts" />
-    <TypeScriptCompile Include="web\AppEntry.tsx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <TypeScriptCompile Include="web\react-native\apis\StyleSheet.tsx" />
+    <TypeScriptCompile Include="web\react-native\components\view.tsx" />
+    <TypeScriptCompile Include="web\snack\fela.tsx" />
+    <TypeScriptCompile Include="common\snack\react-native.tsx" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="App.tsx" />
@@ -108,6 +120,7 @@
     <TypeScriptCompile Include="typings\fela\fela.d.ts" />
     <TypeScriptCompile Include="typings\react-native.d.ts" />
     <TypeScriptCompile Include="typings\redux-logger.d.ts" />
+    <TypeScriptCompile Include="web\index.tsx" />
     <TypeScriptCompile Include="web\react-native\apis\I18nManager.ts" />
     <TypeScriptCompile Include="web\react-native\apis\Platform.ts" />
     <TypeScriptCompile Include="web\react-native\components\text.tsx" />
