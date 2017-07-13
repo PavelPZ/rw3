@@ -1,30 +1,42 @@
-﻿import React, { HTMLAttributes } from 'react';
-import { ViewProperties } from 'react-native';
+﻿import React from 'react';
 import PropTypes from 'prop-types';
-import { renderCSSs, T } from '../../fela';
-
-type IViewProps = ViewProperties & HTMLAttributes<{}>;
+import { renderCSS } from '../../fela';
+import { IWebView } from '../../../common/react-native-all';
+import { themeable } from '../../../common/react-native-themeable/index';
 
 //D:\rw\know-how\react-native-web\src\components\View\index.js
-export class View extends React.Component<IViewProps> {
+export class ViewNormal extends React.Component<IWebView> {
 
   render(): JSX.Element {
     const {
       style,
       ...otherPropsTyped
     } = this.props;
-    const otherProps: IViewProps = otherPropsTyped as any;
+    const otherProps: IWebView = otherPropsTyped as any;
 
     const { isInAButtonView, isInAParentText } = this.context;
 
-    const ruleProps = styles.initial;
+    const ruleProps: DFela.TCSS = {
+      alignItems: 'stretch',
+      borderWidth: 0,
+      borderStyle: 'solid',
+      boxSizing: 'border-box',
+      display: isInAButtonView ? 'inline-flex' : 'flex',
+      flexDirection: 'column',
+      margin: 0,
+      padding: 0,
+      position: 'relative',
+      // fix flexbox bugs
+      minHeight: 0,
+      minWidth: 0,
+      ...style as DFela.TCSS
+    };
 
-    otherProps.className = renderCSSs(ruleProps, style as DFela.TCSS);
+    otherProps.className += ' ' + renderCSS(ruleProps);
 
-    // avoid HTML validation errors
     const component = isInAButtonView ? 'span' : 'div';
 
-    return isInAButtonView ? <span {...otherProps} /> : <div {...otherProps} />;
+    return isInAButtonView ? <span {...otherProps as any} /> : <div {...otherProps as any} />;
   }
 
   //context
@@ -37,23 +49,4 @@ export class View extends React.Component<IViewProps> {
 
 }
 
-const styles = {
-  // https://github.com/facebook/css-layout#default-values
-  initial: {
-    alignItems: 'stretch',
-    borderWidth: 0,
-    borderStyle: 'solid',
-    boxSizing: 'border-box',
-    display: 'flex',
-    flexDirection: 'column',
-    margin: 0,
-    padding: 0,
-    position: 'relative',
-    // fix flexbox bugs
-    minHeight: 0,
-    minWidth: 0
-    } as DFela.TCSS,
-  inline: {
-    display: 'inline-flex'
-  }
-};
+export const View = themeable(ViewNormal);

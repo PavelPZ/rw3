@@ -1,12 +1,11 @@
-﻿import React, { HTMLAttributes } from 'react';
-import { TextProperties } from 'react-native';
+﻿import React  from 'react';
 import PropTypes from 'prop-types';
-import { renderRules } from '../../fela';
-
-type ITextProps = TextProperties & HTMLAttributes<{}>;
+import { renderCSS } from '../../fela';
+import { IWebText } from '../../../common/react-native-all';
+import { themeable } from '../../../common/react-native-themeable/index';
 
 //d:\rw\know-how\react-native-web\src\components\Text\index.js
-export class Text extends React.Component<ITextProps> {
+export class TextNormal extends React.Component<IWebText> {
 
   render(): JSX.Element {
     const {
@@ -17,7 +16,7 @@ export class Text extends React.Component<ITextProps> {
       style,
       ...otherPropsTyped
     } = this.props;
-    const otherProps: ITextProps = otherPropsTyped as any;
+    const otherProps: IWebText = otherPropsTyped as any;
 
     const { isInAParentText } = this.context;
 
@@ -27,24 +26,36 @@ export class Text extends React.Component<ITextProps> {
       otherProps.onKeyDown = this._createEnterHandler(onPress);
     }
 
+    const st: any = style; if (st) { if (!st.textDecorationLine) { st.textDecoration = st.textDecorationLine; delete st.textDecorationLine; } };
+
     // allow browsers to automatically infer the language writing direction
     otherProps.dir = dir !== undefined ? dir : 'auto';
 
-    const ruleProps:any = {
-      ...styles.initial,
-      ...(!this.context.isInAParentText ? styles.preserveWhitespace : null),
-      ...(selectable === false ? styles.notSelectable : null),
-      ...(numberOfLines === 1 ? styles.singleLineStyle : null),
-      ...(onPress ? styles.pressable : null)
+    const ruleProps: any = {
+      borderWidth: 0,
+      color: 'inherit',
+      display: 'inline',
+      font: 'inherit',
+      margin: 0,
+      padding: 0,
+      textDecorationLine: 'none',
+      wordWrap: 'break-word',
+      ...(!this.context.isInAParentText ? { whiteSpace: 'pre-wrap' } : null),
+      ...(selectable === false ? { userSelect: 'none' } : null),
+      ...(numberOfLines === 1 ? {
+        maxWidth: '100%',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap'
+      } : null),
+      ...(onPress ? { cursor: 'pointer' } : null),
+      ... st
     };
 
-    otherProps.className = renderRules(() => ruleProps, () => {
-      if (!style || !style.textDecorationLine) return style;
-      const dl = style.textDecorationLine; delete style.textDecorationLine;
-      return { ...style, textDecoration: dl } as any;
-    });
 
-    return isInAParentText ? <span {...otherProps} /> : <div {...otherProps} />;
+    otherProps.className += ' ' + renderCSS(ruleProps);
+
+    return isInAParentText ? <span {...otherProps as any} /> : <div {...otherProps as any} />;
   }
 
   _createEnterHandler(fn) {
@@ -61,32 +72,4 @@ export class Text extends React.Component<ITextProps> {
   getChildContext() { return { isInAParentText: true }; }
 }
 
-const styles = {
-  initial: {
-    borderWidth: 0,
-    color: 'inherit',
-    display: 'inline',
-    font: 'inherit',
-    margin: 0,
-    padding: 0,
-    textDecorationLine: 'none',
-    wordWrap: 'break-word'
-  },
-  preserveWhitespace: {
-    whiteSpace: 'pre-wrap'
-  },
-  notSelectable: {
-    userSelect: 'none'
-  },
-  pressable: {
-    cursor: 'pointer'
-  },
-  singleLineStyle: {
-    maxWidth: '100%',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    whiteSpace: 'nowrap'
-  }
-};
-
-export default Text;
+export const Text = themeable(TextNormal);

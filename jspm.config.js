@@ -36,6 +36,12 @@ SystemJS.config({
     "events": "npm:jspm-nodelibs-events@0.2.2",
     "fela": "npm:fela@5.0.2",
     "fela-dom": "npm:fela-dom@5.0.3",
+    "fela-plugin-extend": "npm:fela-plugin-extend@5.0.2",
+    "fela-plugin-fallback-value": "npm:fela-plugin-fallback-value@5.0.3",
+    "fela-plugin-lvha": "npm:fela-plugin-lvha@5.0.2",
+    "fela-plugin-prefixer": "npm:fela-plugin-prefixer@5.0.3",
+    "fela-plugin-unit": "npm:fela-plugin-unit@5.0.2",
+    "fela-preset-web": "npm:fela-preset-web@5.0.3",
     "fs": "npm:jspm-nodelibs-fs@0.2.1",
     "http": "npm:jspm-nodelibs-http@0.2.0",
     "https": "npm:jspm-nodelibs-https@0.2.2",
@@ -281,7 +287,7 @@ SystemJS.config({
     },
     "npm:jspm-nodelibs-crypto@0.2.1": {
       "map": {
-        "crypto-browserify": "npm:crypto-browserify@3.11.0"
+        "crypto-browserify": "npm:crypto-browserify@3.11.1"
       }
     },
     "npm:jspm-nodelibs-string_decoder@0.2.1": {
@@ -292,20 +298,6 @@ SystemJS.config({
     "npm:jspm-nodelibs-os@0.2.2": {
       "map": {
         "os-browserify": "npm:os-browserify@0.3.0"
-      }
-    },
-    "npm:crypto-browserify@3.11.0": {
-      "map": {
-        "inherits": "npm:inherits@2.0.3",
-        "create-hmac": "npm:create-hmac@1.1.6",
-        "create-hash": "npm:create-hash@1.1.3",
-        "randombytes": "npm:randombytes@2.0.5",
-        "diffie-hellman": "npm:diffie-hellman@5.0.2",
-        "public-encrypt": "npm:public-encrypt@4.0.0",
-        "create-ecdh": "npm:create-ecdh@4.0.0",
-        "browserify-sign": "npm:browserify-sign@4.0.4",
-        "pbkdf2": "npm:pbkdf2@3.0.12",
-        "browserify-cipher": "npm:browserify-cipher@1.0.0"
       }
     },
     "npm:create-hash@1.1.3": {
@@ -502,6 +494,66 @@ SystemJS.config({
       "map": {
         "normalize-css-color": "npm:normalize-css-color@1.0.2",
         "invariant": "npm:invariant@2.2.2"
+      }
+    },
+    "npm:fela-preset-web@5.0.3": {
+      "map": {
+        "fela-plugin-extend": "npm:fela-plugin-extend@5.0.2",
+        "fela-plugin-fallback-value": "npm:fela-plugin-fallback-value@5.0.3",
+        "fela-plugin-lvha": "npm:fela-plugin-lvha@5.0.2",
+        "fela-plugin-prefixer": "npm:fela-plugin-prefixer@5.0.3",
+        "fela-plugin-unit": "npm:fela-plugin-unit@5.0.2"
+      }
+    },
+    "npm:fela-plugin-prefixer@5.0.3": {
+      "map": {
+        "fela-plugin-fallback-value": "npm:fela-plugin-fallback-value@5.0.3",
+        "css-in-js-utils": "npm:css-in-js-utils@1.0.3",
+        "fela-utils": "npm:fela-utils@5.0.2",
+        "inline-style-prefixer": "npm:inline-style-prefixer@3.0.6"
+      }
+    },
+    "npm:fela-plugin-extend@5.0.2": {
+      "map": {
+        "css-in-js-utils": "npm:css-in-js-utils@1.0.3",
+        "fela-utils": "npm:fela-utils@5.0.2"
+      }
+    },
+    "npm:fela-plugin-fallback-value@5.0.3": {
+      "map": {
+        "css-in-js-utils": "npm:css-in-js-utils@1.0.3",
+        "fela-utils": "npm:fela-utils@5.0.2"
+      }
+    },
+    "npm:fela-plugin-unit@5.0.2": {
+      "map": {
+        "css-in-js-utils": "npm:css-in-js-utils@1.0.3",
+        "fela-utils": "npm:fela-utils@5.0.2"
+      }
+    },
+    "npm:fela-plugin-lvha@5.0.2": {
+      "map": {
+        "fela-utils": "npm:fela-utils@5.0.2"
+      }
+    },
+    "npm:inline-style-prefixer@3.0.6": {
+      "map": {
+        "css-in-js-utils": "npm:css-in-js-utils@1.0.3",
+        "bowser": "npm:bowser@1.7.0"
+      }
+    },
+    "npm:crypto-browserify@3.11.1": {
+      "map": {
+        "inherits": "npm:inherits@2.0.3",
+        "diffie-hellman": "npm:diffie-hellman@5.0.2",
+        "randombytes": "npm:randombytes@2.0.5",
+        "public-encrypt": "npm:public-encrypt@4.0.0",
+        "create-hash": "npm:create-hash@1.1.3",
+        "browserify-cipher": "npm:browserify-cipher@1.0.0",
+        "create-ecdh": "npm:create-ecdh@4.0.0",
+        "pbkdf2": "npm:pbkdf2@3.0.12",
+        "create-hmac": "npm:create-hmac@1.1.6",
+        "browserify-sign": "npm:browserify-sign@4.0.4"
       }
     }
   }

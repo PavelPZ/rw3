@@ -1,2 +1,2 @@
-﻿jspm install npm:tslib npm:core-js npm:whatwg-fetch npm:fela npm:fela-dom npm:react npm:react-dom npm:redux npm:react-redux npm:redux-logger npm:redux-saga npm:lodash npm:js-cookie npm:react-intl npm:animated
+﻿jspm install npm:tslib npm:core-js npm:whatwg-fetch npm:react npm:react-dom npm:redux npm:react-redux npm:redux-logger npm:redux-saga npm:lodash npm:js-cookie npm:react-intl npm:animated npm:fela npm:fela-dom npm:fela-plugin-extend npm:fela-plugin-prefixer npm:fela-plugin-fallback-value npm:fela-plugin-lvha npm:fela-plugin-unit
 jspm install npm:@types/react npm:@types/react-dom npm:@types/react-redux npm:@types/lodash npm:@types/react-intl npm:@types/js-cookie npm:@types/fbemitter

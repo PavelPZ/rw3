@@ -1,9 +1,18 @@
 ﻿import RN from 'react-native';
-import React from 'react';
+export * from '../web/react-native/index';
+
+export interface IWebProps {
+  onClick?: React.MouseEventHandler<{}>;
+  onKeyDown?: React.KeyboardEventHandler<{}>;
+  className?: string;
+}
+
+export type IWebText = RN.TextProperties & IWebProps;
+export type IWebView = RN.ViewProperties & IWebProps;
 
 export interface IRNA {
-  Text?: React.ComponentClass<RN.TextProperties> | React.ClassicComponentClass<RN.TextProperties>;
-  View?: React.ComponentClass<RN.ViewProperties> | React.ClassicComponentClass<RN.ViewProperties>;
+  Text?: React.ComponentClass<IWebText> | React.ClassicComponentClass<IWebText>;
+  View?: React.ComponentClass<IWebView> | React.ClassicComponentClass<IWebView>;
   Animated?: {
     Value: ValueClass;
     ValueXY: ValueXYClass;
@@ -20,6 +29,3 @@ interface ValueClass {
 interface ValueXYClass {
   new(valueIn?: { x: number | ReactNative.Animated.AnimatedValue; y: number | ReactNative.Animated.AnimatedValue });
 }
-
-
-
