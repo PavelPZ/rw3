@@ -6,12 +6,15 @@ import pluginFallbackValue from "fela-plugin-fallback-value";
 import pluginLvha from "fela-plugin-lvha";
 import pluginUnit from "fela-plugin-unit";
 
+import cssStatic from './css-static';
 
-const r = createRenderer({ plugins: [pluginUnit('px', { lineHeight: 'px' }), pluginExtend(), pluginPrefixer(), pluginFallbackValue(), pluginLvha() ] });
+const renderer = createRenderer({ plugins: [pluginUnit('px'), pluginExtend(), pluginPrefixer(), pluginFallbackValue(), pluginLvha()] });
 
-render(r);
-export const renderRules = (...rules: DFela.TRule[]) => r.renderRule(combineRules(...rules));
-export const renderRule = (rule: DFela.TRule) => r.renderRule(rule);
-export const renderCSSs = (...csss: DFela.TCSS[]) => r.renderRule(combineRules(...csss.map(css => () => css)));
-export const renderCSS = (css: DFela.TCSS) => r.renderRule(() => css);
-export const renderStatic = (css: string | DFela.TCSS) => r.renderStatic(css);
+render(renderer);
+renderer.renderStatic(cssStatic);
+
+export const renderRules = (...rules: DFela.TRule[]) => renderer.renderRule(combineRules(...rules));
+export const renderRule = (rule: DFela.TRule) => renderer.renderRule(rule);
+export const renderCSSs = (...csss: DFela.TCSS[]) => renderer.renderRule(combineRules(...csss.map(css => () => css)));
+export const renderCSS = (css: DFela.TCSS) => renderer.renderRule(() => css);
+export const renderStatic = (css: string | DFela.TCSS) => renderer.renderStatic(css);

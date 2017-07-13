@@ -6,12 +6,10 @@ import ReactDOM from 'react-dom';
 //import { View } from './web/react-native/components/view';
 //import I18nManager from './web/react-native/apis/I18nManager';
 //import Platform from './web/react-native/apis/platform';
-import { renderStatic } from './web/fela';
-import { rippleCSS } from './web/ripple';
 
 //import Root from './web/snack/fela';
-//import Root from './common/snack/react-native';
-import Root from './common/snack/themeble/basic';
+import Root from './common/snack/react-native';
+//import Root from './common/snack/themeble/basic';
 
 //RNA.Text = themeable(Text);
 //RNA.View = themeable(View);
@@ -20,7 +18,6 @@ import Root from './common/snack/themeble/basic';
 ////RNA.Animated.ValueXY = RN.Animated.ValueXY;
 //RNA.Platform = Platform;
 
-renderStatic(rippleCSS);
 
 export function init() {
   ReactDOM.render(<Root />, document.getElementById('content'));
