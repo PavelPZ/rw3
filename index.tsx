@@ -1,21 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { RNA } from './common/react-native-all';
-import { Text as TextWeb } from './web/react-native/components/text';
-import { View as ViewWeb } from './web/react-native/components/view';
-import I18nManager from './web/react-native/apis/I18nManager';
-import Platform from './web/react-native/apis/platform';
+//import { RNA } from './common/react-native-all';
+//import { themeable } from './common/react-native-themeable/index';
+//import { Text } from './web/react-native/components/text';
+//import { View } from './web/react-native/components/view';
+//import I18nManager from './web/react-native/apis/I18nManager';
+//import Platform from './web/react-native/apis/platform';
+import { renderStatic } from './web/fela';
+import { rippleCSS } from './web/ripple';
 
 //import Root from './web/snack/fela';
-import Root from './common/snack/react-native';
+//import Root from './common/snack/react-native';
+import Root from './common/snack/themeble/basic';
 
-RNA.Text = TextWeb;
-RNA.View = ViewWeb;
-RNA.I18nManager = I18nManager;
-//RNA.Animated.Value = RN.Animated.Value;
-//RNA.Animated.ValueXY = RN.Animated.ValueXY;
-RNA.Platform = Platform;
+//RNA.Text = themeable(Text);
+//RNA.View = themeable(View);
+//RNA.I18nManager = I18nManager;
+////RNA.Animated.Value = RN.Animated.Value;
+////RNA.Animated.ValueXY = RN.Animated.ValueXY;
+//RNA.Platform = Platform;
 
+renderStatic(rippleCSS);
 
 export function init() {
   ReactDOM.render(<Root />, document.getElementById('content'));

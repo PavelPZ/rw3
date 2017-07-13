@@ -3,11 +3,8 @@
   type Component = React.ComponentClass | React.SFC;
 
   interface ITheme {
-    apply: IWithPropsDef;
+    apply: IWithPropsDef | DReactNativeTheme.IWithProps[];
   }
-
-  type IStyleDefs = IStyleDef[];
-  type IPropsDefs = IPropsDef[];
 
   interface IStyleDef extends DFela.TCSS {
     $type: Component;
@@ -15,6 +12,7 @@
 
   interface IPropsDef {
     $type: Component;
+    $isProp?: boolean;
     style?: DFela.TCSS;
     [name: string]: any;
   }
@@ -25,6 +23,6 @@
 
   type IWithProps = (type: React.ComponentClass, props: IPropsDef) => IWithPropsDef;
 
-  type IWithStylesProc = (def: IStyleDefs) => (type: React.ComponentClass, styles: IPropsDef) => IWithPropsDef;
-  type IWithPropsProc = (def: IPropsDefs) => (type: React.ComponentClass, styles: IPropsDef) => IWithPropsDef;
+  //type IWithStylesProc = (def: IStyleDefs) => (type: React.ComponentClass, styles: IPropsDef) => IWithPropsDef;
+  type IWithProc = (def: (IStyleDef | IPropsDef)[]) => (type: React.ComponentClass, styles: IPropsDef) => IWithPropsDef;
 }

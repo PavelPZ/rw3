@@ -1,11 +1,12 @@
 ﻿import React, { Component } from 'react'
-import { withStyles, Theme, withProps, chain } from '../../react-native-themeable/index';
+import { Theme, withProps } from '../../react-native-themeable/index';
 import { Text, View } from '../../react-native-all';
 
 //const { Text, View } = RNA;
 const redTheme = withProps([
   {
     $type: Text,
+    $isProp: true,
     style: {
       color: 'black',
       fontSize: 16,
@@ -19,7 +20,7 @@ const redTheme = withProps([
   },
 ])
 
-const blueTheme = withStyles([
+const blueTheme = withProps([
   {
     $type: Text,
     color: 'white',
@@ -34,7 +35,7 @@ const App = () => <View>
 
   <Text>
     Following elements use different themes defined by `withStyles` helper function:
-        </Text>
+  </Text>
 
   <Theme apply={redTheme}>
     <View>
@@ -42,13 +43,12 @@ const App = () => <View>
     </View>
   </Theme>
 
-  <Theme apply={chain(blueTheme, redTheme)}>
+  <Theme apply={[redTheme, blueTheme]}>
     <View>
       <Text>This component uses blue theme and large white fonts</Text>
     </View>
   </Theme>
 
 </View>;
-
 
 export default App;

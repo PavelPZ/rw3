@@ -27,4 +27,11 @@
         opacity: .2;
         transition: 0s;
       }
+.component-text .component-text { 
+  display: inline;
+  white-space: normal;
+}
+.component-button .component-view { 
+  display: inline-flex;
+}
 `;

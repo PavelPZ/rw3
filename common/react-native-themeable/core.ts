@@ -168,13 +168,21 @@ function makeFunctionalComponent(origComp: React.SFC): React.SFC {
 function applyTheme(props, ctx, OriginalComponent, NewComponent) {
   if (ctx && ctx[APPLY_KEY]) {
     const apply = ctx[APPLY_KEY]
-    return {
-      ...OriginalComponent.defaultProps,
-      ...apply(NewComponent, props),
+    if (Array.isArray(apply)) {
+      return apply.reduce((prev, app) => ({ ...prev, ...app(NewComponent, props) }), {});
+    } else {
+      return { ...apply(NewComponent, props) };
     }
   }
-  return {
-    ...OriginalComponent.defaultProps,
-    ...props,
-  }
+  return { ...props }
+}
+
+/**
+ * Chains apply functions passed as arguments.
+ * It can be passed as many functions as needed.
+ * @param { function } apply apply function
+ * @returns { function } apply function
+ */
+const chain = (...applies: DReactNativeTheme.IWithProps[]) => (type: React.ComponentClass, props: DReactNativeTheme.IPropsDef) => {
+  return applies.reduce((p, a) => a(type, p), props)
 }

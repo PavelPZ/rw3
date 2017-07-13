@@ -5,7 +5,7 @@
  */
 export const applyStyle = fn => (type, props) => {
   const style = fn(type, props)
-  return { ...props, style: [ style, props.style ] }
+  return { ...props, style: [style, props.style] }
 }
 
 /**
@@ -15,17 +15,18 @@ export const applyStyle = fn => (type, props) => {
  * @param { array } propsDefs array of prop definitions
  * @returns { function } apply function
  */
-export const withProps: DReactNativeTheme.IWithPropsProc = propsDefs => (type, props) => {
+export const withProps: DReactNativeTheme.IWithProc = propsDefs => (type, ownProps) => {
   const def = propsDefs.find(s => s.$type === type)
-  if (def) {
-    const { $type, ...themeProps } = def // eslint-disable-line
+  if (!def) return ownProps;
+  const { $type, $isProp, ...themeProps } = def
+  if ($isProp || themeProps.style)
     return {
       ...themeProps,
-      ...props,
-      style: { ...themeProps.style, ...props.style },
+      ...ownProps,
+      style: { ...themeProps.style, ...ownProps.style },
     }
-  }
-  return props
+  else
+    return { ...ownProps, style: { ...themeProps, ...ownProps.style } }
 }
 
 /**
@@ -35,21 +36,12 @@ export const withProps: DReactNativeTheme.IWithPropsProc = propsDefs => (type, p
  * @param { array } stylesDefs array of style definitions
  * @returns { function } apply function
  */
-export const withStyles: DReactNativeTheme.IWithStylesProc = stylesDefs => (type, props) => {
-  const def = stylesDefs.find(s => s.$type === type)
-  if (def) {
-    const { $type, ...themeStyle } = def // eslint-disable-line
-    return { ...props, style: { ...themeStyle, ...props.style } }
-  }
-  return props
-}
+//export const withStyles: DReactNativeTheme.IWithStylesProc = stylesDefs => (type, props) => {
+//  const def = stylesDefs.find(s => s.$type === type)
+//  if (def) {
+//    const { $type, ...themeStyle } = def
+//    return { ...props, style: { ...themeStyle, ...props.style } }
+//  }
+//  return props
+//}
 
-/**
- * Chains apply functions passed as arguments.
- * It can be passed as many functions as needed.
- * @param { function } apply apply function
- * @returns { function } apply function
- */
-export const chain = (...applies: DReactNativeTheme.IWithProps[]) => (type: React.ComponentClass, props: DReactNativeTheme.IPropsDef) => {
-  return applies.reduce((p, a) => a(type, p), props)
-}

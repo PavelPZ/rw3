@@ -5,6 +5,7 @@ export interface IWebProps {
   onClick?: React.MouseEventHandler<{}>;
   onKeyDown?: React.KeyboardEventHandler<{}>;
   className?: string;
+  children?: React.ReactNode;
 }
 
 export type IWebText = RN.TextProperties & IWebProps;

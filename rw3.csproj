@@ -79,11 +79,10 @@
     <Content Include="tsconfig.json" />
     <Content Include="web\snack\ripple.html" />
     <TypeScriptCompile Include="common\react-native-themeable\index.ts" />
-    <TypeScriptCompile Include="common\react-native-themeable\react-native-theme.d.ts" />
+    <TypeScriptCompile Include="common\react-native-themeable\dreact-native-theme.d.ts" />
     <TypeScriptCompile Include="common\snack\animated\simple.tsx" />
     <TypeScriptCompile Include="common\snack\themeble\basic.tsx" />
     <TypeScriptCompile Include="common\theming.ts" />
-    <TypeScriptCompile Include="common\utils.tsx" />
     <TypeScriptCompile Include="index.tsx" />
     <TypeScriptCompile Include="common\react-native-all.ts" />
     <TypeScriptCompile Include="native\snack\animated.tsx" />
