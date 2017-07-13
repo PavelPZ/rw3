@@ -1,17 +1,15 @@
 ﻿import React from 'react';
 import PropTypes from 'prop-types';
 import { renderCSS } from '../../fela';
-import { IWebView } from '../../../common/react-native-all';
-import { themeable } from '../../../common/react-native-themeable/index';
 
 //D:\rw\know-how\react-native-web\src\components\View\index.js
-const ViewNormal = (props: IWebView) =>  {
+export const View = (props: DReactNative.IWebView) =>  {
 
     const {
       style,
       ...otherPropsTyped
     } = props;
-    const otherProps: IWebView = otherPropsTyped as any;
+    const otherProps: DReactNative.IWebView = otherPropsTyped as any;
 
     const ruleProps: DFela.TCSS = {
       display: 'flex',
@@ -34,5 +32,3 @@ const ViewNormal = (props: IWebView) =>  {
 
     return <div {...otherProps as any} />;
 }
-
-export const View = themeable(ViewNormal);

@@ -1,32 +1,15 @@
 ﻿import RN from 'react-native';
-export * from '../web/react-native/index';
+import { themeable } from './react-native-themeable/index';
 
-export interface IWebProps {
-  onClick?: React.MouseEventHandler<{}>;
-  onKeyDown?: React.KeyboardEventHandler<{}>;
-  className?: string;
-  children?: React.ReactNode;
-}
+//************* WEB
+import { Text as TextNormal, View as ViewNormal, I18nManager, Platform} from '../web/react-native/index';
 
-export type IWebText = RN.TextProperties & IWebProps;
-export type IWebView = RN.ViewProperties & IWebProps;
+//************* NATIVE
+//import { Text as TextNormal, View as ViewNormal, I18nManager, Platform } from 'react-native';
 
-export interface IRNA {
-  Text?: React.ComponentClass<IWebText> | React.ClassicComponentClass<IWebText>;
-  View?: React.ComponentClass<IWebView> | React.ClassicComponentClass<IWebView>;
-  Animated?: {
-    Value: ValueClass;
-    ValueXY: ValueXYClass;
-  };
-  I18nManager?: RN.I18nManager;
-  Platform?: RN.PlatformStatic;
-}
+export const Text = themeable(TextNormal);
+export const View = themeable(ViewNormal);
+export { I18nManager, Platform };
 
-export const RNA: IRNA = {};
+export const RNA: DReactNative.IRNA = {};
 
-interface ValueClass {
-  new(value: number);
-}
-interface ValueXYClass {
-  new(valueIn?: { x: number | ReactNative.Animated.AnimatedValue; y: number | ReactNative.Animated.AnimatedValue });
-}

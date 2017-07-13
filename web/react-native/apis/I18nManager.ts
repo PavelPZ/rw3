@@ -1,6 +1,6 @@
 import { I18nManager as I18nMan } from 'react-native';
 
-class I18nManager implements I18nMan {
+class II18nManager implements I18nMan {
 
   isPreferredLanguageRTL = false;
   isRTLAllowed = true;
@@ -34,6 +34,4 @@ class I18nManager implements I18nMan {
 
 }
 
-const I18 = new I18nManager();
-
-export default I18;
+export const I18nManager = new II18nManager();

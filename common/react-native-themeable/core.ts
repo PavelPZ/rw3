@@ -9,7 +9,7 @@ const ORIG_PROPS_KEY = 'RNTOriginalProps'
 /**
  * Component which defines theme function (apply) for its children.
  */
-export class Theme extends React.Component<DReactNativeTheme.ITheme> {
+export class Theme extends React.Component<DReactNative.ITheme> {
   getChildContext() {
     return { [APPLY_KEY]: this.props.apply }
   }
@@ -22,12 +22,12 @@ export class Theme extends React.Component<DReactNativeTheme.ITheme> {
 /**
  * Decorator which injects theme context to the component.
  */
-export const theme = apply => Component => {
-  if (isFunctional(Component)) {
-    return makeFunctionalThemeDecorator(Component, apply)
-  }
-  return makeThemeDecorator(Component, apply)
-}
+//export const theme = apply => Component => {
+//  if (isFunctional(Component)) {
+//    return makeFunctionalThemeDecorator(Component, apply)
+//  }
+//  return makeThemeDecorator(Component, apply)
+//}
 
 /**
  * Decorator to plug component into themeable system.
@@ -46,42 +46,42 @@ function isFunctional(Component) {
   return !Component.prototype || !Component.prototype.render
 }
 
-function makeThemeDecorator(Component, apply) {
-  class ThemeDecorator extends Component {
-    getChildContext() {
-      const childContext = super.getChildContext && super.getChildContext()
-      return {
-        ...childContext,
-        [APPLY_KEY]: apply,
-      }
-    }
-  }
-  ThemeDecorator.childContextTypes = {
-    ...Component.childContextTypes,
-    [APPLY_KEY]: PropTypes.any,
-  }
-  return ThemeDecorator
-}
+//function makeThemeDecorator(Component, apply) {
+//  class ThemeDecorator extends Component {
+//    getChildContext() {
+//      const childContext = super.getChildContext && super.getChildContext()
+//      return {
+//        ...childContext,
+//        [APPLY_KEY]: apply,
+//      }
+//    }
+//  }
+//  ThemeDecorator.childContextTypes = {
+//    ...Component.childContextTypes,
+//    [APPLY_KEY]: PropTypes.any,
+//  }
+//  return ThemeDecorator
+//}
 
-function makeFunctionalThemeDecorator(Component, apply) {
-  class ThemeDecorator extends React.Component{
-    getChildContext() {
-      const childContext = super['getChildContext'] && super['getChildContext']()
-      return {
-        ...childContext,
-        [APPLY_KEY]: apply,
-      }
-    }
-    render() {
-      return React.createElement(Component, this.props)
-    }
-  }
-  ThemeDecorator['childContextTypes'] = {
-    ...Component.childContextTypes,
-    [APPLY_KEY]: PropTypes.any,
-  }
-  return ThemeDecorator
-}
+//function makeFunctionalThemeDecorator(Component, apply) {
+//  class ThemeDecorator extends React.Component{
+//    getChildContext() {
+//      const childContext = super['getChildContext'] && super['getChildContext']()
+//      return {
+//        ...childContext,
+//        [APPLY_KEY]: apply,
+//      }
+//    }
+//    render() {
+//      return React.createElement(Component, this.props)
+//    }
+//  }
+//  ThemeDecorator['childContextTypes'] = {
+//    ...Component.childContextTypes,
+//    [APPLY_KEY]: PropTypes.any,
+//  }
+//  return ThemeDecorator
+//}
 
 //https://gist.github.com/tejacques/54997ef2d6f672314d53
 //function makeComponent_(origComp: React.ComponentClass): React.ComponentClass {
@@ -183,6 +183,6 @@ function applyTheme(props, ctx, OriginalComponent, NewComponent) {
  * @param { function } apply apply function
  * @returns { function } apply function
  */
-const chain = (...applies: DReactNativeTheme.IWithProps[]) => (type: React.ComponentClass, props: DReactNativeTheme.IPropsDef) => {
+const chain = (...applies: DReactNative.IThemeWithProps[]) => (type: React.ComponentClass, props: DReactNative.IThemePropsDef) => {
   return applies.reduce((p, a) => a(type, p), props)
 }

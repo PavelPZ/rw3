@@ -1,28 +1,56 @@
-﻿declare namespace DReactNativeTheme {
+﻿declare namespace DReactNative {
 
-  type Component = React.ComponentClass | React.SFC;
+  //************** REACT NATIVE PROPS
+  export interface IWebProps {
+    onClick?: React.MouseEventHandler<{}>;
+    onKeyDown?: React.KeyboardEventHandler<{}>;
+    className?: string;
+    children?: React.ReactNode;
+  }
+
+  export type IWebText = ReactNative.TextProperties & IWebProps;
+  export type IWebView = ReactNative.ViewProperties & IWebProps;
+
+  export interface IRNA {
+    Animated?: {
+      Value: ValueClass;
+      ValueXY: ValueXYClass;
+    };
+    I18nManager?: ReactNative.I18nManager;
+    Platform?: ReactNative.PlatformStatic;
+  }
+
+    interface ValueClass {
+    new(value: number);
+  }
+  interface ValueXYClass {
+    new(valueIn?: { x: number | ReactNative.Animated.AnimatedValue; y: number | ReactNative.Animated.AnimatedValue });
+  }
+
+  //***************** THEME
+  type ThemeComponent = React.ComponentClass | React.SFC;
 
   interface ITheme {
-    apply: IWithPropsDef | DReactNativeTheme.IWithProps[];
+    apply: IThemeWithPropsDef | IThemeWithProps[];
   }
 
-  interface IStyleDef extends DFela.TCSS {
-    $type: Component;
+  interface IThemeStyleDef extends DFela.TCSS {
+    $type: ThemeComponent;
   }
 
-  interface IPropsDef {
-    $type: Component;
+  interface IThemePropsDef {
+    $type: ThemeComponent;
     $isProp?: boolean;
     style?: DFela.TCSS;
     [name: string]: any;
   }
 
-  interface IWithPropsDef {
+  interface IThemeWithPropsDef {
     style?: DFela.TCSS[] | DFela.TCSS;
   }
 
-  type IWithProps = (type: React.ComponentClass, props: IPropsDef) => IWithPropsDef;
+  type IThemeWithProps = (type: React.ComponentClass, props: IThemePropsDef) => IThemeWithPropsDef;
 
-  //type IWithStylesProc = (def: IStyleDefs) => (type: React.ComponentClass, styles: IPropsDef) => IWithPropsDef;
-  type IWithProc = (def: (IStyleDef | IPropsDef)[]) => (type: React.ComponentClass, styles: IPropsDef) => IWithPropsDef;
+  type IThemeWithProc = (def: (IThemeStyleDef | IThemePropsDef)[]) => (type: React.ComponentClass, styles: IThemePropsDef) => IThemeWithPropsDef;
+
 }

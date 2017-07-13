@@ -1,18 +1,10 @@
 ﻿import React from 'react';
 import PropTypes from 'prop-types';
 import { renderCSS } from '../../fela';
-import { IWebText } from '../../../common/react-native-all';
-import { themeable } from '../../../common/react-native-themeable/index';
 
 //d:\rw\know-how\react-native-web\src\components\Text\index.js
-const TextNormal = (props: IWebText) => {
-  const _createEnterHandler = (fn) => {
-    return e => {
-      if (e.keyCode === 13) {
-        fn && fn(e);
-      }
-    };
-  };
+export const Text = (props: DReactNative.IWebText) => {
+  const _createEnterHandler = fn => ev => { if (ev.keyCode === 13) fn && fn(ev); };
   const {
       dir,
     numberOfLines,
@@ -21,7 +13,7 @@ const TextNormal = (props: IWebText) => {
     style,
     ...otherPropsTyped
     } = props;
-  const otherProps: IWebText = otherPropsTyped as any;
+  const otherProps: DReactNative.IWebText = otherPropsTyped as any;
 
   if (onPress) {
     //otherProps.accessible = true; //is needed?
@@ -62,4 +54,3 @@ const TextNormal = (props: IWebText) => {
   return <div {...otherProps as any} />;
 };
 
-export const Text = themeable(TextNormal);
