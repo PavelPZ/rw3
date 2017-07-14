@@ -10,6 +10,9 @@
 
   export type IWebText = ReactNative.TextProperties & IWebProps;
   export type IWebView = ReactNative.ViewProperties & IWebProps;
+  export type IWebButton = ReactNative.ButtonProperties & IWebProps;
+  export type IWebTouchableHighlight = ReactNative.TouchableHighlightProperties & IWebProps;
+  export type IWebTouchableOpacity = ReactNative.TouchableOpacityProperties & IWebProps;
 
   export interface IRNA {
     Animated?: {

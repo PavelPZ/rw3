@@ -1,10 +1,10 @@
 ﻿import React from 'react';
 import PropTypes from 'prop-types';
 import { renderCSS } from '../../fela';
+import { ClickHandler } from './lib';
 
 //d:\rw\know-how\react-native-web\src\components\Text\index.js
 export const Text = (props: DReactNative.IWebText) => {
-  const _createEnterHandler = fn => ev => { if (ev.keyCode === 13) fn && fn(ev); };
   const {
       dir,
     numberOfLines,
@@ -15,11 +15,7 @@ export const Text = (props: DReactNative.IWebText) => {
     } = props;
   const otherProps: DReactNative.IWebText = otherPropsTyped as any;
 
-  if (onPress) {
-    //otherProps.accessible = true; //is needed?
-    otherProps.onClick = onPress;
-    otherProps.onKeyDown = _createEnterHandler(onPress);
-  }
+  ClickHandler(onPress, otherProps);
 
   const st: any = style; if (st) { if (!st.textDecorationLine) { st.textDecoration = st.textDecorationLine; delete st.textDecorationLine; } };
 
@@ -51,6 +47,6 @@ export const Text = (props: DReactNative.IWebText) => {
   otherProps.className += ' component-text ' + renderCSS(ruleProps);
 
   //return isInAParentText ? <span {...otherProps as any} /> : <div {...otherProps as any} />;
-  return <div {...otherProps as any} />;
+  return <div {...otherProps as any}/>;
 };
 

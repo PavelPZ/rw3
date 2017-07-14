@@ -108,9 +108,13 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <TypeScriptCompile Include="web\react-native\components\button.tsx" />
+    <TypeScriptCompile Include="web\react-native\components\lib.ts" />
+    <TypeScriptCompile Include="web\react-native\components\touchable-opacity.tsx" />
+    <TypeScriptCompile Include="web\react-native\components\touchable-highlight.tsx" />
     <TypeScriptCompile Include="web\react-native\components\view.tsx" />
     <TypeScriptCompile Include="web\react-native\index.ts" />
-    <TypeScriptCompile Include="web\ripple.ts" />
+    <TypeScriptCompile Include="web\css-static.ts" />
     <TypeScriptCompile Include="web\snack\fela.tsx" />
     <TypeScriptCompile Include="common\snack\react-native.tsx" />
   </ItemGroup>

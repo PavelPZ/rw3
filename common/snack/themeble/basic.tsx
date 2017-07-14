@@ -3,6 +3,21 @@ import { Theme, withProps } from '../../react-native-themeable/index';
 import { Text, View } from '../../react-native-all';
 
 //const { Text, View } = RNA;
+//https://colorlib.com/etc/metro-colors/
+//https://github.com/olton/Metro-UI-CSS/blob/master/less/buttons.less
+//https://danmalarkey.github.io/schema/colors.html
+//http://www.creepyed.com/2012/11/windows-phone-8-theme-colors-hex-rgb/
+//https://www.npmjs.com/package/color
+const colors = {
+  Primary: {
+    default: '2086bf',
+  },
+  Success: '60a917',
+  Info: '59cde2',
+  Danger: 'ce352c',
+  Warning: 'fa6800'
+};
+
 const redTheme = withProps([
   {
     $type: Text,
