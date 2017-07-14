@@ -1,7 +1,8 @@
 ﻿import React from 'react';
 
 
-interface IModalPropsLow<T> { $finish?: (res) => void; $idx?: number; $uniqueId?: number; $component?: TReactComponent }
+export interface IModalPropsLow<T> { $finish?: (res) => void; $idx?: number; $uniqueId?: number; $component?: TReactComponent }
+type TModalPropsLow = IModalPropsLow<{}>;
 type TReactComponent = React.ComponentClass | React.SFC;
 
 export const config = {
@@ -9,11 +10,12 @@ export const config = {
   delay: 0.25,
 }
 
+//root aplikace. Obsahuje aplikaci a VEDLE div jako placeholder pro Overlay backdrops a modal wrappers
 class ProviderOverlays extends React.Component {
   constructor() { super(); ProviderOverlays.singletone = this; }
   static singletone: ProviderOverlays;
   render(): JSX.Element {
-    return <div onKeyDown={ev => this.onGlobalKeyDown(ev)}>
+    return <div id={providerOverlayId} onKeyDown={ev => this.onGlobalKeyDown(ev)} tabIndex={0} style={{ outline: 'none' }}> 
       {React.Children.only(this.props.children)}
       <OverlaysStack ref={st => this.overlayStack = st} />
     </div>;
@@ -43,10 +45,10 @@ class ProviderOverlays extends React.Component {
     ev.stopPropagation();
     const { stack } = this.overlayStack.state; if (stack.length == 0) return;
     this.closeModal(-1, null, true);
-    //stack[stack.length - 1].$finish(null);
   };
   static uniqueId = 0;
 }
+const providerOverlayId = 'provider-overlay';
 
 export function showModal<T extends IModalPropsLow<R>, R>(content: React.ComponentClass<T> | React.SFC<T>, props: T): Promise<R> {
   return ProviderOverlays.singletone.showModal(content, props);
@@ -62,7 +64,7 @@ const getStackItem = (idx?: number) => {
 }
 
 interface IOverlaysStackState {
-  stack: IModalPropsLow<{}>[];
+  stack: TModalPropsLow[];
 }
 
 class OverlaysStack extends React.Component<{}, IOverlaysStackState> {
@@ -77,8 +79,6 @@ class ModalWrapper extends React.Component<{ $idx: number; }> {
   render(): JSX.Element {
     const $idx = this.props.$idx;
     const { $uniqueId, $component, ...otherProps } = getStackItem($idx);
-    //this.$finish = $finish;
-    //const contentProps: any = { ...otherProps }; //, $finish: this._hide.bind(this) };
     const { opacity, delay } = config;
     const zIndex = 100 + $idx * 2;
     const modalSt: any = {
@@ -93,9 +93,9 @@ class ModalWrapper extends React.Component<{ $idx: number; }> {
     };
     return <div key={$idx}>
       <div id={`overlay-${$uniqueId}`} style={modalSt}></div>
-      <div id={`wrapper-${$uniqueId}`} style={wraperSt} onClick={ev => { ev.stopPropagation(); closeModal($idx, null, true); }} tabIndex={0}>
+      <div id={`wrapper-${$uniqueId}`} style={wraperSt} onClick={ev => { ev.stopPropagation(); closeModal($idx, null, true); }} >
         <div style={modalStyle.content} onClick={ev => ev.stopPropagation()}>
-          {isFunctional($component) ? ($component as React.SFC)(otherProps as any) : React.createElement($component as React.ComponentClass<IModalPropsLow<{}>>, otherProps)}
+          {isFunctional($component) ? ($component as React.SFC)(otherProps as any) : React.createElement($component as React.ComponentClass<TModalPropsLow>, otherProps)}
         </div>
       </div>
     </div>;
@@ -109,7 +109,6 @@ class ModalWrapper extends React.Component<{ $idx: number; }> {
       const { opacity, delay } = config;
       const ov = document.getElementById(`overlay-${$uniqueId}`);
       const wrap = document.getElementById(`wrapper-${$uniqueId}`);
-      wrap.focus();
       ov.style.opacity = opacity.toString(); wrap.style.opacity = '1';
       const $finish = item.$finish;
       item.$finish = res => {
@@ -118,22 +117,13 @@ class ModalWrapper extends React.Component<{ $idx: number; }> {
           const st = ProviderOverlays.singletone.overlayStack.state;
           st.stack = st.stack.slice(0, st.stack.length - 1);
           ProviderOverlays.singletone.overlayStack.forceUpdate();
-          if (st.stack.length > 0) {
-            const lastItem = st.stack[st.stack.length - 1];
-            const lastWrap = document.getElementById(`wrapper-${lastItem.$uniqueId}`);
-            setTimeout(() => lastWrap.focus(), 1);
-          }
+          document.getElementById(providerOverlayId).focus(); //predej focus rootu, aby se uplatnil escape
           $finish(res);
         }, delay * 1000);
       };
     }, 1);
   }
 
-  //$finish: (res: {}) => void;
-  //_doHide: (res: {}) => void;
-  //_hide(res: {}) {
-  //  this._doHide(res);
-  //}
 }
 
 function isFunctional(Component) {
