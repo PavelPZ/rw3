@@ -1,5 +1,7 @@
 ﻿import React from 'react';
 
+import { renderCSS } from '../fela';
+
 
 export interface IModalPropsLow<T> { $finish?: (res) => void; $idx?: number; $uniqueId?: number; $component?: TReactComponent }
 type TModalPropsLow = IModalPropsLow<{}>;
@@ -15,7 +17,7 @@ class ProviderOverlays extends React.Component {
   constructor() { super(); ProviderOverlays.singletone = this; }
   static singletone: ProviderOverlays;
   render(): JSX.Element {
-    return <div id={providerOverlayId} onKeyDown={ev => this.onGlobalKeyDown(ev)} tabIndex={0} style={{ outline: 'none' }}> 
+    return <div id={providerOverlayId} onKeyDown={ev => this.onGlobalKeyDown(ev)} tabIndex={0} className={renderCSS({ outline: 'none' })}> 
       {React.Children.only(this.props.children)}
       <OverlaysStack ref={st => this.overlayStack = st} />
     </div>;
@@ -92,9 +94,9 @@ class ModalWrapper extends React.Component<{ $idx: number; }> {
       transition: `opacity ${delay}s`
     };
     return <div key={$idx}>
-      <div id={`overlay-${$uniqueId}`} style={modalSt}></div>
-      <div id={`wrapper-${$uniqueId}`} style={wraperSt} onClick={ev => { ev.stopPropagation(); closeModal($idx, null, true); }} >
-        <div style={modalStyle.content} onClick={ev => ev.stopPropagation()}>
+      <div id={`overlay-${$uniqueId}`} className={renderCSS(modalSt)}></div>
+      <div id={`wrapper-${$uniqueId}`} className={renderCSS(wraperSt)} onClick={ev => { ev.stopPropagation(); closeModal($idx, null, true); }} >
+        <div className={renderCSS(modalStyle.content)} onClick={ev => ev.stopPropagation()}>
           {isFunctional($component) ? ($component as React.SFC)(otherProps as any) : React.createElement($component as React.ComponentClass<TModalPropsLow>, otherProps)}
         </div>
       </div>
