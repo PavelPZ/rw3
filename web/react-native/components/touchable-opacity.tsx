@@ -6,10 +6,10 @@ import { ViewStyle, ClickHandler } from './lib';
 //D:\rw\know-how\react-native-web\src\components\Touchable\TouchableHighlight.js
 export const TouchableOpacity = (props: DReactNative.IWebTouchableOpacity) => {
   const {
-        activeOpacity = 0.2,
+    activeOpacity = 0.2,
     onPress,
     ...otherPropsTyped
-    } = props;
+  } = props;
   const otherProps: DReactNative.IWebTouchableOpacity = otherPropsTyped as any;
 
   ClickHandler(onPress, otherProps);

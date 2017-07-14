@@ -40,27 +40,7 @@
 }
 
 /*  TOUCHABLE-HIGHLIGHT */
-.component-touchable-highlight {
-      position: relative;
-      overflow: hidden;
-    }
 
-.component-touchable-highlight::after {
-  content: "";
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  xbackground-color: red;
-  opacity: 0;
-  transition: opacity 0.25s;
-}
-
-.component-touchable-highlight:active::after {
-  opacity: 0.40;
-}
 `;
 
 export default cssStatic;

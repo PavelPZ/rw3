@@ -77,6 +77,7 @@
     <Content Include="app.json" />
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
+    <Content Include="web\react-native\Components.html" />
     <Content Include="web\snack\ripple.html" />
     <TypeScriptCompile Include="common\react-native-themeable\index.ts" />
     <TypeScriptCompile Include="common\react-native-themeable\dreact-native-theme.d.ts" />
@@ -117,6 +118,7 @@
     <TypeScriptCompile Include="web\css-static.ts" />
     <TypeScriptCompile Include="web\snack\fela.tsx" />
     <TypeScriptCompile Include="common\snack\react-native.tsx" />
+    <TypeScriptCompile Include="web\snack\modal.tsx" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="App.tsx" />

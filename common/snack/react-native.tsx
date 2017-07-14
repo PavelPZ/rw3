@@ -34,3 +34,22 @@ class App extends React.Component {
 
 export default App;
 
+//const dataSource = [
+//  { data: [{ name: 'basket 1' }, { name: 'basket 2' }], key: 'BASKET' },
+//  { data: [{ name: 'base 1' }, { name: 'base 2' }], key: 'BASE' }
+//];
+
+//class SectionListExample extends React.Component {
+//  renderItem = item => <Text style={{ color: 'blue' }}>{item.item.name}</Text>;
+//  renderHeader = item => <Text style={{ color: 'red' }}>{item.item.name}</Text>;
+//  render(): JSX.Element {
+//    return <View>
+//      <SectionList
+//        renderItem={this.renderItem}
+//        renderSectionHeader={this.renderHeader}
+//        sections={dataSource}
+//        keyExtractor={item => item.name}
+//      />
+//    </View>;
+//  }
+//}
