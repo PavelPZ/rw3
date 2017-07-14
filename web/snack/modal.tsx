@@ -10,6 +10,7 @@ type TReactComponent = React.ComponentClass | React.SFC;
 export const config = {
   opacity: 0.8,
   delay: 0.25,
+  //delay: 1,
 }
 
 //root aplikace. Obsahuje aplikaci a VEDLE div jako placeholder pro Overlay backdrops a modal wrappers
@@ -185,8 +186,8 @@ class App extends React.Component<{}, { show: boolean; }> {
 
 interface IModalExampleProps extends IModalPropsLow<IModalExampleRes> { title: string; }
 interface IModalExampleRes { result: boolean; }
-const ModalExample = (props: IModalExampleProps) => <div style={{ backgroundColor: 'white' }} >
-  <h1>{`${props.title} ${props.$idx}`}</h1>
+const ModalExample = (props: IModalExampleProps) => <div className={renderCSS({ backgroundColor: 'white' })} >
+  <h1 style={{ paddingTop: `${(10-props.$idx) * 30}px` }} > {`${props.title} ${props.$idx}`}</h1>
   <span onClick={() => closeModal(props.$idx, { result: true })}>CLOSE</span>
   {' | '}
   <span onClick={() => showModal<IModalExampleProps, IModalExampleRes>(ModalExample, { title: 'Modal Title' })}>NEW</span>
