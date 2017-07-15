@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import PropTypes from 'prop-types';
-import { renderCSS } from '../../fela';
+import { renderCSS } from '../../web-fela/index';
 import { ViewStyle } from './lib';
 
 //D:\rw\know-how\react-native-web\src\components\View\index.js

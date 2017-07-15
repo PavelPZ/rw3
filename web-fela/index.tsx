@@ -6,12 +6,8 @@ import pluginFallbackValue from "fela-plugin-fallback-value";
 import pluginLvha from "fela-plugin-lvha";
 import pluginUnit from "fela-plugin-unit";
 
-import cssStatic from './css-static';
-
 const renderer = createRenderer({ plugins: [pluginUnit('px'), pluginExtend(), pluginPrefixer(), pluginFallbackValue(), pluginLvha()] });
-
 render(renderer);
-renderer.renderStatic(cssStatic);
 
 export const renderRules = (...rules: DFela.TRule[]) => renderer.renderRule(combineRules(...rules));
 export const renderRule = (rule: DFela.TRule) => renderer.renderRule(rule);

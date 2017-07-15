@@ -1,5 +1,6 @@
 ﻿import React from 'react';
-import { renderCSS } from './fela';
+import { renderCSS } from '../web-fela/index';
+import { isStateles } from '../common-lib/index';
 
 export interface IModalPropsLow<T> { $finish?: (res) => void; $idx?: number; $uniqueId?: number; $component?: TReactComponent }
 type TModalPropsLow = IModalPropsLow<{}>;
@@ -50,11 +51,7 @@ export function closeModal(props: TModalPropsLow, res: {}, cancel?: boolean) {
   return ProviderOverlays.singletone.closeModal(props, res, cancel);
 }
 
-const getStackItem = (idx?: number) => {
-  const stack = ProviderOverlays.singletone.overlayStack.state.stack;
-  if (typeof idx === 'undefined') return stack[stack.length - 1];
-  return stack[idx];
-}
+const getStackItem = (idx: number) => { return ProviderOverlays.singletone.overlayStack.state.stack[idx]; }
 
 interface IOverlaysStackState {
   stack: TModalPropsLow[];
@@ -100,7 +97,7 @@ class ModalWrapper extends React.Component<{ $idx: number; }> {
       <div id={`overlay-${$uniqueId}`} className={renderCSS(modalSt)}></div>
       <div className={renderCSS(wraperSt)} onClick={ev => { ev.stopPropagation(); closeModal(this.props, null, true); }} >
         <div className={renderCSS(contentSt)} onClick={ev => ev.stopPropagation()} id={`content-${$uniqueId}`} >
-          {isFunctional($component) ? ($component as React.SFC)(otherProps as any) : React.createElement($component as React.ComponentClass<TModalPropsLow>, otherProps)}
+          {isStateles($component) ? ($component as React.SFC)(otherProps as any) : React.createElement($component as React.ComponentClass<TModalPropsLow>, otherProps)}
         </div>
       </div>
     </div>;
@@ -108,20 +105,18 @@ class ModalWrapper extends React.Component<{ $idx: number; }> {
 
   componentDidMount(): void { //vse je vykresleno a existuje
     setTimeout(() => {
-      const $idx = this.props.$idx;
-      const item = getStackItem($idx);
+      const item = getStackItem(this.props.$idx);
       const $uniqueId = item.$uniqueId;
       const { opacity, delay } = config;
-      const ov = document.getElementById(`overlay-${$uniqueId}`);
-      const content = document.getElementById(`content-${$uniqueId}`);
+      const ov = document.getElementById(`overlay-${$uniqueId}`); const content = document.getElementById(`content-${$uniqueId}`);
       ov.style.opacity = opacity.toString(); content.style.opacity = '1';
       const $finish = item.$finish; //old finish, pouze promise.resolve
       document.getElementById(providerOverlayId).focus();
       item.$finish = res => { //new finish - konec dialogu
         ov.style.opacity = '0'; content.style.opacity = '0'; //animace
         setTimeout(() => { //pockej na konec animace, pak odstran wrapper
-          const st = ProviderOverlays.singletone.overlayStack.state;
-          st.stack = st.stack.slice(0, st.stack.length - 1);
+          const state = ProviderOverlays.singletone.overlayStack.state;
+          state.stack = state.stack.slice(0, state.stack.length - 1);
           ProviderOverlays.singletone.overlayStack.forceUpdate();
           const root = document.getElementById(providerOverlayId); if (root) root.focus(); //predej focus rootu, aby se uplatnil escape
           $finish(res);
@@ -130,10 +125,6 @@ class ModalWrapper extends React.Component<{ $idx: number; }> {
     }, 1);
   }
 
-}
-
-function isFunctional(Component) {
-  return !Component.prototype || !Component.prototype.render
 }
 
 const modalLow = {

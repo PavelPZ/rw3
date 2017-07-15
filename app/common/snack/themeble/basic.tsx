@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react'
-import { Theme, withProps } from '../../react-native-themeable/index';
-import { Text, View } from '../../react-native-all';
+import { Theme, withProps } from '../../../../common-themeable/index';
+import { Text, View } from '../../../../platform-exports';
 
 //const { Text, View } = RNA;
 //https://colorlib.com/etc/metro-colors/

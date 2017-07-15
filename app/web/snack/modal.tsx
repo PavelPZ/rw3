@@ -1,8 +1,8 @@
 ﻿import React from 'react';
-import { renderCSS } from '../fela';
+import { renderCSS } from '../../../web-fela/index';
 
 
-import { ProviderOverlays, showModal, IModalPropsLow, closeModal } from '../overlays';
+import { ProviderOverlays, showModal, IModalPropsLow, closeModal } from '../../../web-overlays/index';
 
 //*************************************
 

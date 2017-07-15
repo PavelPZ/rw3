@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import PropTypes from 'prop-types';
-import { renderCSS } from '../../fela';
+import { renderCSS } from '../../web-fela/index';
 import { ClickHandler } from './lib';
 
 //d:\rw\know-how\react-native-web\src\components\Text\index.js

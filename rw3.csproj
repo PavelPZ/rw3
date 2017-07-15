@@ -67,8 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
-    <TypeScriptCompile Include="common\react-native-themeable\core.ts" />
-    <TypeScriptCompile Include="common\react-native-themeable\helpers.ts" />
+    <TypeScriptCompile Include="common-themeable\core.ts" />
+    <TypeScriptCompile Include="common-themeable\helpers.ts" />
     <Content Include="index.html" />
     <Content Include="installNPM.txt" />
     <Content Include="install.txt" />
@@ -77,27 +77,27 @@
     <Content Include="app.json" />
     <Content Include="package.json" />
     <Content Include="tsconfig.json" />
-    <Content Include="web\react-native\Components.html" />
-    <Content Include="web\snack\ripple.html" />
-    <TypeScriptCompile Include="common\react-native-themeable\index.ts" />
-    <TypeScriptCompile Include="common\react-native-themeable\dreact-native-theme.d.ts" />
-    <TypeScriptCompile Include="common\snack\animated\simple.tsx" />
-    <TypeScriptCompile Include="common\snack\themeble\basic.tsx" />
-    <TypeScriptCompile Include="common\theming.ts" />
+    <Content Include="web-react-native\Components.html" />
+    <Content Include="app\web\snack\ripple.html" />
+    <TypeScriptCompile Include="common-themeable\index.ts" />
+    <TypeScriptCompile Include="common-themeable\dreact-native-theme.d.ts" />
+    <TypeScriptCompile Include="app\common\snack\animated\simple.tsx" />
+    <TypeScriptCompile Include="app\common\snack\themeble\basic.tsx" />
+    <TypeScriptCompile Include="trash\theming.ts" />
     <TypeScriptCompile Include="index.tsx" />
-    <TypeScriptCompile Include="common\react-native-all.ts" />
-    <TypeScriptCompile Include="native\snack\animated.tsx" />
-    <TypeScriptCompile Include="native\snack\navigator\drawer-custom.tsx" />
-    <TypeScriptCompile Include="native\snack\navigator\drawer-stack.tsx" />
-    <TypeScriptCompile Include="native\snack\navigator\drawer.tsx" />
-    <TypeScriptCompile Include="native\snack\navigator\hallo-world.tsx" />
-    <TypeScriptCompile Include="native\snack\navigator\passing-params.tsx" />
-    <TypeScriptCompile Include="native\snack\navigator\redux.tsx" />
-    <TypeScriptCompile Include="native\snack\navigator\stack.tsx" />
-    <TypeScriptCompile Include="native\snack\navigator\tab.tsx" />
-    <TypeScriptCompile Include="native\snack\picker.tsx" />
-    <TypeScriptCompile Include="native\snack\redux.tsx" />
-    <TypeScriptCompile Include="native\snack\sqlite.tsx" />
+    <TypeScriptCompile Include="platform-exports.ts" />
+    <TypeScriptCompile Include="app\native\snack\animated.tsx" />
+    <TypeScriptCompile Include="app\native\snack\navigator\drawer-custom.tsx" />
+    <TypeScriptCompile Include="app\native\snack\navigator\drawer-stack.tsx" />
+    <TypeScriptCompile Include="app\native\snack\navigator\drawer.tsx" />
+    <TypeScriptCompile Include="app\native\snack\navigator\hallo-world.tsx" />
+    <TypeScriptCompile Include="app\native\snack\navigator\passing-params.tsx" />
+    <TypeScriptCompile Include="app\native\snack\navigator\redux.tsx" />
+    <TypeScriptCompile Include="app\native\snack\navigator\stack.tsx" />
+    <TypeScriptCompile Include="app\native\snack\navigator\tab.tsx" />
+    <TypeScriptCompile Include="app\native\snack\picker.tsx" />
+    <TypeScriptCompile Include="app\native\snack\redux.tsx" />
+    <TypeScriptCompile Include="app\native\snack\sqlite.tsx" />
     <TypeScriptCompile Include="typings\CSStyles.d.ts" />
     <TypeScriptCompile Include="typings\expo.d.ts" />
     <TypeScriptCompile Include="typings\animated.d.ts" />
@@ -109,16 +109,17 @@
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
-    <TypeScriptCompile Include="web\react-native\components\button.tsx" />
-    <TypeScriptCompile Include="web\react-native\components\lib.ts" />
-    <TypeScriptCompile Include="web\react-native\components\touchable-opacity.tsx" />
-    <TypeScriptCompile Include="web\react-native\components\touchable-highlight.tsx" />
-    <TypeScriptCompile Include="web\react-native\components\view.tsx" />
-    <TypeScriptCompile Include="web\react-native\index.ts" />
-    <TypeScriptCompile Include="web\css-static.ts" />
-    <TypeScriptCompile Include="web\snack\fela.tsx" />
-    <TypeScriptCompile Include="common\snack\react-native.tsx" />
-    <TypeScriptCompile Include="web\snack\modal.tsx" />
+    <TypeScriptCompile Include="common-lib\index.ts" />
+    <TypeScriptCompile Include="web-overlays\index.tsx" />
+    <TypeScriptCompile Include="web-react-native\components\button.tsx" />
+    <TypeScriptCompile Include="web-react-native\components\lib.ts" />
+    <TypeScriptCompile Include="web-react-native\components\touchable-opacity.tsx" />
+    <TypeScriptCompile Include="web-react-native\components\touchable-highlight.tsx" />
+    <TypeScriptCompile Include="web-react-native\components\view.tsx" />
+    <TypeScriptCompile Include="web-react-native\index.ts" />
+    <TypeScriptCompile Include="app\web\snack\fela.tsx" />
+    <TypeScriptCompile Include="app\common\snack\react-native.tsx" />
+    <TypeScriptCompile Include="app\web\snack\modal.tsx" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="App.tsx" />
@@ -132,10 +133,10 @@
     <TypeScriptCompile Include="typings\fela\fela.d.ts" />
     <TypeScriptCompile Include="typings\react-native.d.ts" />
     <TypeScriptCompile Include="typings\redux-logger.d.ts" />
-    <TypeScriptCompile Include="web\fela.tsx" />
-    <TypeScriptCompile Include="web\react-native\apis\I18nManager.ts" />
-    <TypeScriptCompile Include="web\react-native\apis\Platform.ts" />
-    <TypeScriptCompile Include="web\react-native\components\text.tsx" />
+    <TypeScriptCompile Include="web-fela\index.tsx" />
+    <TypeScriptCompile Include="web-react-native\apis\I18nManager.ts" />
+    <TypeScriptCompile Include="web-react-native\apis\Platform.ts" />
+    <TypeScriptCompile Include="web-react-native\components\text.tsx" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />

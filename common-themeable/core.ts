@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types';
+import { isStateles } from '../common-lib/index';
 
 /*global __DEV__*/
 
@@ -33,17 +34,13 @@ export class Theme extends React.Component<DReactNative.ITheme> {
  * Decorator to plug component into themeable system.
  */
 export function themeable<T extends React.ComponentClass | React.SFC>(Component: T): T {
-  const res = isFunctional(Component) ? makeFunctionalComponent(Component as React.SFC) : makeComponent(Component as React.ComponentClass);
+  const res = isStateles(Component) ? makeFunctionalComponent(Component as React.SFC) : makeComponent(Component as React.ComponentClass);
   return res as T;
   //if (isFunctional(Component)) {
   //  res = makeFunctinalComponent(Component);
   //  //return makeFunctinalComponent(Component) as T;
   //}
   //return makeComponent((Component as any) as React.ComponentClass)
-}
-
-function isFunctional(Component) {
-  return !Component.prototype || !Component.prototype.render
 }
 
 //function makeThemeDecorator(Component, apply) {

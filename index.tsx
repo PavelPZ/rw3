@@ -8,9 +8,9 @@ import ReactDOM from 'react-dom';
 //import Platform from './web/react-native/apis/platform';
 
 //import Root from './web/snack/fela';
-//import Root from './common/snack/react-native';
+import Root from './app/common/snack/react-native';
 //import Root from './common/snack/themeble/basic';
-import Root from './web/snack/modal';
+//import Root from './app/web/snack/modal';
 
 //RNA.Text = themeable(Text);
 //RNA.View = themeable(View);
