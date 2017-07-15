@@ -1,162 +1,8 @@
 ﻿import React from 'react';
-
 import { renderCSS } from '../fela';
 
 
-export interface IModalPropsLow<T> { $finish?: (res) => void; $idx?: number; $uniqueId?: number; $component?: TReactComponent }
-type TModalPropsLow = IModalPropsLow<{}>;
-type TReactComponent = React.ComponentClass | React.SFC;
-
-export const config = {
-  opacity: 0.8,
-  delay: 0.25,
-  //delay: 1,
-}
-
-//root aplikace. Obsahuje aplikaci a VEDLE div jako placeholder pro Overlay backdrops a modal wrappers
-class ProviderOverlays extends React.Component {
-  constructor() { super(); ProviderOverlays.singletone = this; }
-  static singletone: ProviderOverlays;
-  render(): JSX.Element {
-    return <div id={providerOverlayId} onKeyDown={ev => this.onGlobalKeyDown(ev)} tabIndex={0} className={renderCSS({ outline: 'none' })}> 
-      {React.Children.only(this.props.children)}
-      <OverlaysStack ref={st => this.overlayStack = st} />
-    </div>;
-  }
-  overlayStack: OverlaysStack;
-  public showModal<T extends IModalPropsLow<R>, R>(content: React.ComponentClass<T> | React.SFC<T>, item: T): Promise<R> {
-    return new Promise<R>(resolve => {
-      const { stack } = this.overlayStack.state;
-      item.$finish = resolve;
-      item.$idx = stack.length;
-      item.$uniqueId = ProviderOverlays.uniqueId++;
-      item.$component = content;
-      stack.push(item);
-      this.overlayStack.forceUpdate();
-    });
-  }
-  public closeModal(idx: number, res: {}, cancel:boolean) {
-    const stack = this.overlayStack.state.stack;
-    if (cancel && idx >= 0 && idx != stack.length - 1) return;
-    if (!cancel && idx != stack.length - 1) throw '!cancel && idx != stack.length - 1';
-    const item = stack[stack.length - 1];
-    item.$finish(res);
-    //resolve(result);
-  }
-  onGlobalKeyDown(ev: React.KeyboardEvent<{}>) {
-    if (!ev || ev.keyCode != 27) return;
-    ev.stopPropagation();
-    const { stack } = this.overlayStack.state; if (stack.length == 0) return;
-    this.closeModal(-1, null, true);
-  };
-  static uniqueId = 0;
-}
-const providerOverlayId = 'provider-overlay';
-
-export function showModal<T extends IModalPropsLow<R>, R>(content: React.ComponentClass<T> | React.SFC<T>, props: T): Promise<R> {
-  return ProviderOverlays.singletone.showModal(content, props);
-}
-export function closeModal(idx: number, res: {}, cancel?: boolean) {
-  return ProviderOverlays.singletone.closeModal(idx, res, cancel);
-}
-
-const getStackItem = (idx?: number) => {
-  const stack = ProviderOverlays.singletone.overlayStack.state.stack;
-  if (typeof idx === 'undefined') return stack[stack.length - 1];
-  return stack[idx];
-}
-
-interface IOverlaysStackState {
-  stack: TModalPropsLow[];
-}
-
-class OverlaysStack extends React.Component<{}, IOverlaysStackState> {
-  state: IOverlaysStackState = { stack: [] };
-  render(): JSX.Element {
-    const { stack } = this.state; if (stack.length == 0) return null;
-    return <div>{stack.map((st, idx) => <ModalWrapper $idx={idx} key={idx} />)}</div>;
-  }
-}
-
-class ModalWrapper extends React.Component<{ $idx: number; }> {
-  render(): JSX.Element {
-    const $idx = this.props.$idx;
-    const { $uniqueId, $component, ...otherProps } = getStackItem($idx);
-    const { opacity, delay } = config;
-    const zIndex = 100 + $idx * 2;
-    const modalSt: any = {
-      ...modalStyle.overlay,
-      zIndex: zIndex,
-      transition: `opacity ${delay}s`
-    };
-    const wraperSt: any = {
-      ...modalStyle.wrapper,
-      zIndex: zIndex + 1,
-      transition: `opacity ${delay}s`
-    };
-    return <div key={$idx}>
-      <div id={`overlay-${$uniqueId}`} className={renderCSS(modalSt)}></div>
-      <div id={`wrapper-${$uniqueId}`} className={renderCSS(wraperSt)} onClick={ev => { ev.stopPropagation(); closeModal($idx, null, true); }} >
-        <div className={renderCSS(modalStyle.content)} onClick={ev => ev.stopPropagation()}>
-          {isFunctional($component) ? ($component as React.SFC)(otherProps as any) : React.createElement($component as React.ComponentClass<TModalPropsLow>, otherProps)}
-        </div>
-      </div>
-    </div>;
-  }
-
-  componentDidMount(): void {
-    setTimeout(() => {
-      const $idx = this.props.$idx;
-      const item = getStackItem($idx);
-      const $uniqueId = item.$uniqueId;
-      const { opacity, delay } = config;
-      const ov = document.getElementById(`overlay-${$uniqueId}`);
-      const wrap = document.getElementById(`wrapper-${$uniqueId}`);
-      ov.style.opacity = opacity.toString(); wrap.style.opacity = '1';
-      const $finish = item.$finish;
-      item.$finish = res => {
-        ov.style.opacity = '0'; wrap.style.opacity = '0';
-        setTimeout(() => {
-          const st = ProviderOverlays.singletone.overlayStack.state;
-          st.stack = st.stack.slice(0, st.stack.length - 1);
-          ProviderOverlays.singletone.overlayStack.forceUpdate();
-          document.getElementById(providerOverlayId).focus(); //predej focus rootu, aby se uplatnil escape
-          $finish(res);
-        }, delay * 1000);
-      };
-    }, 1);
-  }
-
-}
-
-function isFunctional(Component) {
-  return !Component.prototype || !Component.prototype.render
-}
-
-const modalLow = {
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  width: '100%',
-  height: '100%',
-  overflow: 'hidden',
-};
-const modalStyle = {
-  overlay: {
-    ...modalLow,
-    backgroundColor: '#ddd',
-    opacity: 0,
-  },
-  wrapper: {
-    ...modalLow,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    pointerEvents: 'auto',
-    opacity: 0,
-  },
-  content: {}
-};
+import { ProviderOverlays, showModal, IModalPropsLow, closeModal } from '../overlays';
 
 //*************************************
 
@@ -168,27 +14,27 @@ class App extends React.Component<{}, { show: boolean; }> {
   state = { show: false };
   render(): JSX.Element {
     return <ProviderOverlays>
-      <div>
-        <h1>Hallo world</h1>
-        <p> asd fas dfasdf ads f adsf </p>
-        <a href='#' onClick={() => this.setState(st => ({ show: true }))}>SHOW</a>
-        {' | '}
-        <a href='#' onClick={ev => this.showModal()}>SHOW NEW</a>
-        {this.state.show && <Modal delay={1} opacity={0.7} zindex={100} onFinished={res => { this.setState(st => ({ show: false })); alert(res); }} />}
-      </div>
+      <h1>Hallo world</h1>
+      <p> asd fas dfasdf ads f adsf </p>
+      <a href='#' onClick={() => this.setState(st => ({ show: true }))}>SHOW</a>
+      {' | '}
+      <a href='#' onClick={ev => showModalExample()}>SHOW NEW</a>
+      {this.state.show && <Modal delay={1} opacity={0.7} zindex={100} onFinished={res => { this.setState(st => ({ show: false })); alert(res); }} />}
     </ProviderOverlays>
-  }
-  async showModal() {
-    const res = await showModal<IModalExampleProps, IModalExampleRes>(ModalExample, { title: 'Modal Title' });
-    //alert(JSON.stringify(res));
   }
 }
 
 interface IModalExampleProps extends IModalPropsLow<IModalExampleRes> { title: string; }
 interface IModalExampleRes { result: boolean; }
-const ModalExample = (props: IModalExampleProps) => <div className={renderCSS({ backgroundColor: 'white' })} >
-  <h1 style={{ paddingTop: `${(10-props.$idx) * 30}px` }} > {`${props.title} ${props.$idx}`}</h1>
-  <span onClick={() => closeModal(props.$idx, { result: true })}>CLOSE</span>
+
+const showModalExample = async () => {
+  const res = await showModal<IModalExampleProps, IModalExampleRes>(ModalExample, { title: 'Modal Title' });
+  //alert(JSON.stringify(res));
+}
+
+const ModalExample = (props: IModalExampleProps) => <div>
+  <h1 style={{ paddingTop: `${(/*10-*/props.$idx) * 30}px` }} > {`${props.title} ${props.$idx}`}</h1>
+  <span onClick={() => closeModal(props, { result: true })}>CLOSE</span>
   {' | '}
   <span onClick={() => showModal<IModalExampleProps, IModalExampleRes>(ModalExample, { title: 'Modal Title' })}>NEW</span>
 </div>;
