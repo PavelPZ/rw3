@@ -16,7 +16,7 @@ class App extends React.Component {
         {' '}after press
       </Text>
       <View>
-        <Button title='My First Button' onPress={() => alert('press')} />
+        <Button title='My First Button' onPress={() => { /*alert('press')*/ }} />
       </View>
       <TouchableHighlight onPress={() => { }} activeOpacity={0.65} underlayColor='red'>
         <View style={{ backgroundColor: 'blue', padding: 10 }}>

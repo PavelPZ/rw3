@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import PropTypes from 'prop-types';
-import { renderCSS } from '../../web-fela/index';
+import { renderCSSs } from '../../web-fela/index';
 import { ClickHandler } from './lib';
 
 //D:\rw\know-how\react-native-web\src\components\Button\index.js
@@ -25,7 +25,6 @@ export const Button = (props: DReactNative.IWebButton) =>  {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      flex: 1,
       flexDirection: 'column',
       ...(!disabled ? { cursor: 'pointer' } : null),
     };
@@ -38,9 +37,9 @@ export const Button = (props: DReactNative.IWebButton) =>  {
 
 
     if (!otherProps.className) otherProps.className = '';
-    otherProps.className += ' component-button ripple ' + renderCSS(ruleProps);
+    otherProps.className += ' component-button xripple ' + renderCSSs(ruleProps);
 
     return <div {...otherProps as any} onClick={() => { if (disabled) return; onPress(); }}>
-      <span style={titleProps}>{title}</span>
+      <div style={titleProps}>{title}</div>
     </div>;
 }

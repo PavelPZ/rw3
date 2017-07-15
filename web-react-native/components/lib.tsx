@@ -1,4 +1,6 @@
-﻿import { renderStatic } from '../../web-fela/index';
+﻿import React from 'react';
+import { renderStatic } from '../../web-fela/index';
+import { renderCSS } from '../../web-fela/index';
 
 export const ViewStyle: DFela.TCSS = {
   display: 'flex',
@@ -40,7 +42,7 @@ renderStatic(`
   transform: translate3d(0, 0, 0);
 }
 
-  .ripple::after {
+  .ripple:after {
     content: "";
     display: block;
     position: absolute;
@@ -57,10 +59,45 @@ renderStatic(`
     transition: transform .5s, opacity 1s;
   }
 
-  .ripple:active::after {
+  .ripple:active:after {
     transform: scale(0, 0);
     opacity: .2;
     transition: 0s;
   }
 
 `);
+
+//export const ripple = {
+//  position: 'relative',
+//  overflow: 'hidden',
+//};
+
+//export const rippleComp = {
+//  content: '',
+//  display: 'block',
+//  position: 'absolute',
+//  width: '100%',
+//  height: '100%',
+//  top: 0,
+//  left: 0,
+//  pointerEvents: 'none',
+//  backgroundImage: 'radial-gradient(circle, #000 10%, transparent 10.01%)',
+//  backgroundRepeat: 'no-repeat',
+//  backgroundPosition: '50%',
+//  transform: 'scale(10,10)',
+//  opacity: 0,
+//  //transform: 'translate3d(0, 0, 0)',
+//  transitionProperty: 'transform opacity',
+//  transitionDuration: '.5s 1s',
+//  //transition: 'transform .5s, opacity 1s',
+//  //transition: 'opacity 1s',
+
+//  ':active': {
+//    //transform: 'scale(0, 0)',
+//    opacity: '0.2',
+//    //transition: '0s'
+//  }
+//};
+
+
+//export const Ripple = () => <div className={renderCSS(rippleComp as any)} />

@@ -67,8 +67,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <TypeScriptCompile Include="app\web\snack\ripple.tsx" />
     <TypeScriptCompile Include="common-themeable\core.ts" />
     <TypeScriptCompile Include="common-themeable\helpers.ts" />
+    <Content Include="app\web\snack\ripple2.html" />
     <Content Include="index.html" />
     <Content Include="installNPM.txt" />
     <Content Include="install.txt" />
@@ -112,7 +114,7 @@
     <TypeScriptCompile Include="common-lib\index.ts" />
     <TypeScriptCompile Include="web-overlays\index.tsx" />
     <TypeScriptCompile Include="web-react-native\components\button.tsx" />
-    <TypeScriptCompile Include="web-react-native\components\lib.ts" />
+    <TypeScriptCompile Include="web-react-native\components\lib.tsx" />
     <TypeScriptCompile Include="web-react-native\components\touchable-opacity.tsx" />
     <TypeScriptCompile Include="web-react-native\components\touchable-highlight.tsx" />
     <TypeScriptCompile Include="web-react-native\components\view.tsx" />
