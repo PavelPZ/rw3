@@ -16,7 +16,8 @@ export const TouchableOpacity = (props: DReactNative.IWebTouchableOpacity) => {
 
   const ruleProps: DFela.TCSS = {
     ...ViewStyle,
-    transition: 'opacity 0.25s',
+    transitionDuration: '0.25s',
+    transitionProperty: 'opacity',
     ':active': {
       opacity: (1 - activeOpacity).toString()
     },

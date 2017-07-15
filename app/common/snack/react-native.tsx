@@ -18,12 +18,12 @@ class App extends React.Component {
       <View>
         <Button title='My First Button' onPress={() => alert('press')} />
       </View>
-      <TouchableHighlight onPress={() => { }} activeOpacity={0.60} underlayColor='red'>
+      <TouchableHighlight onPress={() => { }} activeOpacity={0.65} underlayColor='red'>
         <View style={{ backgroundColor: 'blue', padding: 10 }}>
           <Text style={{ color: 'white' }}>Hallo</Text>
         </View>
       </TouchableHighlight>
-      <TouchableOpacity onPress={() => { }} activeOpacity={0.2}>
+      <TouchableOpacity onPress={() => { }} activeOpacity={0.5}>
         <View style={{ backgroundColor: 'blue', padding: 10, marginTop: 10 }}>
           <Text style={{ color: 'white' }}>Hallo</Text>
         </View>
