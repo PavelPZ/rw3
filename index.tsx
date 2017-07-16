@@ -11,7 +11,8 @@ import ReactDOM from 'react-dom';
 //import Root from './app/common/snack/react-native';
 //import Root from './common/snack/themeble/basic';
 //import Root from './app/web/snack/modal';
-import Root from './app/web/snack/ripple';
+//import Root from './app/web/snack/ripple';
+import Root from './app/web/snack/popup';
 
 //RNA.Text = themeable(Text);
 //RNA.View = themeable(View);

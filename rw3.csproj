@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <TypeScriptCompile Include="app\web\snack\popup.tsx" />
     <TypeScriptCompile Include="app\web\snack\ripple.tsx" />
     <TypeScriptCompile Include="common-themeable\core.ts" />
     <TypeScriptCompile Include="common-themeable\helpers.ts" />
@@ -100,6 +101,7 @@
     <TypeScriptCompile Include="app\native\snack\picker.tsx" />
     <TypeScriptCompile Include="app\native\snack\redux.tsx" />
     <TypeScriptCompile Include="app\native\snack\sqlite.tsx" />
+    <TypeScriptCompile Include="typings\common.d.ts" />
     <TypeScriptCompile Include="typings\CSStyles.d.ts" />
     <TypeScriptCompile Include="typings\expo.d.ts" />
     <TypeScriptCompile Include="typings\animated.d.ts" />

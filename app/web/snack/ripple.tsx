@@ -21,14 +21,14 @@ const wave = {
   top: 0,
   transform: 'scale(0)',
   opacity: 0.5,
-  animationDuration: '2s'
+  animationDuration: '2s',
+  height: '75px',
 }
 
 const wave1_ = {}
 const wave1 = {
   ...wave,
   width: '75px',
-  height: '75px',
   left: '35px',
   borderRadius: '300px',
 }
@@ -37,7 +37,6 @@ const wave2_ = {}
 const wave2 = {
   ...wave,
   width: '150px',
-  height: '75px',
   left: 0,
 }
 
