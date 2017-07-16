@@ -2,7 +2,7 @@
 import { renderStatic } from '../../web-fela/index';
 import { renderCSS } from '../../web-fela/index';
 
-export const ViewStyle: DFela.TCSS = {
+export const ViewStyle: CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'stretch',

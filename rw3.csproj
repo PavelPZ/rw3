@@ -102,6 +102,7 @@
     <TypeScriptCompile Include="app\native\snack\redux.tsx" />
     <TypeScriptCompile Include="app\native\snack\sqlite.tsx" />
     <TypeScriptCompile Include="typings\common.d.ts" />
+    <None Include="typings\CSStyles.d - Copy.ts_" />
     <TypeScriptCompile Include="typings\CSStyles.d.ts" />
     <TypeScriptCompile Include="typings\expo.d.ts" />
     <TypeScriptCompile Include="typings\animated.d.ts" />

@@ -8,17 +8,18 @@ export const View = (props: DReactNative.IWebView) =>  {
 
     const {
       style,
+      onTouchCancel, onTouchEnd, onTouchEndCapture, onTouchMove, onTouchStart, //avoid TS Error
       ...otherPropsTyped
     } = props;
-    const otherProps: DReactNative.IWebView = otherPropsTyped as any;
+    const otherProps = otherPropsTyped;
 
-    const ruleProps: DFela.TCSS = {
+    const ruleProps = {
       ...ViewStyle,
-      ...style as DFela.TCSS
+      ...style
     };
 
     if (!otherProps.className) otherProps.className = '';
     otherProps.className += ' component-view ' + renderCSS(ruleProps);
 
-    return <div {...otherProps as any} />;
+    return <div {...otherProps} />;
 }

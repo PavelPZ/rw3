@@ -6,23 +6,24 @@ import { ClickHandler } from './lib';
 //d:\rw\know-how\react-native-web\src\components\Text\index.js
 export const Text = (props: DReactNative.IWebText) => {
   const {
-      dir,
     numberOfLines,
     onPress,
     selectable,
     style,
     ...otherPropsTyped
     } = props;
-  const otherProps: DReactNative.IWebText = otherPropsTyped as any;
+  const otherProps = otherPropsTyped;
+
+  const convertTextStyles = (native: ReactNative.TextStyle) => native as any as CSSProperties; //vadi textShadowColor, fontWeight, textAlign, transform
 
   ClickHandler(onPress, otherProps);
 
-  const st: any = style; if (st) { if (!st.textDecorationLine) { st.textDecoration = st.textDecorationLine; delete st.textDecorationLine; } };
+  const st = convertTextStyles(style); if (st) { if (!st.textDecorationLine) { st.textDecoration = st.textDecorationLine; delete st.textDecorationLine; } };
 
   // allow browsers to automatically infer the language writing direction
-  otherProps.dir = dir !== undefined ? dir : 'auto';
+  if (otherProps != undefined) otherProps.dir = 'auto';
 
-  const ruleProps: any = {
+  const ruleProps: CSSProperties = {
     borderWidth: 0,
     color: 'inherit',
     font: 'inherit',
@@ -46,7 +47,6 @@ export const Text = (props: DReactNative.IWebText) => {
   if (!otherProps.className) otherProps.className = '';
   otherProps.className += ' component-text ' + renderCSS(ruleProps);
 
-  //return isInAParentText ? <span {...otherProps as any} /> : <div {...otherProps as any} />;
-  return <div {...otherProps as any}/>;
+  return <div {...otherProps}/>;
 };
 

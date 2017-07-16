@@ -11,19 +11,20 @@ export const TouchableHighlight = (props: DReactNative.IWebTouchableHighlight) =
     underlayColor = 'black',
     onPress,
     children,
+    onHideUnderlay, onShowUnderlay, style, //avoid TS Error
     ...otherPropsTyped
     } = props;
-  const otherProps: DReactNative.IWebTouchableHighlight = otherPropsTyped as any;
+  const otherProps = otherPropsTyped;
 
   ClickHandler(onPress, otherProps);
 
-  const styles: DFela.TCSS = {
+  const styles: CSSProperties = {
     ...ViewStyle,
     position: 'relative',
     overflow: 'hidden',
   };
 
-  const afterStyles = {
+  const afterStyles: CSSProperties = {
     content: '',
     display: 'block',
     position: 'absolute',
@@ -36,7 +37,7 @@ export const TouchableHighlight = (props: DReactNative.IWebTouchableHighlight) =
     transitionProperty: 'opacity',
     backgroundColor: underlayColor,
     ':active': {
-        opacity: (1 - activeOpacity).toString()
+        opacity: 1 - activeOpacity
     },
   };
 
@@ -44,5 +45,5 @@ export const TouchableHighlight = (props: DReactNative.IWebTouchableHighlight) =
   if (!otherProps.className) otherProps.className = '';
   otherProps.className += ' component-touchable-highlight ' + renderCSS(styles);
 
-  return <div {...otherProps as any} >{children}<div className={renderCSS(afterStyles as any)}></div></div>;
+  return <div {...otherProps} >{children}<div className={renderCSS(afterStyles)}></div></div>;
 }

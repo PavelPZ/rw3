@@ -24,9 +24,9 @@ export const withProps: DReactNative.IThemeWithProc = propsDefs => (type, ownPro
       ...themeProps,
       ...ownProps,
       style: { ...themeProps.style, ...ownProps.style },
-    }
+    } as DReactNative.IThemeWithPropsDef
   else
-    return { ...ownProps, style: { ...themeProps, ...ownProps.style } }
+    return { ...ownProps, style: { ...themeProps, ...ownProps.style } } as DReactNative.IThemeWithPropsDef
 }
 
 /**

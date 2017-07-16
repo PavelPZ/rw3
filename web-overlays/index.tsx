@@ -12,7 +12,7 @@ export const config = {
   delay: 0.25,
   //delay: 1,
   overlayBackground: '#ddd',
-  popupPlaces: ['left', 'top', 'left', 'right', 'bottom' ] as Array<'top' | 'left' | 'right' | 'bottom' | 'center'>,
+  popupPlaces: ['top', 'left', 'right', 'bottom' ] as Array<'top' | 'left' | 'right' | 'bottom' | 'center'>,
   popupGap:5,
 }
 

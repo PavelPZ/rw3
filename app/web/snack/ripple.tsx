@@ -2,7 +2,7 @@
 import { renderCSS, renderKeyFrame } from '../../../web-fela/index';
 
 //https://raw.githubusercontent.com/androidcss/pure-css-ripple-effect/master/index.html
-const ripple = {
+const ripple: CSSProperties = {
   position: 'relative',
   width: '150px',
   height: '75px',
@@ -15,7 +15,7 @@ const ripple = {
   display: 'table-cell',
 }
 
-const wave = {
+const wave: CSSProperties = {
   position: 'absolute',
   backgroundColor: '#FFF',
   top: 0,
@@ -25,22 +25,20 @@ const wave = {
   height: '75px',
 }
 
-const wave1_ = {}
-const wave1 = {
+const wave1: CSSProperties = {
   ...wave,
   width: '75px',
   left: '35px',
   borderRadius: '300px',
 }
 
-const wave2_ = {}
-const wave2 = {
+const wave2: CSSProperties = {
   ...wave,
   width: '150px',
   left: 0,
 }
 
-const keyFrame1: DFela.IKeyFrameStyle = {
+const keyFrame1: KeyFrames = {
   '0%': {
     transform: 'scale(0)'
   },
@@ -54,7 +52,7 @@ const keyFrame1: DFela.IKeyFrameStyle = {
   }
 }
 
-const keyFrame2: DFela.IKeyFrameStyle = {
+const keyFrame2: KeyFrames = {
   '0%': {
     transform: 'scaleX(0)'
   },
@@ -68,13 +66,13 @@ const keyFrame2: DFela.IKeyFrameStyle = {
   }
 }
 
-const animWave1 = {
+const animWave1: CSSProperties = {
   [`:hover > .wave-1`]: {
     animationName: renderKeyFrame(keyFrame1)
   }
 };
 
-const animWave2 = {
+const animWave2: CSSProperties = {
   [`:hover > .wave-2`]: {
     animationName: renderKeyFrame(keyFrame2)
   }
@@ -83,8 +81,8 @@ const animWave2 = {
 class App extends React.Component {
   render(): JSX.Element {
     return <div>
-      <div className={renderCSS({ ...ripple as any, ...animWave1 })}><div className={renderCSS(wave1 as any)  + ' wave-1'} ></div>Ripple1</div >
-      <div className={renderCSS({ ...ripple as any, ...animWave2 })}><div className={renderCSS(wave2 as any) + ' wave-2'}></div>Ripple2</div>
+      <div className={renderCSS({ ...ripple, ...animWave1 })}><div className={renderCSS(wave1)  + ' wave-1'} ></div>Ripple1</div >
+      <div className={renderCSS({ ...ripple, ...animWave2 })}><div className={renderCSS(wave2) + ' wave-2'}></div>Ripple2</div>
     </div>;
   }
 

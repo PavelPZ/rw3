@@ -11,7 +11,7 @@ render(renderer);
 
 export const renderRules = (...rules: DFela.TRule[]) => renderer.renderRule(combineRules(...rules));
 export const renderRule = (rule: DFela.TRule) => renderer.renderRule(rule);
-export const renderCSSs = (...csss: DFela.TCSS[]) => renderer.renderRule(combineRules(...csss.map(css => () => css)));
-export const renderCSS = (css: DFela.TCSS) => renderer.renderRule(() => css);
-export const renderKeyFrame = (frame: DFela.IKeyFrameStyle) => renderer.renderKeyframe(() => frame);
-export const renderStatic = (css: string | DFela.TCSS) => renderer.renderStatic(css);
+export const renderCSSs = (...csss: CSSProperties[]) => renderer.renderRule(combineRules(...csss.map(css => () => css)));
+export const renderCSS = (css: any) => renderer.renderRule(() => css);
+export const renderKeyFrame = (frame: KeyFrames) => renderer.renderKeyframe(() => frame);
+export const renderStatic = (css: string | CSSProperties) => renderer.renderStatic(css);

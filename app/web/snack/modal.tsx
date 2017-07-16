@@ -1,5 +1,6 @@
 ﻿import React from 'react';
 import { renderCSS } from '../../../web-fela/index';
+import { showPopupExample } from './popup';
 
 
 import { ProviderOverlays, showModal, showPopup, IModalPropsLow, closeModal } from '../../../web-overlays/index';
@@ -40,16 +41,18 @@ class App extends React.Component<{}, { show: boolean; }> {
 interface IModalExampleProps extends IModalPropsLow<IModalExampleRes> { title: string; }
 interface IModalExampleRes { result: boolean; }
 
-const showModalExample = async () => {
+export const showModalExample = async () => {
   const res = await showModal<IModalExampleProps, IModalExampleRes>(ModalExample, { title: 'Modal Title' });
   //alert(JSON.stringify(res));
 }
 
 const ModalExample = (props: IModalExampleProps) => <div>
-  <h1 style={{ paddingTop: `${(/*10-*/props.$idx) * 30}px` }} > {`${props.title} ${props.$idx}`}</h1>
+  <h1 className={renderCSS({ paddingTop: `${(/*10-*/props.$idx) * 30}` })} > {`${props.title} ${props.$idx}`}</h1>
   <span onClick={() => closeModal(props, { result: true })}>CLOSE</span>
   {' | '}
   <span onClick={() => showModal<IModalExampleProps, IModalExampleRes>(ModalExample, { title: 'Modal Title' })}>NEW</span>
+  {' | '}
+  <a id='popup-link' onClick={ev => showPopupExample(document.getElementById('popup-link'))}>SHOW POPUP</a>
 </div>;
 
 class Modal extends React.Component<IModalProps> {

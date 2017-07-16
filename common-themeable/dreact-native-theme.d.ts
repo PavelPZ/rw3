@@ -6,6 +6,7 @@
     onKeyDown?: React.KeyboardEventHandler<{}>;
     className?: string;
     children?: React.ReactNode;
+    dir?: string;
   }
 
   export type IWebText = ReactNative.TextProperties & IWebProps;
@@ -37,23 +38,24 @@
     apply: IThemeWithPropsDef | IThemeWithProps[];
   }
 
-  interface IThemeStyleDef extends DFela.TCSS {
-    $type: ThemeComponent;
-  }
+  //interface IThemeStyleDef extends DFela.TCSS {
+  //  $isProp?: boolean;
+  //  $type: ThemeComponent;
+  //}
 
-  interface IThemePropsDef {
+  interface IThemePropsDef extends CSSProperties{
     $type: ThemeComponent;
     $isProp?: boolean;
-    style?: DFela.TCSS;
+    style?: CSSProperties;
     [name: string]: any;
   }
 
   interface IThemeWithPropsDef {
-    style?: DFela.TCSS[] | DFela.TCSS;
+    style?: CSSProperties[] | CSSProperties;
   }
 
   type IThemeWithProps = (type: React.ComponentClass, props: IThemePropsDef) => IThemeWithPropsDef;
 
-  type IThemeWithProc = (def: (IThemeStyleDef | IThemePropsDef)[]) => (type: React.ComponentClass, styles: IThemePropsDef) => IThemeWithPropsDef;
+  type IThemeWithProc = (def: (IThemePropsDef)[]) => (type: React.ComponentClass, styles: IThemePropsDef) => IThemeWithPropsDef;
 
 }

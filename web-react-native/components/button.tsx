@@ -15,11 +15,11 @@ export const Button = (props: DReactNative.IWebButton) =>  {
       children,
       ...otherPropsTyped
     } = props;
-    const otherProps: DReactNative.IWebButton = otherPropsTyped as any;
+    const otherProps = otherPropsTyped;
 
     ClickHandler (onPress, otherProps);
 
-    const ruleProps: DFela.TCSS = {
+    const ruleProps: CSSProperties = {
       backgroundColor: disabled ? '#dfdfdf' : '#2196F3',
       borderRadius: 2,
       display: 'flex',
@@ -29,7 +29,7 @@ export const Button = (props: DReactNative.IWebButton) =>  {
       ...(!disabled ? { cursor: 'pointer' } : null),
     };
 
-    const titleProps: DFela.TCSS = {
+    const titleProps: CSSProperties = {
       color: disabled ? '#a1a1a1' : 'white',
       padding: 8,
       fontWeight: 500,
@@ -39,7 +39,7 @@ export const Button = (props: DReactNative.IWebButton) =>  {
     if (!otherProps.className) otherProps.className = '';
     otherProps.className += ' component-button xripple ' + renderCSSs(ruleProps);
 
-    return <div {...otherProps as any} onClick={() => { if (disabled) return; onPress(); }}>
+    return <div {...otherProps} onClick={() => { if (disabled) return; onPress(); }}>
       <div style={titleProps}>{title}</div>
     </div>;
 }
