@@ -23,7 +23,7 @@ export class ProviderOverlays extends React.Component {
   static singletone: ProviderOverlays;
   render(): JSX.Element {
     return <div>
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, overflow: 'auto' }}>
+      <div className={renderCSS({ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, overflow: 'auto' })}>
         {this.props.children}
       </div>
       <OverlaysStack ref={st => this.overlayStack = st} />
@@ -122,14 +122,14 @@ abstract class Wrapper extends React.Component<{ $idx: number; }> {
       const { $uniqueId, $type } = item;
       const { opacity, delay } = config;
       const ov = document.getElementById(`overlay-${$uniqueId}`); const content = document.getElementById(`content-${$uniqueId}`);
-      if ($type == ModalType.modal) ov.style.opacity = opacity.toString();
+      if ($type != ModalType.popup) ov.style.opacity = opacity.toString();
       content.style.opacity = '1';
       const $finish = item.$finish; //old finish, pouze promise.resolve
       this.setContentPosition(item, content);
       document.getElementById(providerOverlayId).focus();
       item.$finish = res => { //new finish - konec dialogu
         //animace
-        if ($type == ModalType.modal) ov.style.opacity = '0';
+        if ($type != ModalType.popup) ov.style.opacity = '0';
         content.style.opacity = '0';
         setTimeout(() => { //pockej na konec animace, pak odstran wrapper
           const state = ProviderOverlays.singletone.overlayStack.state;
@@ -231,6 +231,7 @@ class ModalWrapper extends Wrapper {
   doRender(par: IDoRenderPar, content: JSX.Element): JSX.Element {
     const { delay, item, zIndex, overlayBackground } = par;
     const { $uniqueId, $type } = item;
+
     const overlaySt = {
       ...modalStyle.overlay,
       zIndex: zIndex,

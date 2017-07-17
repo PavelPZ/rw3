@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import { renderCSS } from '../../../web-fela/index';
 import { showModalExample } from './modal';
+import { showPopupExample } from './popup';
 
 
 import { ProviderOverlays, showModal, showDrawer, IModalPropsLow, closeModal } from '../../../web-overlays/index';
@@ -10,8 +11,8 @@ class App extends React.Component<{}, { show: boolean; }> {
   render(): JSX.Element {
     return <ProviderOverlays>
       asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />
-      <div style={{ width: 1200, height: 100, textAlign:'center' }}>
-        <a style={{ display: 'inline-block', height: 70, border: 'solid 2px red' }} href='#' onClick={ev => showDrawerExample()}>SHOW DRAWER</a>
+      <div className={renderCSS({ width: 1200, height: 100, textAlign: 'center' })}>
+        <a className={renderCSS({ display: 'inline-block', height: 70, border: 'solid 2px red' })} href='#' onClick={ev => showDrawerExample()}>SHOW DRAWER</a>
       </div>
       asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />
       asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />
@@ -26,12 +27,24 @@ export const showDrawerExample = async () => {
   //alert(JSON.stringify(res));
 }
 
-const ModalDrawer = (props: IDrawerExampleProps) => <div style={{ borderWidth: 2, borderStyle: 'solid', borderColor: 'black', padding: 10, backgroundColor: 'white', width: 400, height:'99.7%' }}>
-  DRAWER<br />
+const ModalDrawer = (props: IDrawerExampleProps) => <div className={renderCSS({ borderWidth: 2, borderStyle: 'solid', borderColor: 'black', padding: 10, backgroundColor: 'white', width: 350, height: '99.7%', overflow: 'auto', })}>
+  <h1>DRAWER</h1>
   <span onClick={async ev => {
     await showModalExample();
     closeModal(props, {});
   }}>SHOW MODAL</span>
+  {' | '}
+  <span id='show-popup-id' onClick={async ev => {
+    await showPopupExample(document.getElementById('show-popup-id'));
+    closeModal(props, {});
+  }}>SHOW POPUP</span>
+  <br />
+  asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />
+  asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />
+  asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />
+  asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />
+  asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />
+  asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />
 </div>;
 
 export default App;
