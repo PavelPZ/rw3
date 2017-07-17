@@ -42,12 +42,12 @@ interface IModalExampleProps extends IModalPropsLow<IModalExampleRes> { title: s
 interface IModalExampleRes { result: boolean; }
 
 export const showModalExample = async () => {
-  const res = await showModal<IModalExampleProps, IModalExampleRes>(ModalExample, { title: 'Modal Title' });
+  const res = await showModal<IModalExampleProps, IModalExampleRes>(ModalExample, { title: 'Modal Title'});
   //alert(JSON.stringify(res));
 }
 
-const ModalExample = (props: IModalExampleProps) => <div>
-  <h1 className={renderCSS({ paddingTop: `${(/*10-*/props.$idx) * 30}` })} > {`${props.title} ${props.$idx}`}</h1>
+const ModalExample = (props: IModalExampleProps) => <div className={renderCSS({ paddingTop: `${(/*10-*/props.$idx) * 30}`, backgroundColor: 'white' })} >
+  <h1> {`${props.title} ${props.$idx}`}</h1>
   <span onClick={() => closeModal(props, { result: true })}>CLOSE</span>
   {' | '}
   <span onClick={() => showModal<IModalExampleProps, IModalExampleRes>(ModalExample, { title: 'Modal Title' })}>NEW</span>

@@ -25,16 +25,14 @@ class App extends React.Component<{}, { show: boolean; }> {
 
 interface IPopupExampleProps extends IModalPropsLow<IPopupExampleRes> { title: string; }
 interface IPopupExampleRes { result: boolean; }
-export const showPopupExample = async (owner: React.ReactInstance) => {
-  const res = await showPopup<IPopupExampleProps, IPopupExampleRes>(owner, ModalPopup, { title: 'Modal Title' });
-  //alert(JSON.stringify(res));
+export const showPopupExample = async (owner: React.ReactInstance, keepCallerOpen?: boolean) => {
+  const res = await showPopup<IPopupExampleProps, IPopupExampleRes>(owner, ModalPopup, { title: 'Modal Title', $keepLast: keepCallerOpen});
 }
 
 const ModalPopup = (props: IPopupExampleProps) => <div style={{ borderWidth: 2, borderStyle: 'solid', borderColor: 'black', padding: 10, backgroundColor: 'white', width: 400, height: 200 }}>
   POPUP<br />
   <span onClick={async ev => {
     await showModalExample();
-    closeModal(props, {}, false, true);
   }}>SHOW MODAL</span>
 </div>;
 

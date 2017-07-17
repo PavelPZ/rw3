@@ -4,7 +4,7 @@ import { renderCSS } from '../web-fela/index';
 import { isStateles } from '../common-lib/index';
 
 export const enum ModalType { modal, popup, drawer }
-export interface IModalPropsLow<T> { $finish?: (res) => void; $doClose?: (res, noAnimation:boolean) => void,  $idx?: number; $uniqueId?: number; $component?: DCommon.TReactComponent, $type?: ModalType, $popupOwner?: React.ReactInstance }
+export interface IModalPropsLow<T> { $finish?: (res) => void; $doClose?: (res, noAnimation: boolean) => void, $idx?: number; $uniqueId?: number; $component?: DCommon.TReactComponent, $type?: ModalType, $popupOwner?: React.ReactInstance, $keepLast?: boolean }
 type TModalPropsLow = IModalPropsLow<{}>;
 
 export const enum TPopupPlaces { Top, Left, Right, Bottom }
@@ -14,7 +14,7 @@ export const config = {
   //delay: 1,
   overlayBackground: '#ddd',
   popupPlaces: [TPopupPlaces.Bottom, TPopupPlaces.Right, TPopupPlaces.Top, TPopupPlaces.Left],
-  popupGap:5,
+  popupGap: 5,
 }
 
 //root aplikace. Obsahuje aplikaci a VEDLE div jako placeholder pro Overlay backdrops a modal wrappers
@@ -22,23 +22,31 @@ export class ProviderOverlays extends React.Component {
   constructor() { super(); ProviderOverlays.singletone = this; }
   static singletone: ProviderOverlays;
   render(): JSX.Element {
-    return <div>
-      <div className={renderCSS({ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, overflow: 'auto' })}>
+    return <OverlaysStack ref={st => this.overlayStack = st} app={
+      <div key='app' className={renderCSS({ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, overflow: 'auto' })}>
         {this.props.children}
       </div>
-      <OverlaysStack ref={st => this.overlayStack = st} />
-    </div>;
+    } />;
   }
   overlayStack: OverlaysStack;
   show<T extends IModalPropsLow<R>, R>(content: React.ComponentClass<T> | React.SFC<T>, item: T): Promise<R> {
     return new Promise<R>(resolve => {
+      const doShow = () => {
+        const { stack } = this.overlayStack.state;
+        item.$finish = () => resolve();
+        item.$idx = stack.length;
+        item.$uniqueId = ProviderOverlays.uniqueId++;
+        item.$component = content;
+        stack.push(item);
+        this.overlayStack.forceUpdate();
+      };
       const { stack } = this.overlayStack.state;
-      item.$finish = resolve;
-      item.$idx = stack.length;
-      item.$uniqueId = ProviderOverlays.uniqueId++;
-      item.$component = content;
-      stack.push(item);
-      this.overlayStack.forceUpdate();
+      const hideLast = stack.length > 0 && stack[stack.length - 1].$type != ModalType.modal && !item.$keepLast;
+      if (hideLast) {
+        this.closeModal(null, null, true, true);
+        setTimeout(doShow, 1);
+      } else
+        doShow();
     });
   }
 
@@ -73,13 +81,17 @@ const getStackItem = (idx: number) => { return ProviderOverlays.singletone.overl
 interface IOverlaysStackState {
   stack: TModalPropsLow[];
 }
+interface IOverlaysStack {
+  app: JSX.Element;
+}
 
 //seznam ModalWrapper's
-class OverlaysStack extends React.Component<{}, IOverlaysStackState> {
+class OverlaysStack extends React.Component<IOverlaysStack, IOverlaysStackState> {
   state: IOverlaysStackState = { stack: [] };
   render(): JSX.Element {
-    const { stack } = this.state; if (stack.length == 0) return null;
-    return <div id={providerOverlayId} onKeyDown={ev => this.onGlobalKeyDown(ev)} tabIndex={0} className={renderCSS({ outline: 'none', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 })}>
+    const { stack } = this.state; //if (stack.length == 0) return null;
+    return <div id={providerOverlayId} onKeyDown={ev => this.onGlobalKeyDown(ev)} tabIndex={0} className={renderCSS({ outline: 'none', /*position: 'absolute', top: 0, left: 0, right: 0, bottom: 0*/ })}>
+      {this.props.app}
       {stack.map((st, idx) => {
         switch (st.$type) {
           case ModalType.drawer:
@@ -100,17 +112,17 @@ class OverlaysStack extends React.Component<{}, IOverlaysStackState> {
 
 abstract class Wrapper extends React.Component<{ $idx: number; }> {
 
-  content: HTMLDivElement;
-
-  abstract doRender(par: IDoRenderPar, content: JSX.Element): JSX.Element;
+  abstract doRender(par: IRenderingPar, content: JSX.Element): JSX.Element;
   setContentPosition(item: TModalPropsLow, content: HTMLElement) { }
 
   render(): JSX.Element {
-    const $idx = this.props.$idx;
-    const item = getStackItem($idx);
+    //prepare data
+    const $idx = this.props.$idx; //stack idx
+    const item = getStackItem($idx); //stack item
     const { $component, ...otherProps } = item;
     const { delay, overlayBackground } = config;
     const zIndex = 100 + $idx * 2;
+    //do rendering
     return this.doRender({ delay, item, zIndex, overlayBackground },
       isStateles($component) ? ($component as React.SFC)(otherProps as any) : React.createElement($component as React.ComponentClass<TModalPropsLow>, otherProps)
     );
@@ -118,16 +130,17 @@ abstract class Wrapper extends React.Component<{ $idx: number; }> {
 
   componentDidMount(): void { //vse je vykresleno a existuje
     setTimeout(() => {
-      const item = getStackItem(this.props.$idx);
-      const { $uniqueId, $type } = item;
-      const { opacity, delay } = config;
+      const item = getStackItem(this.props.$idx); //stack of modal components
+      const { $uniqueId, $type } = item; const { opacity, delay } = config;
+      //start animation, position popup, set focus for ESC key
       const ov = document.getElementById(`overlay-${$uniqueId}`); const content = document.getElementById(`content-${$uniqueId}`);
       if ($type != ModalType.popup) ov.style.opacity = opacity.toString();
       content.style.opacity = '1';
       this.setContentPosition(item, content);
       document.getElementById(providerOverlayId).focus();
+      //set close modal callback
       item.$doClose = (res, noAnimation) => { //new finish - konec dialogu
-        const doClose = () => {
+        const doClose = () => { //remove from stack
           const state = ProviderOverlays.singletone.overlayStack.state;
           state.stack = state.stack.slice(0, state.stack.length - 1);
           ProviderOverlays.singletone.overlayStack.forceUpdate();
@@ -136,9 +149,9 @@ abstract class Wrapper extends React.Component<{ $idx: number; }> {
         };
         if (noAnimation) doClose();
         else {
-          if ($type != ModalType.popup) ov.style.opacity = '0'; //animace
+          if ($type != ModalType.popup) ov.style.opacity = '0'; //finish animation
           content.style.opacity = '0';
-          setTimeout(() => doClose(), delay * 1000); //pockej na konec animace, pak odstran wrapper
+          setTimeout(() => doClose(), delay * 1000); //wait for finish animation end
         }
       };
     }, 1);
@@ -146,21 +159,20 @@ abstract class Wrapper extends React.Component<{ $idx: number; }> {
 
 }
 
-interface IWrapperStyles { overlaySt; wraperSt; contentSt; }
-interface IDoRenderPar { delay: number; item: TModalPropsLow; zIndex: number; overlayBackground: string; };
+interface IRenderingPar { delay: number; item: TModalPropsLow; zIndex: number; overlayBackground: string; };
 
 class PopupWrapper extends Wrapper {
 
-  doRender(par: IDoRenderPar, content: JSX.Element): JSX.Element {
+  doRender(par: IRenderingPar, content: JSX.Element): JSX.Element {
     const { delay, zIndex, item, overlayBackground } = par;
     const { $uniqueId, } = item;
 
-    const overlaySt = {
+    const overlaySt: CSSProperties = {
       ...modalLow,
       zIndex: zIndex,
       backgroundColor: 'transparent',
     };
-    const contentSt = {
+    const contentSt: CSSProperties = {
       ...modalStyle.content,
       transitionDuration: `${delay}s`,
       position: 'absolute',
@@ -169,11 +181,9 @@ class PopupWrapper extends Wrapper {
       top: 0,
     };
 
-    return <div>
-      <div id={`overlay-${$uniqueId}`} className={renderCSS(overlaySt)} onClick={ev => { ev.stopPropagation(); closeModal(this.props, null, false, true); }}>
-        <div className={renderCSS(contentSt)} style={{ maxWidth: window.innerWidth - 20, maxHeight: window.innerHeight - 20 }} onClick={ev => ev.stopPropagation()} id={`content-${$uniqueId}`} >
-          {content}
-        </div>
+    return <div id={`overlay-${$uniqueId}`} className={renderCSS(overlaySt)} onClick={ev => { ev.stopPropagation(); closeModal(this.props, null, false, true); }}>
+      <div className={renderCSS(contentSt)} style={{ maxWidth: window.innerWidth - 20, maxHeight: window.innerHeight - 20 }} onClick={ev => ev.stopPropagation()} id={`content-${$uniqueId}`} >
+        {content}
       </div>
     </div>;
   }
@@ -185,6 +195,7 @@ class PopupWrapper extends Wrapper {
     const ownerCenter = { horz: ownerRect.left + ownerRect.width / 2, vert: ownerRect.top + ownerRect.height / 2 };
     const winHeight = window.innerHeight; const winWidth = window.innerWidth;
     const { popupGap } = config;
+    //spocitej pozici
     const getTopLeft = (place: TPopupPlaces, shift: number) => {
       switch (place) {
         case TPopupPlaces.Bottom:
@@ -209,6 +220,7 @@ class PopupWrapper extends Wrapper {
         }
       }
     };
+    //najdi prvni ozici, u ktere nepresahuje obsah pres screen
     let newPlace = null;
     const place = config.popupPlaces.find(place => {
       const res = [0, 1, -1].find(shift => {
@@ -217,10 +229,12 @@ class PopupWrapper extends Wrapper {
         if (np.left >= 0 && np.top >= 0 && right <= winWidth && bottom <= winHeight) { newPlace = np; console.log(shift.toString()); return true; }
         return false;
       });
-      if (res !== undefined) { console.log(place); return true;}
+      if (res !== undefined) { console.log(place); return true; }
       return false;
     });
-    if(!place) newPlace = { left: 0, top: 0 }; //center
+    //escape - put to center
+    if (!place) newPlace = { left: (winWidth - popRect.width) / 2, top: (winHeight - popRect.height) / 2 }; 
+    //set position
     content.style.left = newPlace.left + 'px';
     content.style.top = newPlace.top + 'px';
   }
@@ -230,7 +244,7 @@ class PopupWrapper extends Wrapper {
 //jeden modal wrapper: dvojice Overlay divu s pozadim a Flex divu s obsahem
 class ModalWrapper extends Wrapper {
 
-  doRender(par: IDoRenderPar, content: JSX.Element): JSX.Element {
+  doRender(par: IRenderingPar, content: JSX.Element): JSX.Element {
     const { delay, item, zIndex, overlayBackground } = par;
     const { $uniqueId, $type } = item;
 
@@ -264,11 +278,14 @@ class ModalWrapper extends Wrapper {
 }
 
 const modalLow: CSSProperties = {
-  position: 'fixed',
+  //position: 'fixed',
+  //width: '100%',
+  //height: '100%',
+  position: 'absolute',
   top: 0,
   left: 0,
-  width: '100%',
-  height: '100%',
+  right: 0,
+  bottom: 0,
   overflow: 'hidden',
 };
 const transition: CSSProperties = {
@@ -298,6 +315,6 @@ const modalStyle = {
   } as CSSProperties,
   drawerContent: {
     height: '100%', //XXX
-    width:'1%'
+    width: '1%'
   } as CSSProperties
 };

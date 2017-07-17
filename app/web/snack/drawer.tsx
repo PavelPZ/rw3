@@ -23,7 +23,7 @@ class App extends React.Component<{}, { show: boolean; }> {
 interface IDrawerExampleProps extends IModalPropsLow<IDrawerExampleRes> { title: string; }
 interface IDrawerExampleRes { result: boolean; }
 export const showDrawerExample = async () => {
-  const res = await showDrawer<IDrawerExampleProps, IDrawerExampleRes>(ModalDrawer, { title: 'Modal Title' });
+  const res = await showDrawer<IDrawerExampleProps, IDrawerExampleRes>(ModalDrawer, { title: 'Modal Title'});
   //alert(JSON.stringify(res));
 }
 
@@ -31,12 +31,10 @@ const ModalDrawer = (props: IDrawerExampleProps) => <div className={renderCSS({ 
   <h1>DRAWER</h1>
   <span onClick={async ev => {
     await showModalExample();
-    closeModal(props, {}, false, true);
   }}>SHOW MODAL</span>
   {' | '}
   <span id='show-popup-id' onClick={async ev => {
-    await showPopupExample(document.getElementById('show-popup-id'));
-    closeModal(props, {}, false, true);
+    await showPopupExample(document.getElementById('show-popup-id'), true);
   }}>SHOW POPUP</span>
   <br />
   asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />

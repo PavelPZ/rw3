@@ -13,9 +13,11 @@ export const View = (props: DReactNative.IWebView) =>  {
     } = props;
     const otherProps = otherPropsTyped;
 
+    const convertViewStyles = (native: ReactNative.ViewStyle) => native as any as CSSProperties; //vadi textShadowColor, fontWeight, textAlign, transform
+
     const ruleProps = {
       ...ViewStyle,
-      ...style
+      ...convertViewStyles(style)
     };
 
     if (!otherProps.className) otherProps.className = '';

@@ -15,10 +15,10 @@ export const Text = (props: DReactNative.IWebText) => {
   const otherProps = otherPropsTyped;
 
   const convertTextStyles = (native: ReactNative.TextStyle) => native as any as CSSProperties; //vadi textShadowColor, fontWeight, textAlign, transform
+  const st = convertTextStyles(style); if (st) { if (!st.textDecorationLine) { st.textDecoration = st.textDecorationLine; delete st.textDecorationLine; } };
 
   ClickHandler(onPress, otherProps);
 
-  const st = convertTextStyles(style); if (st) { if (!st.textDecorationLine) { st.textDecoration = st.textDecorationLine; delete st.textDecorationLine; } };
 
   // allow browsers to automatically infer the language writing direction
   if (otherProps != undefined) otherProps.dir = 'auto';
