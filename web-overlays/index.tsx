@@ -4,14 +4,14 @@ import { renderCSS } from '../web-fela/index';
 import { isStateles } from '../common-lib/index';
 
 export const enum ModalType { modal, popup, drawer }
-export interface IModalPropsLow<T> { $finish?: (res) => void; $doClose?: (res, noAnimation: boolean) => void, $idx?: number; $uniqueId?: number; $component?: DCommon.TReactComponent, $type?: ModalType, $popupOwner?: React.ReactInstance, $keepLast?: boolean }
+export interface IModalPropsLow<T> { $finish?: (res) => void; $doClose?: (res, noAnimation: boolean) => void, $idx?: number; $uniqueId?: number; $component?: DCommon.TReactComponent, $type?: ModalType, $popupOwner?: React.ReactInstance, $keepLast?: boolean, $transition?: ITransition }
 type TModalPropsLow = IModalPropsLow<{}>;
 
 export const enum TPopupPlaces { Top, Left, Right, Bottom }
 export const config = {
   opacity: 0.8,
-  delay: 0.25,
-  //delay: 1,
+  duration: 0.20,
+  //duration: 1,
   overlayBackground: '#ddd',
   popupPlaces: [TPopupPlaces.Bottom, TPopupPlaces.Right, TPopupPlaces.Top, TPopupPlaces.Left],
   popupGap: 5,
@@ -62,14 +62,17 @@ const providerOverlayId = 'provider-overlay';
 export function showPopup<T extends IModalPropsLow<R>, R>(owner: React.ReactInstance, content: React.ComponentClass<T> | React.SFC<T>, props: T): Promise<R> {
   props.$popupOwner = owner;
   props.$type = ModalType.popup;
+  props.$transition = opacityTransition;
   return ProviderOverlays.singletone.show(content, props);
 }
 export function showModal<T extends IModalPropsLow<R>, R>(content: React.ComponentClass<T> | React.SFC<T>, props: T): Promise<R> {
   props.$type = ModalType.modal;
+  props.$transition = opacityTransition;
   return ProviderOverlays.singletone.show(content, props);
 }
 export function showDrawer<T extends IModalPropsLow<R>, R>(content: React.ComponentClass<T> | React.SFC<T>, props: T): Promise<R> {
   props.$type = ModalType.drawer;
+  props.$transition = opacityTranslateXTransition;
   return ProviderOverlays.singletone.show(content, props);
 }
 export function closeModal(props: TModalPropsLow, res: {}, cancel?: boolean, noAnimation?: boolean) {
@@ -90,7 +93,7 @@ class OverlaysStack extends React.Component<IOverlaysStack, IOverlaysStackState>
   state: IOverlaysStackState = { stack: [] };
   render(): JSX.Element {
     const { stack } = this.state; //if (stack.length == 0) return null;
-    return <div id={providerOverlayId} onKeyDown={ev => this.onGlobalKeyDown(ev)} tabIndex={0} className={renderCSS({ outline: 'none', /*position: 'absolute', top: 0, left: 0, right: 0, bottom: 0*/ })}>
+    return <div id={providerOverlayId} onKeyDown={ev => this.onGlobalKeyDown(ev)} tabIndex={0} className={renderCSS({ outline: 'none', })}>
       {this.props.app}
       {stack.map((st, idx) => {
         switch (st.$type) {
@@ -120,10 +123,10 @@ abstract class Wrapper extends React.Component<{ $idx: number; }> {
     const $idx = this.props.$idx; //stack idx
     const item = getStackItem($idx); //stack item
     const { $component, ...otherProps } = item;
-    const { delay, overlayBackground } = config;
+    const { duration, overlayBackground } = config;
     const zIndex = 100 + $idx * 2;
     //do rendering
-    return this.doRender({ delay, item, zIndex, overlayBackground },
+    return this.doRender({ duration, item, zIndex, overlayBackground },
       isStateles($component) ? ($component as React.SFC)(otherProps as any) : React.createElement($component as React.ComponentClass<TModalPropsLow>, otherProps)
     );
   }
@@ -131,11 +134,12 @@ abstract class Wrapper extends React.Component<{ $idx: number; }> {
   componentDidMount(): void { //vse je vykresleno a existuje
     setTimeout(() => {
       const item = getStackItem(this.props.$idx); //stack of modal components
-      const { $uniqueId, $type } = item; const { opacity, delay } = config;
+      const { $uniqueId, $type, $transition } = item; const { opacity, duration } = config;
       //start animation, position popup, set focus for ESC key
       const ov = document.getElementById(`overlay-${$uniqueId}`); const content = document.getElementById(`content-${$uniqueId}`);
+
       if ($type != ModalType.popup) ov.style.opacity = opacity.toString();
-      content.style.opacity = '1';
+      Object.assign(content.style, $transition.start);
       this.setContentPosition(item, content);
       document.getElementById(providerOverlayId).focus();
       //set close modal callback
@@ -149,9 +153,9 @@ abstract class Wrapper extends React.Component<{ $idx: number; }> {
         };
         if (noAnimation) doClose();
         else {
-          if ($type != ModalType.popup) ov.style.opacity = '0'; //finish animation
-          content.style.opacity = '0';
-          setTimeout(() => doClose(), delay * 1000); //wait for finish animation end
+          Object.assign(content.style, $transition.end);
+          if ($type != ModalType.popup) Object.assign(ov.style, opacityTransition.end); //ov.style.opacity = '0'; //finish animation
+          setTimeout(() => doClose(), duration * 1000); //wait for finish animation end
         }
       };
     }, 1);
@@ -159,13 +163,13 @@ abstract class Wrapper extends React.Component<{ $idx: number; }> {
 
 }
 
-interface IRenderingPar { delay: number; item: TModalPropsLow; zIndex: number; overlayBackground: string; };
+interface IRenderingPar { duration: number; item: TModalPropsLow; zIndex: number; overlayBackground: string; };
 
 class PopupWrapper extends Wrapper {
 
   doRender(par: IRenderingPar, content: JSX.Element): JSX.Element {
-    const { delay, zIndex, item, overlayBackground } = par;
-    const { $uniqueId, } = item;
+    const { duration, zIndex, item, overlayBackground } = par;
+    const { $uniqueId, $transition } = item;
 
     const overlaySt: CSSProperties = {
       ...modalLow,
@@ -173,10 +177,8 @@ class PopupWrapper extends Wrapper {
       backgroundColor: 'transparent',
     };
     const contentSt: CSSProperties = {
-      ...modalStyle.content,
-      transitionDuration: `${delay}s`,
+      ...$transition.init(duration),
       position: 'absolute',
-      //overflow: 'auto',
       left: 0,
       top: 0,
     };
@@ -233,7 +235,7 @@ class PopupWrapper extends Wrapper {
       return false;
     });
     //escape - put to center
-    if (!place) newPlace = { left: (winWidth - popRect.width) / 2, top: (winHeight - popRect.height) / 2 }; 
+    if (!place) newPlace = { left: (winWidth - popRect.width) / 2, top: (winHeight - popRect.height) / 2 };
     //set position
     content.style.left = newPlace.left + 'px';
     content.style.top = newPlace.top + 'px';
@@ -245,30 +247,31 @@ class PopupWrapper extends Wrapper {
 class ModalWrapper extends Wrapper {
 
   doRender(par: IRenderingPar, content: JSX.Element): JSX.Element {
-    const { delay, item, zIndex, overlayBackground } = par;
-    const { $uniqueId, $type } = item;
+    const { duration, item, zIndex, overlayBackground } = par;
+    const { $uniqueId, $type, $transition } = item;
 
     const overlaySt = {
-      ...modalStyle.overlay,
+      ...modalLow,
+      ...opacityTransition.init(duration),
       zIndex: zIndex,
-      transitionDuration: `${delay}s`,
       backgroundColor: overlayBackground,
     };
     const wraperSt: any = {
-      ...modalStyle.wrapper,
-      ...($type == ModalType.modal ? modalStyle.modalWrapper : modalStyle.drawerWrapper),
+      ...modalLow,
+      ...($type == ModalType.modal ? { display: 'flex', alignItems: 'center', justifyContent: 'center' } : null),
       zIndex: zIndex + 1,
+      backgroundColor: 'transparent',
+      pointerEvents: 'auto',
     };
     const contentSt = {
-      ...modalStyle.content,
-      ...($type == ModalType.modal ? null : modalStyle.drawerContent),
-      transitionDuration: `${delay}s`,
+      ...($type == ModalType.modal ? null : { height: '100%', width: '1%'}),
+      ...$transition.init(duration),
     };
 
     return <div>
       <div id={`overlay-${$uniqueId}`} className={renderCSS(overlaySt)}></div>
       <div className={renderCSS(wraperSt)} onClick={ev => { ev.stopPropagation(); closeModal(this.props, null, true); }} >
-        <div className={renderCSS(contentSt)} style={{ maxWidth: window.innerWidth - 20, maxHeight: window.innerHeight - 20 }} onClick={ev => ev.stopPropagation()} id={`content-${$uniqueId}`} >
+        <div id={`content-${$uniqueId}`} className={renderCSS(contentSt)} style={{ maxWidth: window.innerWidth - 20, maxHeight: window.innerHeight - 20 }} onClick={ev => ev.stopPropagation()} >
           {content}
         </div>
       </div>
@@ -278,9 +281,6 @@ class ModalWrapper extends Wrapper {
 }
 
 const modalLow: CSSProperties = {
-  //position: 'fixed',
-  //width: '100%',
-  //height: '100%',
   position: 'absolute',
   top: 0,
   left: 0,
@@ -288,33 +288,56 @@ const modalLow: CSSProperties = {
   bottom: 0,
   overflow: 'hidden',
 };
-const transition: CSSProperties = {
-  opacity: 0,
-  transitionProperty: `opacity`,
-  transitionTimingFunction: 'ease-in-out'
+
+interface ITransition {
+  init: (duration: number) => CSSProperties;
+  start: CSSProperties;
+  end: CSSProperties;
 }
-const modalStyle = {
-  overlay: {
-    ...modalLow,
-    ...transition
+
+const opacityTransition: ITransition = {
+  init: (duration: number) => ({
+    opacity: 0,
+    transitionProperty: 'opacity',
+    transitionTimingFunction: 'ease-in',
+    transitionDuration: `${duration}s`,
+  }) as CSSProperties,
+  start: {
+    opacity: 1,
   } as CSSProperties,
-  wrapper: {
-    ...modalLow,
-    backgroundColor: 'transparent',
-    pointerEvents: 'auto',
+  end: {
+    opacity: 0,
   } as CSSProperties,
-  modalWrapper: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+}
+
+const opacityTranslateXTransition: ITransition = {
+  init: (duration: number) => ({
+    ...opacityTransition.init(duration),
+    transitionProperty: 'opacity, transform',
+    transform: 'translateX(-150%)',
+  }),
+  start: {
+    ...opacityTransition.start,
+    transform: 'translateX(0)',
   } as CSSProperties,
-  drawerWrapper: {
+  end: {
+    ...opacityTransition.end,
+    transform: 'translateX(-150%)',
   } as CSSProperties,
-  content: {
-    ...transition,
+}
+
+const opacityTranslateYTransition: ITransition = {
+  init: (duration: number) => ({
+    ...opacityTransition.init(duration),
+    transitionProperty: 'opacity, transform',
+    transform: 'translateY(-100%)',
+  }),
+  start: {
+    ...opacityTransition.start,
+    transform: 'translateY(0)',
   } as CSSProperties,
-  drawerContent: {
-    height: '100%', //XXX
-    width: '1%'
-  } as CSSProperties
-};
+  end: {
+    ...opacityTransition.end,
+    transform: 'translateY(-100%)',
+  } as CSSProperties,
+}

@@ -40,6 +40,6 @@ export const Button = (props: DReactNative.IWebButton) =>  {
     otherProps.className += ' component-button xripple ' + renderCSSs(ruleProps);
 
     return <div {...otherProps} onClick={() => { if (disabled) return; onPress(); }}>
-      <div style={titleProps}>{title}</div>
+      <div className={renderCSSs(titleProps)}>{title}</div>
     </div>;
 }

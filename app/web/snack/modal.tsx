@@ -46,14 +46,17 @@ export const showModalExample = async () => {
   //alert(JSON.stringify(res));
 }
 
-const ModalExample = (props: IModalExampleProps) => <div className={renderCSS({ paddingTop: `${(/*10-*/props.$idx) * 30}`, backgroundColor: 'white' })} >
-  <h1> {`${props.title} ${props.$idx}`}</h1>
-  <span onClick={() => closeModal(props, { result: true })}>CLOSE</span>
-  {' | '}
-  <span onClick={() => showModal<IModalExampleProps, IModalExampleRes>(ModalExample, { title: 'Modal Title' })}>NEW</span>
-  {' | '}
-  <a id='popup-link' onClick={ev => showPopupExample(document.getElementById('popup-link'))}>SHOW POPUP</a>
-</div>;
+const ModalExample = (props: IModalExampleProps) => {
+  const linkId = new Date().getTime().toString();
+  return <div className={renderCSS({ paddingTop: `${(/*10-*/props.$idx) * 30}`, backgroundColor: 'white' })} >
+    <h1> {`${props.title} ${props.$idx}`}</h1>
+    <span onClick={() => closeModal(props, { result: true })}>CLOSE</span>
+    {' | '}
+    <span onClick={() => showModal<IModalExampleProps, IModalExampleRes>(ModalExample, { title: 'Modal Title' })}>NEW</span>
+    {' | '}
+    <a id={linkId} onClick={ev => showPopupExample(document.getElementById(linkId))}>SHOW POPUP</a>
+  </div>
+};
 
 class Modal extends React.Component<IModalProps> {
   id: string;
