@@ -27,8 +27,8 @@
 				"react-native": [ "typings/react-native" ],
 				"react-navigation": [ "typings/react-navigation" ],
 				"lodash/*": [ "jspm_packages/npm/@types/lodash@4.14.68/*/index" ],
-				"fbemitter": [ "jspm_packages/npm/@types/fbemitter@2.0.32/index" ]
-				//"expo": [ "typings/expo" ]
+				"fbemitter": [ "jspm_packages/npm/@types/fbemitter@2.0.32/index" ],
+				"expo": [ "typings/expo" ]
 			},
 		"lib": [
 			"dom",

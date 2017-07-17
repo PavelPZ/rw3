@@ -67,8 +67,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <TypeScriptCompile Include="app\native\snack\modal-2.tsx" />
+    <TypeScriptCompile Include="app\native\snack\modal.tsx" />
+    <TypeScriptCompile Include="app\native\snack\activity-indicator.tsx" />
+    <TypeScriptCompile Include="app\native\snack\picker.tsx" />
+    <TypeScriptCompile Include="app\native\snack\navigator\status-bar.tsx" />
+    <TypeScriptCompile Include="app\native\snack\overlay.tsx" />
     <TypeScriptCompile Include="app\web\snack\popup.tsx" />
     <TypeScriptCompile Include="app\web\snack\ripple.tsx" />
+    <TypeScriptCompile Include="common-lib\theme.ts" />
     <TypeScriptCompile Include="common-themeable\core.ts" />
     <TypeScriptCompile Include="common-themeable\helpers.ts" />
     <Content Include="app\web\snack\ripple2.html" />
@@ -98,7 +105,6 @@
     <TypeScriptCompile Include="app\native\snack\navigator\redux.tsx" />
     <TypeScriptCompile Include="app\native\snack\navigator\stack.tsx" />
     <TypeScriptCompile Include="app\native\snack\navigator\tab.tsx" />
-    <TypeScriptCompile Include="app\native\snack\picker.tsx" />
     <TypeScriptCompile Include="app\native\snack\redux.tsx" />
     <TypeScriptCompile Include="app\native\snack\sqlite.tsx" />
     <TypeScriptCompile Include="typings\common.d.ts" />

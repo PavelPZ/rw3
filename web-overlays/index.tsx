@@ -7,12 +7,13 @@ export enum ModalType { modal, popup }
 export interface IModalPropsLow<T> { $finish?: (res) => void; $idx?: number; $uniqueId?: number; $component?: DCommon.TReactComponent, $type?: ModalType, $popupOwner?: React.ReactInstance }
 type TModalPropsLow = IModalPropsLow<{}>;
 
+export const enum TPopupPlaces { Top, Left, Right, Bottom }
 export const config = {
   opacity: 0.8,
   delay: 0.25,
   //delay: 1,
   overlayBackground: '#ddd',
-  popupPlaces: ['top', 'left', 'right', 'bottom' ] as Array<'top' | 'left' | 'right' | 'bottom' | 'center'>,
+  popupPlaces: [TPopupPlaces.Bottom, TPopupPlaces.Right, TPopupPlaces.Top, TPopupPlaces.Left],
   popupGap:5,
 }
 
@@ -172,22 +173,22 @@ class PopupWrapper extends Wrapper {
     const ownerCenter = { horz: ownerRect.left + ownerRect.width / 2, vert: ownerRect.top + ownerRect.height / 2 };
     const winHeight = window.innerHeight; const winWidth = window.innerWidth;
     const { popupGap } = config;
-    const getTopLeft = (place: string, shift: number) => {
+    const getTopLeft = (place: TPopupPlaces, shift: number) => {
       switch (place) {
-        case 'bottom':
-        case 'top': {
+        case TPopupPlaces.Bottom:
+        case TPopupPlaces.Top: {
           const res1 = { left: ownerRect.left - (popRect.width - ownerRect.width) / 2, top: 0 };
-          res1.top = place == 'top' ? ownerRect.top - popRect.height - popupGap : ownerRect.bottom + popupGap;
+          res1.top = place == TPopupPlaces.Top ? ownerRect.top - popRect.height - popupGap : ownerRect.bottom + popupGap;
           switch (shift) {
             case 0: return res1;
             case 1: if (popRect.width > ownerCenter.horz) { res1.left = 0; return res1; }
             case -1: res1.left = winWidth - popRect.width; return res1;
           }
         }
-        case 'right':
-        case 'left': {
+        case TPopupPlaces.Right:
+        case TPopupPlaces.Left: {
           const res2 = { left: 0, top: ownerRect.top - (popRect.height - ownerRect.height) / 2 };
-          res2.left = place == 'left' ? ownerRect.left - popRect.width - popupGap : ownerRect.left + ownerRect.width + popupGap;
+          res2.left = place == TPopupPlaces.Left ? ownerRect.left - popRect.width - popupGap : ownerRect.left + ownerRect.width + popupGap;
           switch (shift) {
             case 0: return res2;
             case 1: if (popRect.height > ownerCenter.vert) { res2.top = 0; return res2; }
