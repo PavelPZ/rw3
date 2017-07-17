@@ -10,8 +10,8 @@ type TModalPropsLow = IModalPropsLow<{}>;
 export const enum TPopupPlaces { Top, Left, Right, Bottom }
 export const config = {
   opacity: 0.8,
-  delay: 0.25,
-  //delay: 1,
+  duration: 0.25,
+  //duration: 1,
   overlayBackground: '#ddd',
   popupPlaces: [TPopupPlaces.Bottom, TPopupPlaces.Right, TPopupPlaces.Top, TPopupPlaces.Left],
   popupGap:5,
@@ -60,10 +60,6 @@ export function showModal<T extends IModalPropsLow<R>, R>(content: React.Compone
   props.$type = ModalType.modal;
   return ProviderOverlays.singletone.show(content, props);
 }
-export function showDrawer<T extends IModalPropsLow<R>, R>(content: React.ComponentClass<T> | React.SFC<T>, props: T): Promise<R> {
-  props.$type = ModalType.drawer;
-  return ProviderOverlays.singletone.show(content, props);
-}
 export function closeModal(props: TModalPropsLow, res: {}, cancel?: boolean) {
   return ProviderOverlays.singletone.closeModal(props, res, cancel);
 }
@@ -84,7 +80,6 @@ class OverlaysStack extends React.Component<{}, IOverlaysStackState> {
         switch (st.$type) {
           case ModalType.modal: return <ModalWrapper $idx={idx} key={idx} />;
           case ModalType.popup: return <PopupWrapper $idx={idx} key={idx} />;
-          case ModalType.drawer: return <DrawerWrapper $idx={idx} key={idx} />;
           default: throw 'notimplemented';
         }
       })}
@@ -102,16 +97,15 @@ abstract class Wrapper extends React.Component<{ $idx: number; }> {
 
   content: HTMLDivElement;
 
-  abstract doRender(par: IDoRenderPar, content: JSX.Element): JSX.Element;
+  abstract doRender(par: { duration: number; $uniqueId: number; zIndex: number; overlayBackground: string; }, content: JSX.Element): JSX.Element;
   setContentPosition(item: TModalPropsLow, content: HTMLElement) { }
 
   render(): JSX.Element {
     const $idx = this.props.$idx;
-    const item = getStackItem($idx);
-    const { $component, ...otherProps } = item;
-    const { delay, overlayBackground } = config;
+    const { $uniqueId, $component, ...otherProps } = getStackItem($idx);
+    const { duration, overlayBackground } = config;
     const zIndex = 100 + $idx * 2;
-    return this.doRender({ delay, item, zIndex, overlayBackground },
+    return this.doRender({ duration, $uniqueId, zIndex, overlayBackground },
       isStateles($component) ? ($component as React.SFC)(otherProps as any) : React.createElement($component as React.ComponentClass<TModalPropsLow>, otherProps)
     );
   }
@@ -120,16 +114,22 @@ abstract class Wrapper extends React.Component<{ $idx: number; }> {
     setTimeout(() => {
       const item = getStackItem(this.props.$idx);
       const { $uniqueId, $type } = item;
-      const { opacity, delay } = config;
+      const { opacity, duration } = config;
       const ov = document.getElementById(`overlay-${$uniqueId}`); const content = document.getElementById(`content-${$uniqueId}`);
-      if ($type == ModalType.modal) ov.style.opacity = opacity.toString();
+      if ($type == ModalType.modal) {
+        ov.style.opacity = opacity.toString();
+        content.style.transform = 'scale(1)';
+      }
       content.style.opacity = '1';
       const $finish = item.$finish; //old finish, pouze promise.resolve
       this.setContentPosition(item, content);
       document.getElementById(providerOverlayId).focus();
       item.$finish = res => { //new finish - konec dialogu
         //animace
-        if ($type == ModalType.modal) ov.style.opacity = '0';
+        if ($type == ModalType.modal) {
+          ov.style.opacity = '0';
+          content.style.transform = 'scale(0.7)';
+        }
         content.style.opacity = '0';
         setTimeout(() => { //pockej na konec animace, pak odstran wrapper
           const state = ProviderOverlays.singletone.overlayStack.state;
@@ -137,7 +137,7 @@ abstract class Wrapper extends React.Component<{ $idx: number; }> {
           ProviderOverlays.singletone.overlayStack.forceUpdate();
           const root = document.getElementById(providerOverlayId); if (root) root.focus(); //predej focus rootu, aby se uplatnil escape
           $finish(res);
-        }, delay * 1000);
+        }, duration * 1000);
       };
     }, 1);
   }
@@ -145,22 +145,24 @@ abstract class Wrapper extends React.Component<{ $idx: number; }> {
 }
 
 interface IWrapperStyles { overlaySt; wraperSt; contentSt; }
-interface IDoRenderPar { delay: number; item: TModalPropsLow; zIndex: number; overlayBackground: string; };
 
 class PopupWrapper extends Wrapper {
 
-  doRender(par: IDoRenderPar, content: JSX.Element): JSX.Element {
-    const { delay, zIndex, item, overlayBackground } = par;
-    const { $uniqueId, } = item;
+  doRender(par: { duration: number; $uniqueId: number; zIndex: number; overlayBackground: string; }, content: JSX.Element): JSX.Element {
+    const { duration, $uniqueId, zIndex, overlayBackground } = par;
 
     const overlaySt = {
       ...modalLow,
       zIndex: zIndex,
       backgroundColor: 'transparent',
     };
+    const wraperSt = {
+      ...modalStyle.wrapper,
+      zIndex: zIndex + 1,
+    };
     const contentSt = {
       ...modalStyle.content,
-      transitionDuration: `${delay}s`,
+      transitionDuration: `${duration}s`,
       position: 'absolute',
       //overflow: 'auto',
       left: 0,
@@ -215,10 +217,10 @@ class PopupWrapper extends Wrapper {
         if (np.left >= 0 && np.top >= 0 && right <= winWidth && bottom <= winHeight) { newPlace = np; console.log(shift.toString()); return true; }
         return false;
       });
-      if (res !== undefined) { console.log(place); return true;}
+      if (newPlace) { console.log(newPlace); return true;}
       return false;
     });
-    if(!place) newPlace = { left: 0, top: 0 }; //center
+    if (!newPlace) { console.log(newPlace); newPlace = { left: 0, top: 0 }; } //topleft
     content.style.left = newPlace.left + 'px';
     content.style.top = newPlace.top + 'px';
   }
@@ -228,24 +230,22 @@ class PopupWrapper extends Wrapper {
 //jeden modal wrapper: dvojice Overlay divu s pozadim a Flex divu s obsahem
 class ModalWrapper extends Wrapper {
 
-  doRender(par: IDoRenderPar, content: JSX.Element): JSX.Element {
-    const { delay, item, zIndex, overlayBackground } = par;
-    const { $uniqueId, $type } = item;
+  doRender(par: { duration: number; $uniqueId: number; zIndex: number; overlayBackground: string; }, content: JSX.Element): JSX.Element {
+    const { duration, $uniqueId, zIndex, overlayBackground } = par;
     const overlaySt = {
       ...modalStyle.overlay,
       zIndex: zIndex,
-      transitionDuration: `${delay}s`,
+      transitionDuration: `${duration}s`,
       backgroundColor: overlayBackground,
     };
     const wraperSt: any = {
       ...modalStyle.wrapper,
-      ...($type == ModalType.modal ? modalStyle.modalWrapper : modalStyle.drawerWrapper),
       zIndex: zIndex + 1,
     };
     const contentSt = {
       ...modalStyle.content,
-      ...($type == ModalType.modal ? null : modalStyle.drawerContent),
-      transitionDuration: `${delay}s`,
+      ...modalStyle.contentModal,
+      transitionDuration: `${duration}s`,
     };
 
     return <div>
@@ -260,11 +260,8 @@ class ModalWrapper extends Wrapper {
   };
 }
 
-class DrawerWrapper extends ModalWrapper {
-}
 
-
-const modalLow: CSSProperties = {
+const modalLow = {
   position: 'fixed',
   top: 0,
   left: 0,
@@ -272,34 +269,30 @@ const modalLow: CSSProperties = {
   height: '100%',
   overflow: 'hidden',
 };
-const transition: CSSProperties = {
+const transition = {
   opacity: 0,
   transitionProperty: `opacity`,
-  transitionTimingFunction: 'ease-in-out'
+  transitionTimingFunction: 'ease-out'
 }
 const modalStyle = {
   overlay: {
     ...modalLow,
     ...transition
-  } as CSSProperties,
+  },
   wrapper: {
     ...modalLow,
     backgroundColor: 'transparent',
-    pointerEvents: 'auto',
-  } as CSSProperties,
-  modalWrapper: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-  } as CSSProperties,
-  drawerWrapper: {
-  } as CSSProperties,
+    pointerEvents: 'auto',
+  },
   content: {
     ...transition,
     backgroundColor: 'white',
-  } as CSSProperties,
-  drawerContent: {
-    height: '100%', //XXX
-    width:'1%'
-  } as CSSProperties
+  },
+  contentModal: {
+    transform: 'scale(0.7)',
+    transitionProperty: `opacity, transform`,
+  }
 };

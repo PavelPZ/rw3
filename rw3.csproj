@@ -73,6 +73,7 @@
     <TypeScriptCompile Include="app\native\snack\picker.tsx" />
     <TypeScriptCompile Include="app\native\snack\navigator\status-bar.tsx" />
     <TypeScriptCompile Include="app\native\snack\overlay.tsx" />
+    <TypeScriptCompile Include="app\web\snack\drawer.tsx" />
     <TypeScriptCompile Include="app\web\snack\popup.tsx" />
     <TypeScriptCompile Include="app\web\snack\ripple.tsx" />
     <TypeScriptCompile Include="common-lib\theme.ts" />
@@ -121,6 +122,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <TypeScriptCompile Include="common-lib\index.ts" />
+    <TypeScriptCompile Include="trash\modal-scale-transform.tsx" />
     <TypeScriptCompile Include="web-overlays\index.tsx" />
     <TypeScriptCompile Include="web-react-native\components\button.tsx" />
     <TypeScriptCompile Include="web-react-native\components\lib.tsx" />

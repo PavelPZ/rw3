@@ -12,7 +12,8 @@ import ReactDOM from 'react-dom';
 //import Root from './common/snack/themeble/basic';
 //import Root from './app/web/snack/modal';
 //import Root from './app/web/snack/ripple';
-import Root from './app/web/snack/popup';
+//import Root from './app/web/snack/popup';
+import Root from './app/web/snack/drawer';
 
 //RNA.Text = themeable(Text);
 //RNA.View = themeable(View);
