@@ -34,7 +34,7 @@ const ModalPopup = (props: IPopupExampleProps) => <div style={{ borderWidth: 2, 
   POPUP<br />
   <span onClick={async ev => {
     await showModalExample();
-    closeModal(props, {});
+    closeModal(props, {}, false, true);
   }}>SHOW MODAL</span>
 </div>;
 

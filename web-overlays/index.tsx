@@ -4,7 +4,7 @@ import { renderCSS } from '../web-fela/index';
 import { isStateles } from '../common-lib/index';
 
 export const enum ModalType { modal, popup, drawer }
-export interface IModalPropsLow<T> { $finish?: (res) => void; $idx?: number; $uniqueId?: number; $component?: DCommon.TReactComponent, $type?: ModalType, $popupOwner?: React.ReactInstance }
+export interface IModalPropsLow<T> { $finish?: (res) => void; $doClose?: (res, noAnimation:boolean) => void,  $idx?: number; $uniqueId?: number; $component?: DCommon.TReactComponent, $type?: ModalType, $popupOwner?: React.ReactInstance }
 type TModalPropsLow = IModalPropsLow<{}>;
 
 export const enum TPopupPlaces { Top, Left, Right, Bottom }
@@ -42,10 +42,10 @@ export class ProviderOverlays extends React.Component {
     });
   }
 
-  closeModal(props: TModalPropsLow, res: {}, cancel: boolean) {
+  closeModal(props: TModalPropsLow, res: {}, cancel: boolean, noAnimation: boolean) {
     const stack = this.overlayStack.state.stack;
     const $idx = props ? props.$idx : stack.length - 1;
-    stack[$idx].$finish(res);
+    stack[$idx].$doClose(res, noAnimation); //.$finish(res);
   }
   static uniqueId = 0;
 }
@@ -64,8 +64,8 @@ export function showDrawer<T extends IModalPropsLow<R>, R>(content: React.Compon
   props.$type = ModalType.drawer;
   return ProviderOverlays.singletone.show(content, props);
 }
-export function closeModal(props: TModalPropsLow, res: {}, cancel?: boolean) {
-  return ProviderOverlays.singletone.closeModal(props, res, cancel);
+export function closeModal(props: TModalPropsLow, res: {}, cancel?: boolean, noAnimation?: boolean) {
+  return ProviderOverlays.singletone.closeModal(props, res, cancel, noAnimation);
 }
 
 const getStackItem = (idx: number) => { return ProviderOverlays.singletone.overlayStack.state.stack[idx]; }
@@ -82,9 +82,9 @@ class OverlaysStack extends React.Component<{}, IOverlaysStackState> {
     return <div id={providerOverlayId} onKeyDown={ev => this.onGlobalKeyDown(ev)} tabIndex={0} className={renderCSS({ outline: 'none', position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 })}>
       {stack.map((st, idx) => {
         switch (st.$type) {
+          case ModalType.drawer:
           case ModalType.modal: return <ModalWrapper $idx={idx} key={idx} />;
           case ModalType.popup: return <PopupWrapper $idx={idx} key={idx} />;
-          case ModalType.drawer: return <DrawerWrapper $idx={idx} key={idx} />;
           default: throw 'notimplemented';
         }
       })}
@@ -124,20 +124,22 @@ abstract class Wrapper extends React.Component<{ $idx: number; }> {
       const ov = document.getElementById(`overlay-${$uniqueId}`); const content = document.getElementById(`content-${$uniqueId}`);
       if ($type != ModalType.popup) ov.style.opacity = opacity.toString();
       content.style.opacity = '1';
-      const $finish = item.$finish; //old finish, pouze promise.resolve
       this.setContentPosition(item, content);
       document.getElementById(providerOverlayId).focus();
-      item.$finish = res => { //new finish - konec dialogu
-        //animace
-        if ($type != ModalType.popup) ov.style.opacity = '0';
-        content.style.opacity = '0';
-        setTimeout(() => { //pockej na konec animace, pak odstran wrapper
+      item.$doClose = (res, noAnimation) => { //new finish - konec dialogu
+        const doClose = () => {
           const state = ProviderOverlays.singletone.overlayStack.state;
           state.stack = state.stack.slice(0, state.stack.length - 1);
           ProviderOverlays.singletone.overlayStack.forceUpdate();
           const root = document.getElementById(providerOverlayId); if (root) root.focus(); //predej focus rootu, aby se uplatnil escape
-          $finish(res);
-        }, delay * 1000);
+          item.$finish(res);
+        };
+        if (noAnimation) doClose();
+        else {
+          if ($type != ModalType.popup) ov.style.opacity = '0'; //animace
+          content.style.opacity = '0';
+          setTimeout(() => doClose(), delay * 1000); //pockej na konec animace, pak odstran wrapper
+        }
       };
     }, 1);
   }
@@ -168,7 +170,7 @@ class PopupWrapper extends Wrapper {
     };
 
     return <div>
-      <div id={`overlay-${$uniqueId}`} className={renderCSS(overlaySt)} onClick={ev => { ev.stopPropagation(); closeModal(this.props, null, true); }}>
+      <div id={`overlay-${$uniqueId}`} className={renderCSS(overlaySt)} onClick={ev => { ev.stopPropagation(); closeModal(this.props, null, false, true); }}>
         <div className={renderCSS(contentSt)} style={{ maxWidth: window.innerWidth - 20, maxHeight: window.innerHeight - 20 }} onClick={ev => ev.stopPropagation()} id={`content-${$uniqueId}`} >
           {content}
         </div>
@@ -261,10 +263,6 @@ class ModalWrapper extends Wrapper {
   };
 }
 
-class DrawerWrapper extends ModalWrapper {
-}
-
-
 const modalLow: CSSProperties = {
   position: 'fixed',
   top: 0,
@@ -297,7 +295,6 @@ const modalStyle = {
   } as CSSProperties,
   content: {
     ...transition,
-    backgroundColor: 'white',
   } as CSSProperties,
   drawerContent: {
     height: '100%', //XXX

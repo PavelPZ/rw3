@@ -31,12 +31,12 @@ const ModalDrawer = (props: IDrawerExampleProps) => <div className={renderCSS({ 
   <h1>DRAWER</h1>
   <span onClick={async ev => {
     await showModalExample();
-    closeModal(props, {});
+    closeModal(props, {}, false, true);
   }}>SHOW MODAL</span>
   {' | '}
   <span id='show-popup-id' onClick={async ev => {
     await showPopupExample(document.getElementById('show-popup-id'));
-    closeModal(props, {});
+    closeModal(props, {}, false, true);
   }}>SHOW POPUP</span>
   <br />
   asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />
