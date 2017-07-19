@@ -15,7 +15,7 @@ export const applyStyle = fn => (type, props) => {
  * @param { array } propsDefs array of prop definitions
  * @returns { function } apply function
  */
-export const withProps: DReactNative.IThemeWithProc = propsDefs => (type, ownProps) => {
+export const createTheme: DReactNative.IThemeWithProc = propsDefs => (type, ownProps) => {
   const def = propsDefs.find(s => s.$type === type)
   if (!def) return ownProps;
   const { $type, $isProp, ...themeProps } = def

@@ -9,7 +9,7 @@ type TModalPropsLow = IModalPropsLow<{}>;
 
 export const enum TPopupPlaces { Top, Left, Right, Bottom }
 export const config = {
-  opacity: 0.8,
+  opacity: 0.60,
   duration: 0.20,
   //duration: 1,
   overlayBackground: '#ddd',
@@ -314,7 +314,7 @@ const opacityTranslateXTransition: ITransition = {
   init: (duration: number) => ({
     ...opacityTransition.init(duration),
     transitionProperty: 'opacity, transform',
-    transform: 'translateX(-150%)',
+    transform: 'translateX(-300%)',
   }),
   start: {
     ...opacityTransition.start,
@@ -322,7 +322,7 @@ const opacityTranslateXTransition: ITransition = {
   } as CSSProperties,
   end: {
     ...opacityTransition.end,
-    transform: 'translateX(-150%)',
+    transform: 'translateX(-300%)',
   } as CSSProperties,
 }
 

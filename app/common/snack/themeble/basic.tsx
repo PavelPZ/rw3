@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react'
-import { Theme, withProps } from '../../../../common-themeable/index';
+import { Theme, createTheme } from '../../../../common-themeable/index';
 import { Text, View } from '../../../../platform-exports';
 
 //const { Text, View } = RNA;
@@ -18,7 +18,7 @@ const colors = {
   Warning: 'fa6800'
 };
 
-const redTheme = withProps([
+const redTheme = createTheme([
   {
     $type: Text,
     $isProp: true,
@@ -35,7 +35,7 @@ const redTheme = withProps([
   },
 ])
 
-const blueTheme = withProps([
+const blueTheme = createTheme([
   {
     $type: Text,
     color: 'white',
