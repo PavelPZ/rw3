@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include=".gitignore" />
+    <TypeScriptCompile Include="app\native\snack\embeded-webview.tsx" />
     <TypeScriptCompile Include="app\native\snack\modal-2.tsx" />
     <TypeScriptCompile Include="app\native\snack\modal.tsx" />
     <TypeScriptCompile Include="app\native\snack\activity-indicator.tsx" />
@@ -137,7 +138,9 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="App.tsx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
