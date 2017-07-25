@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { renderCSSs } from '../../../web-fela/index';
+import { renderCSSs } from 'web-fela';
 
 
 const rule: DFela.TRule = () => ({

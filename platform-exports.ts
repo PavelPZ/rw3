@@ -1,8 +1,8 @@
 ﻿import RN from 'react-native';
-import { themeable } from './common-themeable/index';
+import { themeable } from 'common-themeable';
 
 //************* WEB
-import { Text as TextNormal, View as ViewNormal, I18nManager, Platform, Button as ButtonNormal, TouchableHighlight as TouchableHighlightNormal, TouchableOpacity as TouchableOpacityNormal } from './web-react-native/index';
+import { Text as TextNormal, View as ViewNormal, I18nManager, Platform, Button as ButtonNormal, TouchableHighlight as TouchableHighlightNormal, TouchableOpacity as TouchableOpacityNormal } from 'web-react-native';
 
 //************* NATIVE
 //import { Text as TextNormal, View as ViewNormal, I18nManager, Platform, Button as ButtonNormal, TouchableHighlight as TouchableHighlightNormal  } from 'react-native';

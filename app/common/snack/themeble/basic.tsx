@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react'
-import { Theme, createTheme } from '../../../../common-themeable/index';
+import { Theme, createTheme } from 'common-themeable';
 import { Text, View } from '../../../../platform-exports';
 
 //const { Text, View } = RNA;

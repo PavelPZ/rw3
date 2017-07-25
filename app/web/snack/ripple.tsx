@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { renderCSS, renderKeyFrame } from '../../../web-fela/index';
+import { renderCSS, renderKeyFrame } from 'web-fela';
 
 //https://raw.githubusercontent.com/androidcss/pure-css-ripple-effect/master/index.html
 const ripple: CSSProperties = {

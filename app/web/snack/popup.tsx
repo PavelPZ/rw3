@@ -1,9 +1,9 @@
 ﻿import React from 'react';
-import { renderCSS } from '../../../web-fela/index';
+import { renderCSS } from 'web-fela';
 import { showModalExample } from './modal';
 
 
-import { ProviderOverlays, showModal, showPopup, IModalPropsLow, closeModal } from '../../../web-overlays/index';
+import { ProviderOverlays, showModal, showPopup, IModalPropsLow, closeModal } from 'web-overlays';
 
 class App extends React.Component<{}, { show: boolean; }> {
   state = { show: false };
