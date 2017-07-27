@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react'
 import { Theme, createTheme } from 'common-themeable';
-import { Text, View } from '../../../../platform-exports';
+import { Text, View } from 'exports';
 
 //const { Text, View } = RNA;
 //https://colorlib.com/etc/metro-colors/

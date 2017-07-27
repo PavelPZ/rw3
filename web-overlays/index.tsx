@@ -1,16 +1,17 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
-import { renderCSS } from '../web-fela/index';
-import { isStateles } from '../common-lib/index';
+import { renderCSS } from 'web-fela';
+import { isStateles } from 'common-lib';
 
-export const enum ModalType { modal, popup, drawer }
+export const enum ModalType { modal, popup, drawer, blockGui }
 export interface IModalPropsLow<T> { $finish?: (res) => void; $doClose?: (res, noAnimation: boolean) => void, $idx?: number; $uniqueId?: number; $component?: DCommon.TReactComponent, $type?: ModalType, $popupOwner?: React.ReactInstance, $keepLast?: boolean, $transition?: ITransition }
 type TModalPropsLow = IModalPropsLow<{}>;
 
 export const enum TPopupPlaces { Top, Left, Right, Bottom }
 export const config = {
   opacity: 0.60,
-  duration: 0.20,
+  duration: 0.30,
+  blockGuiDelay: 0.8,
   //duration: 1,
   overlayBackground: '#ddd',
   popupPlaces: [TPopupPlaces.Bottom, TPopupPlaces.Right, TPopupPlaces.Top, TPopupPlaces.Left],
@@ -18,9 +19,9 @@ export const config = {
 }
 
 //root aplikace. Obsahuje aplikaci a VEDLE div jako placeholder pro Overlay backdrops a modal wrappers
-export class ProviderOverlays extends React.Component {
-  constructor() { super(); ProviderOverlays.singletone = this; }
-  static singletone: ProviderOverlays;
+export class Provider extends React.Component {
+  constructor() { super(); Provider.singletone = this; }
+  static singletone: Provider;
   render(): JSX.Element {
     return <OverlaysStack ref={st => this.overlayStack = st} app={
       <div key='app' className={renderCSS({ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, overflow: 'auto' })}>
@@ -35,7 +36,7 @@ export class ProviderOverlays extends React.Component {
         const { stack } = this.overlayStack.state;
         item.$finish = () => resolve();
         item.$idx = stack.length;
-        item.$uniqueId = ProviderOverlays.uniqueId++;
+        item.$uniqueId = Provider.uniqueId++;
         item.$component = content;
         stack.push(item);
         this.overlayStack.forceUpdate();
@@ -63,23 +64,38 @@ export function showPopup<T extends IModalPropsLow<R>, R>(owner: React.ReactInst
   props.$popupOwner = owner;
   props.$type = ModalType.popup;
   props.$transition = opacityTransition;
-  return ProviderOverlays.singletone.show(content, props);
+  return Provider.singletone.show(content, props);
 }
 export function showModal<T extends IModalPropsLow<R>, R>(content: React.ComponentClass<T> | React.SFC<T>, props: T): Promise<R> {
   props.$type = ModalType.modal;
   props.$transition = opacityTransition;
-  return ProviderOverlays.singletone.show(content, props);
+  return Provider.singletone.show(content, props);
 }
 export function showDrawer<T extends IModalPropsLow<R>, R>(content: React.ComponentClass<T> | React.SFC<T>, props: T): Promise<R> {
   props.$type = ModalType.drawer;
   props.$transition = opacityTranslateXTransition;
-  return ProviderOverlays.singletone.show(content, props);
+  return Provider.singletone.show(content, props);
 }
 export function closeModal(props: TModalPropsLow, res: {}, cancel?: boolean, noAnimation?: boolean) {
-  return ProviderOverlays.singletone.closeModal(props, res, cancel, noAnimation);
+  return Provider.singletone.closeModal(props, res, cancel, noAnimation);
 }
+export function showBlockGui() {
+  blockGuiCount++;
+  if (blockGuiCount > 1) return;
+  blockGuiProps = { $type: ModalType.blockGui, $transition: blokGuiTransition };
+  Provider.singletone.show(null, blockGuiProps);
+}
+export function hideBlockGui() {
+  if (blockGuiCount < 1) throw 'blockGuiCount < 1';
+  blockGuiCount--;
+  if (blockGuiCount > 0) return;
+  Provider.singletone.closeModal(blockGuiProps, null, true, true);
+}
+let blockGuiCount = 0;
+let blockGuiProps: TModalPropsLow;
 
-const getStackItem = (idx: number) => { return ProviderOverlays.singletone.overlayStack.state.stack[idx]; }
+
+const getStackItem = (idx: number) => { return Provider.singletone.overlayStack.state.stack[idx]; }
 
 interface IOverlaysStackState {
   stack: TModalPropsLow[];
@@ -100,6 +116,7 @@ class OverlaysStack extends React.Component<IOverlaysStack, IOverlaysStackState>
           case ModalType.drawer:
           case ModalType.modal: return <ModalWrapper $idx={idx} key={idx} />;
           case ModalType.popup: return <PopupWrapper $idx={idx} key={idx} />;
+          case ModalType.blockGui: return <BlockGuiWrapper $idx={idx} key={idx} />;
           default: throw 'notimplemented';
         }
       })}
@@ -127,7 +144,7 @@ abstract class Wrapper extends React.Component<{ $idx: number; }> {
     const zIndex = 100 + $idx * 2;
     //do rendering
     return this.doRender({ duration, item, zIndex, overlayBackground },
-      isStateles($component) ? ($component as React.SFC)(otherProps as any) : React.createElement($component as React.ComponentClass<TModalPropsLow>, otherProps)
+      !$component ? null : (isStateles($component) ? ($component as React.SFC)(otherProps as any) : React.createElement($component as React.ComponentClass<TModalPropsLow>, otherProps))
     );
   }
 
@@ -145,9 +162,9 @@ abstract class Wrapper extends React.Component<{ $idx: number; }> {
       //set close modal callback
       item.$doClose = (res, noAnimation) => { //new finish - konec dialogu
         const doClose = () => { //remove from stack
-          const state = ProviderOverlays.singletone.overlayStack.state;
+          const state = Provider.singletone.overlayStack.state;
           state.stack = state.stack.slice(0, state.stack.length - 1);
-          ProviderOverlays.singletone.overlayStack.forceUpdate();
+          Provider.singletone.overlayStack.forceUpdate();
           const root = document.getElementById(providerOverlayId); if (root) root.focus(); //predej focus rootu, aby se uplatnil escape
           item.$finish(res);
         };
@@ -242,6 +259,34 @@ class PopupWrapper extends Wrapper {
   }
 }
 
+class BlockGuiWrapper extends Wrapper {
+
+  doRender(par: IRenderingPar, content: JSX.Element): JSX.Element {
+    const { zIndex, item } = par;
+    const { $uniqueId, $transition } = item;
+
+    const overlaySt: CSSProperties = {
+      ...modalLow,
+      zIndex: zIndex,
+      backgroundColor: 'transparent',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      cursor: 'wait',
+    };
+    const contentSt: CSSProperties = {
+      ...$transition.init(config.blockGuiDelay),
+      width: 30,
+      height: 30,
+      backgroundColor: 'red'
+    };
+
+    return <div id={`overlay-${$uniqueId}`} className={renderCSS(overlaySt)} onClick={ev => { ev.stopPropagation(); }}>
+      <div className={renderCSS(contentSt)} id={`content-${$uniqueId}`} >
+      </div>
+    </div>;
+  }
+}
 
 //jeden modal wrapper: dvojice Overlay divu s pozadim a Flex divu s obsahem
 class ModalWrapper extends Wrapper {
@@ -264,14 +309,14 @@ class ModalWrapper extends Wrapper {
       pointerEvents: 'auto',
     };
     const contentSt = {
-      ...($type == ModalType.modal ? null : { height: '100%', width: '1%'}),
+      ...($type == ModalType.modal ? null : { height: '100%', width: '1%' } as CSSProperties),
       ...$transition.init(duration),
     };
 
     return <div>
       <div id={`overlay-${$uniqueId}`} className={renderCSS(overlaySt)}></div>
       <div className={renderCSS(wraperSt)} onClick={ev => { ev.stopPropagation(); closeModal(this.props, null, true); }} >
-        <div id={`content-${$uniqueId}`} className={renderCSS(contentSt)} style={{ maxWidth: window.innerWidth - 20, maxHeight: window.innerHeight - 20 }} onClick={ev => ev.stopPropagation()} >
+        <div id={`content-${$uniqueId}`} className={renderCSS(contentSt)} style={{ /*maxWidth: window.innerWidth - 20, maxHeight: window.innerHeight - 20*/ }} onClick={ev => ev.stopPropagation()} >
           {content}
         </div>
       </div>
@@ -295,11 +340,27 @@ interface ITransition {
   end: CSSProperties;
 }
 
+const blokGuiTransition: ITransition = {
+  init: (delay: number) => ({
+    opacity: 0,
+    transitionProperty: 'opacity',
+    transitionDelay: `${delay}s`,
+    transitionDuration: '0.001s',
+  }) as CSSProperties,
+  start: {
+    opacity: 1,
+  } as CSSProperties,
+  end: {
+    opacity: 0,
+  } as CSSProperties,
+}
+
 const opacityTransition: ITransition = {
   init: (duration: number) => ({
     opacity: 0,
     transitionProperty: 'opacity',
-    transitionTimingFunction: 'ease-in',
+    //transitionTimingFunction: 'ease-in',
+    transitionTimingFunction: 'cubic-bezier(.4, 0, .2, 1)',
     transitionDuration: `${duration}s`,
   }) as CSSProperties,
   start: {

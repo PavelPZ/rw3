@@ -6,21 +6,16 @@ SystemJS.config({
     "baseURL": "/"
   },
   packages: {
-    "": {
-      "defaultExtension": "js"
-    },
-    "web-overlays": {
-      "main": "index.js",
-    },
-    "web-fela": {
-      "main": "index.js",
-    },
-    "web-react-native": {
-      "main": "index.js",
-    },
-    "common-themeable": {
-      "main": "index.js",
-    },
+    "": { "defaultExtension": "js" },
+    "web-overlays": { "main": "index.js" },
+    "web-fela": { "main": "index.js" },
+    "web-react-native": { "main": "index.js" },
+    "common-themeable": { "main": "index.js" },
+    "common-lib": { "main": "index.js" },
+    "exports": { "main": "index.js" },
+    "app-common": { "main": "index.js" },
+    "app-web": { "main": "index.js" },
+
     "npm:fela-utils@5.0.2": {
       "map": {
         "css-in-js-utils": "npm:css-in-js-utils@1.0.3"

@@ -3,13 +3,13 @@ import { renderCSS } from 'web-fela';
 import { showModalExample } from './modal';
 
 
-import { ProviderOverlays, showModal, showPopup, IModalPropsLow, closeModal } from 'web-overlays';
+import { Provider, showModal, showPopup, IModalPropsLow, closeModal } from 'web-overlays';
 
 class App extends React.Component<{}, { show: boolean; }> {
   state = { show: false };
   popupComp: React.ReactInstance;
   render(): JSX.Element {
-    return <ProviderOverlays>
+    return <Provider>
       <div className={renderCSS({ width: '1rem', height: '1rem', backgroundColor: 'yellow', margin: 10 })}>XXXX</div>
       <div className={renderCSS({ width: '20px', height: '20px', backgroundColor: 'yellow', margin: 10, fontSize: '1rem' })}>XXXX</div>
 
@@ -19,7 +19,7 @@ class App extends React.Component<{}, { show: boolean; }> {
       </div>
       asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />
       asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />
-    </ProviderOverlays>
+    </Provider>
   }
 }
 

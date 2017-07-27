@@ -4,19 +4,19 @@ import { showModalExample } from './modal';
 import { showPopupExample } from './popup';
 
 
-import { ProviderOverlays, showModal, showDrawer, IModalPropsLow, closeModal } from 'web-overlays';
+import { Provider, showModal, showDrawer, IModalPropsLow, closeModal } from 'web-overlays';
 
 class App extends React.Component<{}, { show: boolean; }> {
   state = { show: false };
   render(): JSX.Element {
-    return <ProviderOverlays>
+    return <Provider>
       asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />
-      <div className={renderCSS({ width: 1200, height: 100, textAlign: 'center' })}>
+      <div className={renderCSS({ width: 300, height: 100, textAlign: 'center' })}>
         <a className={renderCSS({ display: 'inline-block', height: 70, border: 'solid 2px red' })} href='#' onClick={ev => showDrawerExample()}>SHOW DRAWER</a>
       </div>
       asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />
       asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />
-    </ProviderOverlays>
+    </Provider>
   }
 }
 
@@ -27,7 +27,7 @@ export const showDrawerExample = async () => {
   //alert(JSON.stringify(res));
 }
 
-const ModalDrawer = (props: IDrawerExampleProps) => <div className={renderCSS({ borderWidth: 2, borderStyle: 'solid', borderColor: 'black', padding: 10, backgroundColor: 'white', width: 350, height: '99.7%', overflow: 'auto', })}>
+const ModalDrawer = (props: IDrawerExampleProps) => <div className={renderCSS({ boxSizing: 'border-box', borderWidth: 2, borderStyle: 'solid', borderColor: 'black', padding: 10, backgroundColor: 'white', width: 400, maxWidth: window.innerWidth * 0.8, height: '100%', overflowY: 'auto', })}>
   <h1>DRAWER</h1>
   <span onClick={async ev => {
     await showModalExample();
@@ -43,6 +43,7 @@ const ModalDrawer = (props: IDrawerExampleProps) => <div className={renderCSS({ 
   asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />
   asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />
   asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />asdfasdfsad<br />
+  XXXXXXXXXXXXXX
 </div>;
 
 export default App;

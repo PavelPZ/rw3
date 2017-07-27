@@ -1,11 +1,11 @@
 import React from 'react';
 import RN from 'react-native';
-import { RNA } from './platform-exports';
+import { RNA } from 'exports';
 
 RNA.Animated.Value = RN.Animated.Value;
 RNA.Animated.ValueXY = RN.Animated.ValueXY;
 RNA.Platform = RN.Platform;
 
-import App from './app/common/snack/react-native';
+import App from './app-common/snack/react-native';
 
 export default App;

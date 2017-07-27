@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import { Text, View, Button, TouchableHighlight, TouchableOpacity } from '../../../platform-exports';
+import { Text, View, Button, TouchableHighlight, TouchableOpacity } from 'exports';
 
 
 //https://snack.expo.io/BJMg9qzBZ

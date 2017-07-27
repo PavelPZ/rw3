@@ -30,9 +30,14 @@
       "fbemitter": [ "jspm_packages/npm/@types/fbemitter@2.0.32/index" ],
       "expo": [ "typings/expo" ],
       //LM libs
+      "app-common": [ "app-common/index" ],
+      "app-web": [ "app-web/index" ],
+      "app-native": [ "app-native/index" ],
+      "exports": [ "exports/index" ],
       "web-overlays": [ "web-overlays/index" ],
       "web-react-native": [ "web-react-native/index" ],
       "web-fela": [ "web-fela/index" ],
+      "common-lib": [ "common-lib/index" ],
       "common-themeable": [ "common-themeable/index" ]
     },
 		"lib": [
@@ -46,6 +51,6 @@
 	"exclude": [
 		"jspm_packages/",
 		"node_modules/"
-		,"app/native/snack/"
+		,"app-native/snack/"
 	]
 }
