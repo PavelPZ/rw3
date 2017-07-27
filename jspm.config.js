@@ -6,16 +6,41 @@ SystemJS.config({
     "baseURL": "/"
   },
   packages: {
-    "": { "defaultExtension": "js" },
-    "web-overlays": { "main": "index.js" },
-    "web-fela": { "main": "index.js" },
-    "web-react-native": { "main": "index.js" },
-    "common-themeable": { "main": "index.js" },
-    "common-lib": { "main": "index.js" },
-    "exports": { "main": "index.js" },
-    "app-common": { "main": "index.js" },
-    "app-web": { "main": "index.js" },
-
+    "": {
+      "defaultExtension": "js"
+    },
+    "npm:react@15.6.1": {
+      "main": "dist/react-with-addons.js",
+      "format": "amd"
+    },
+    "npm:react-dom@15.6.1": {
+      "main": "dist/react-dom.js",
+      "format": "amd"
+    },
+    "web-overlays": {
+      "main": "index.js"
+    },
+    "web-fela": {
+      "main": "index.js"
+    },
+    "web-react-native": {
+      "main": "index.js"
+    },
+    "common-themeable": {
+      "main": "index.js"
+    },
+    "common-lib": {
+      "main": "index.js"
+    },
+    "exports": {
+      "main": "index.js"
+    },
+    "app-common": {
+      "main": "index.js"
+    },
+    "app-web": {
+      "main": "index.js"
+    },
     "npm:fela-utils@5.0.2": {
       "map": {
         "css-in-js-utils": "npm:css-in-js-utils@1.0.3"
@@ -67,6 +92,7 @@ SystemJS.config({
     "npm:*.json"
   ],
   map: {
+    "fela-monolithic": "npm:fela-monolithic@5.0.4",
     "@types/fbemitter": "npm:@types/fbemitter@2.0.32",
     "@types/js-cookie": "npm:@types/js-cookie@2.0.28",
     "@types/lodash": "npm:@types/lodash@4.14.70",
@@ -593,6 +619,12 @@ SystemJS.config({
     "npm:fela-utils@5.0.4": {
       "map": {
         "css-in-js-utils": "npm:css-in-js-utils@1.0.3"
+      }
+    },
+    "npm:fela-monolithic@5.0.4": {
+      "map": {
+        "css-in-js-utils": "npm:css-in-js-utils@1.0.3",
+        "fela-utils": "npm:fela-utils@5.0.4"
       }
     }
   }

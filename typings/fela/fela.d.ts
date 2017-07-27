@@ -13,3 +13,4 @@ declare module "fela-plugin-prefixer" { const any: any; export default any; }
 declare module "fela-plugin-fallback-value" { const any: any; export default any; }
 declare module "fela-plugin-lvha" { const any: any; export default any; }
 declare module "fela-plugin-unit" { const any: any; export default any; }
+declare module "fela-monolithic" { const any: any; export default any; }

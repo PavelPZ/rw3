@@ -31,6 +31,7 @@
       "core-js": "npm:core-js@^2.4.1",
       "fela": "npm:fela@^5.0.2",
       "fela-dom": "npm:fela-dom@^5.0.3",
+      "fela-monolithic": "npm:fela-monolithic@^5.0.4",
       "fela-plugin-extend": "npm:fela-plugin-extend@^5.0.2",
       "fela-plugin-fallback-value": "npm:fela-plugin-fallback-value@^5.0.3",
       "fela-plugin-lvha": "npm:fela-plugin-lvha@^5.0.2",
