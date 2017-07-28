@@ -18,30 +18,34 @@ export const config = {
   popupGap: 5,
 }
 
+//*** singletones
+let provider: Provider;
+let overlayStack: OverlaysStack;
+let stack: TModalPropsLow[];
+let blockGuiCount = 0;
+let blockGuiProps: TModalPropsLow;
+
+
 //root aplikace. Obsahuje aplikaci a VEDLE div jako placeholder pro Overlay backdrops a modal wrappers
 export class Provider extends React.Component {
-  constructor() { super(); Provider.singletone = this; }
-  static singletone: Provider;
+  constructor() { super(); provider = this; }
   render(): JSX.Element {
-    return <OverlaysStack ref={st => this.overlayStack = st} app={
+    return <OverlaysStack ref={st => overlayStack = st} app={
       <div key='app' className={renderCSS({ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, overflow: 'auto' })}>
         {this.props.children}
       </div>
     } />;
   }
-  overlayStack: OverlaysStack;
   show<T extends IModalPropsLow<R>, R>(content: React.ComponentClass<T> | React.SFC<T>, item: T): Promise<R> {
     return new Promise<R>(resolve => {
       const doShow = () => {
-        const { stack } = this.overlayStack.state;
         item.$finish = () => resolve();
         item.$idx = stack.length;
         item.$uniqueId = Provider.uniqueId++;
         item.$component = content;
         stack.push(item);
-        this.overlayStack.forceUpdate();
+        overlayStack.forceUpdate();
       };
-      const { stack } = this.overlayStack.state;
       const lastItem = stack.length <= 0 ? null : stack[stack.length - 1];
       const hideLast = lastItem != null && lastItem.$type != ModalType.modal && lastItem.$type != ModalType.modalFullScreen && !item.$keepLast;
       if (hideLast) {
@@ -53,7 +57,6 @@ export class Provider extends React.Component {
   }
 
   closeModal(props: TModalPropsLow, res: {}, cancel: boolean, noAnimation: boolean) {
-    const stack = this.overlayStack.state.stack;
     const $idx = props ? props.$idx : stack.length - 1;
     stack[$idx].$doClose(res, noAnimation); //.$finish(res);
   }
@@ -65,38 +68,33 @@ export function showPopup<T extends IModalPropsLow<R>, R>(owner: React.ReactInst
   props.$popupOwner = owner;
   props.$type = ModalType.popup;
   props.$transition = opacityTransition;
-  return Provider.singletone.show(content, props);
+  return provider.show(content, props);
 }
 export function showModal<T extends IModalPropsLow<R>, R>(content: React.ComponentClass<T> | React.SFC<T>, props: T, asFullScreen: boolean): Promise<R> {
   props.$type = asFullScreen ? ModalType.modalFullScreen : ModalType.modal;
   props.$transition = opacityTransition;
-  return Provider.singletone.show(content, props);
+  return provider.show(content, props);
 }
 export function showDrawer<T extends IModalPropsLow<R>, R>(content: React.ComponentClass<T> | React.SFC<T>, props: T): Promise<R> {
   props.$type = ModalType.drawer;
   props.$transition = opacityTranslateXTransition;
-  return Provider.singletone.show(content, props);
+  return provider.show(content, props);
 }
 export function closeModal(props: TModalPropsLow, res: {}, cancel?: boolean, noAnimation?: boolean) {
-  return Provider.singletone.closeModal(props, res, cancel, noAnimation);
+  return provider.closeModal(props, res, cancel, noAnimation);
 }
 export function showBlockGui() {
   blockGuiCount++;
   if (blockGuiCount > 1) return;
   blockGuiProps = { $type: ModalType.blockGui, $transition: blokGuiTransition };
-  Provider.singletone.show(null, blockGuiProps);
+  provider.show(null, blockGuiProps);
 }
 export function hideBlockGui() {
   if (blockGuiCount < 1) throw 'blockGuiCount < 1';
   blockGuiCount--;
   if (blockGuiCount > 0) return;
-  Provider.singletone.closeModal(blockGuiProps, null, true, true);
+  provider.closeModal(blockGuiProps, null, true, true);
 }
-let blockGuiCount = 0;
-let blockGuiProps: TModalPropsLow;
-
-
-const getStackItem = (idx: number) => { return Provider.singletone.overlayStack.state.stack[idx]; }
 
 interface IOverlaysStackState {
   stack: TModalPropsLow[];
@@ -107,9 +105,8 @@ interface IOverlaysStack {
 
 //seznam ModalWrapper's
 class OverlaysStack extends React.Component<IOverlaysStack, IOverlaysStackState> {
-  state: IOverlaysStackState = { stack: [] };
+  state: IOverlaysStackState = { stack: stack = [] };
   render(): JSX.Element {
-    const { stack } = this.state; //if (stack.length == 0) return null;
     return <div id={providerOverlayId} onKeyDown={ev => this.onGlobalKeyDown(ev)} tabIndex={0} className={renderCSS({ outline: 'none', })}>
       {this.props.app}
       {stack.map((st, idx) => <Wrapper $idx={idx} key={idx} />)}
@@ -118,7 +115,6 @@ class OverlaysStack extends React.Component<IOverlaysStack, IOverlaysStackState>
   onGlobalKeyDown(ev: React.KeyboardEvent<{}>) {
     if (!ev || ev.keyCode != 27) return;
     ev.stopPropagation();
-    const { stack } = this.state;
     const item = stack.length == 0 ? null : stack[stack.length - 1];
     if (item == 0 || item.$type == ModalType.blockGui || item.$type == ModalType.modalFullScreen) return;
     closeModal(null, null, true);
@@ -221,7 +217,7 @@ class Wrapper extends React.Component<{ $idx: number; }> {
   render(): JSX.Element {
     //prepare data
     const $idx = this.props.$idx; //stack idx
-    const item = getStackItem($idx); //stack item
+    const item = stack[$idx]; //stack item
     const { $component, ...otherProps } = item;
     const zIndex = 100 + $idx * 2;
     //do rendering
@@ -232,7 +228,7 @@ class Wrapper extends React.Component<{ $idx: number; }> {
 
   componentDidMount(): void { //vse je vykresleno a existuje
     setTimeout(() => {
-      const item = getStackItem(this.props.$idx); //stack of modal components
+      const item = stack[this.props.$idx]; //stack of modal components
       const { $uniqueId, $type, $transition } = item; const { opacity, duration } = config;
       //start animation, position popup, set focus for ESC key
       const ov = document.getElementById(`overlay-${$uniqueId}`); //pro fullscreenmodal overlay neexistuje
@@ -245,9 +241,9 @@ class Wrapper extends React.Component<{ $idx: number; }> {
       //set close modal callback
       item.$doClose = (res, noAnimation) => { //new finish - konec dialogu
         const doClose = () => { //remove from stack
-          const state = Provider.singletone.overlayStack.state;
-          state.stack = state.stack.slice(0, state.stack.length - 1);
-          Provider.singletone.overlayStack.forceUpdate();
+          const state = overlayStack.state;
+          stack = state.stack = stack.slice(0, stack.length - 1);
+          overlayStack.forceUpdate();
           const root = document.getElementById(providerOverlayId); if (root) root.focus(); //predej focus rootu, aby se uplatnil escape
           item.$finish(res);
         };
