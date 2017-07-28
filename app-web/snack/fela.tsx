@@ -2,14 +2,25 @@
 import { renderCSSs } from 'web-fela';
 
 
-const rule: DFela.TRule = () => ({
+const ext: DFela.IExtendItem = {
+  condition: true,
+  style: {
+
+  }
+};
+
+const rule: DFela.TRule = (props: { color: string; }) => ({
   fontSize: '20px',
   color: 'blue',
   lineHeight: 1.5,
   display: 'flex',
   transitionProperty: 'color',
   transitionDuration: '2s',
-})
+  extend: {
+    condition: true,
+
+  }
+} as CSSProperties)
 
 const ruleBlack: DFela.TRule = () => ({
   color: 'yellow'

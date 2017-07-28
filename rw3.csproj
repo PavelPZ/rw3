@@ -118,7 +118,6 @@
     <TypeScriptCompile Include="app-native\snack\sqlite.tsx" />
     <TypeScriptCompile Include="typings\common.d.ts" />
     <Content Include="packages.config" />
-    <None Include="typings\CSStyles.d - Copy.ts_" />
     <TypeScriptCompile Include="typings\CSStyles.d.ts" />
     <TypeScriptCompile Include="typings\expo.d.ts" />
     <TypeScriptCompile Include="typings\animated.d.ts" />

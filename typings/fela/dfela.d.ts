@@ -1,9 +1,7 @@
 ﻿declare namespace DFela {
 
-  
-
   type TRuleProps = {};
-  interface TRule { (props: TRuleProps): CSSProperties; }
+  type TRule = (props: TRuleProps) => CSSProperties;
   interface TKeyFrameRule { (props: TRuleProps): KeyFrames; }
   type TRendererCreator = (config?: IConfig) => IRenderer;
   type TPlugin = (style: CSSProperties) => CSSProperties; //http://fela.js.org/docs/advanced/Plugins.html
@@ -47,7 +45,14 @@
     mediaQueryOrder?: Array<string>;
     selectorPrefix?: string;
   }
+
+  export type IExtendItem = DStyles.CSSProperties | { condition:boolean; style: CSSProperties }
+
+  export interface IExtend {
+    extend?: IExtendItem | IExtendItem[];
+  }
 }
 
-type CSSProperties = DStyles.CSSProperties & DStyles.NestedCSSSelectors;
+
+type CSSProperties = DStyles.CSSProperties & DStyles.NestedCSSSelectors & DFela.IExtend;
 type KeyFrames = DStyles.KeyFrames;

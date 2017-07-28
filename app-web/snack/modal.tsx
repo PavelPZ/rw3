@@ -38,11 +38,12 @@ class App extends React.Component<{}, { show: boolean; }> {
   }
 }
 
-interface IModalExampleProps extends IModalPropsLow<IModalExampleRes> { title: string; }
+interface IModalExampleProps extends IModalPropsLow<IModalExampleRes> { title: string; asFullScreen: boolean; }
 interface IModalExampleRes { result: boolean; }
 
 export const showModalExample = async () => {
-  const res = await showModal<IModalExampleProps, IModalExampleRes>(ModalExample, { title: 'Modal Title'});
+  const asFullScreen = window.innerWidth < 500;
+  const res = await showModal<IModalExampleProps, IModalExampleRes>(ModalExample, { title: 'Modal Title', asFullScreen: asFullScreen }, asFullScreen);
   //alert(JSON.stringify(res));
 }
 
@@ -52,7 +53,7 @@ const ModalExample = (props: IModalExampleProps) => {
     <h1> {`${props.title} ${props.$idx}`}</h1>
     <span onClick={() => closeModal(props, { result: true })}>CLOSE</span>
     {' | '}
-    <span onClick={() => showModal<IModalExampleProps, IModalExampleRes>(ModalExample, { title: 'Modal Title' })}>NEW</span>
+    <span onClick={() => showModalExample()}>NEW</span>
     {' | '}
     <a id={linkId} onClick={ev => showPopupExample(document.getElementById(linkId))}>SHOW POPUP</a>
   </div>
