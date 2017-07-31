@@ -2,44 +2,30 @@
 import PropTypes from 'prop-types';
 import { renderCSSs } from '../../web-fela/index';
 import { ClickHandler } from './lib';
+import { palette, buttonTheme } from 'common-lib';
 
 //D:\rw\know-how\react-native-web\src\components\Button\index.js
 //https://github.com/facebook/react-native/blob/master/Libraries/Components/Button.js
-export const Button = (props: DReactNative.IWebButton) =>  {
+export const Button = (props: DReactNative.IWebButton) => {
 
-    const {
-      title,
-      onPress,
-      color,
-      disabled,
-      children,
-      ...otherPropsTyped
+  const {
+    title,
+    onPress,
+    color,
+    disabled,
+    children,
+    tabIndex,
+    flat,
+    ...otherPropsTyped
     } = props;
-    const otherProps = otherPropsTyped;
+  const otherProps: React.HTMLAttributes<HTMLDivElement> = otherPropsTyped as any;
 
-    ClickHandler (onPress, otherProps);
+  ClickHandler(onPress, otherProps);
 
-    const ruleProps: CSSProperties = {
-      backgroundColor: disabled ? '#dfdfdf' : '#2196F3',
-      borderRadius: 2,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexDirection: 'column',
-      ...(!disabled ? { cursor: 'pointer' } : null),
-    };
+  if (!otherProps.className) otherProps.className = '';
+  otherProps.className += ' component-button ' + (!disabled ? 'ripple ' : '') + renderCSSs(buttonTheme(color, flat, disabled));
 
-    const titleProps: CSSProperties = {
-      color: disabled ? '#a1a1a1' : 'white',
-      padding: 8,
-      fontWeight: 500,
-    };
-
-
-    if (!otherProps.className) otherProps.className = '';
-    otherProps.className += ' component-button xripple ' + renderCSSs(ruleProps);
-
-    return <div {...otherProps} onClick={() => { if (disabled) return; onPress(); }}>
-      <div className={renderCSSs(titleProps)}>{title}</div>
-    </div>;
+  return <div {...otherProps} tabIndex={disabled ? -1 : (tabIndex ? tabIndex : 1)} onClick={() => { if (disabled) return; onPress(); }}>
+    {title ? title.toUpperCase() : props.children}
+  </div>;
 }
