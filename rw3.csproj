@@ -85,9 +85,11 @@
     <TypeScriptCompile Include="app-web\snack\drawer.tsx" />
     <TypeScriptCompile Include="app-web\snack\popup.tsx" />
     <TypeScriptCompile Include="app-web\snack\ripple.tsx" />
+    <TypeScriptCompile Include="common-lib\colors.ts" />
     <TypeScriptCompile Include="common-lib\theme.ts" />
     <TypeScriptCompile Include="common-themeable\core.ts" />
     <TypeScriptCompile Include="common-themeable\helpers.ts" />
+    <Content Include="app-web\snack\react-md.html" />
     <Content Include="app-web\snack\ripple2.html" />
     <Content Include="index.html" />
     <Content Include="installNPM.txt" />

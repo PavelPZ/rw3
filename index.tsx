@@ -8,12 +8,12 @@ import ReactDOM from 'react-dom';
 //import Platform from './web/react-native/apis/platform';
 
 //import Root from './app-web/snack/fela';
-//import Root from './app-common/snack/react-native';
+import Root from './app-common/snack/react-native';
 //import Root from './common/snack/themeble/basic';
 //import Root from './app-web/snack/modal';
 //import Root from './app/web/snack/ripple';
 //import Root from './app/web/snack/popup';
-import Root from './app-web/snack/drawer';  
+//import Root from './app-web/snack/drawer';  
 //import Root from './app-web/snack/block-gui';  
 //import Root from 'app-web';
 

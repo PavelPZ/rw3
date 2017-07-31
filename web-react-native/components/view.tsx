@@ -8,14 +8,16 @@ export const View = (props: DReactNative.IWebView) =>  {
 
     const {
       style,
-      onTouchCancel, onTouchEnd, onTouchEndCapture, onTouchMove, onTouchStart, //avoid TS Error
+      //onTouchCancel, onTouchEnd, onTouchEndCapture, onTouchMove, onTouchStart, //avoid TS Error
+      //accessibilityLabel, accessible, hitSlop, onAcccessibilityTap, onLayout, onMagicTap, pointerEvents, removeClippedSubviews,
+      //testID, accessibilityComponentType, accessibilityLiveRegion, collapsable, importantForAccessibility, needsOffscreenAlphaCompositing,
       ...otherPropsTyped
     } = props;
     const otherProps = otherPropsTyped;
 
     const convertViewStyles = (native: ReactNative.ViewStyle) => native as any as CSSProperties; //vadi textShadowColor, fontWeight, textAlign, transform
 
-    const ruleProps = {
+    const ruleProps: CSSProperties = {
       ...ViewStyle,
       ...convertViewStyles(style)
     };
@@ -23,5 +25,5 @@ export const View = (props: DReactNative.IWebView) =>  {
     if (!otherProps.className) otherProps.className = '';
     otherProps.className += ' component-view ' + renderCSS(ruleProps);
 
-    return <div {...otherProps} />;
+    return <div {...otherProps as any} />;
 }

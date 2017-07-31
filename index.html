@@ -1,6 +1,12 @@
 ﻿<!doctype html>
-<html>
+<html style="font-family: 'Roboto', sans-serif;">
 <head>
+  <!--https://fonts.google.com/specimen/Noto+Sans?selection.family=Noto+Sans
+    font-family: 'Noto Sans', sans-serif;
+    -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+
   <script src="jspm_packages/npm/core-js@2.4.1/client/shim.min.js"></script> <!--musi byt kvuli MSIE-->
   <script src="jspm_packages/npm/whatwg-fetch@2.0.3/fetch.js"></script> <!--musi byt kvuli MSIE-->
   <script src="jspm_packages/system.src.js"></script>
@@ -8,14 +14,10 @@
 
   <script>
     System.import('index.js').then(function (m) { m.init(); }).catch(function (err) { debugger; });
-    //System.import('web/snack/fela.js').then(function (m) { }).catch(function (err) { debugger; });
   </script>
 </head>
 <body style="overflow: hidden;">
   <div id="content"></div>
-  <!--
-  <div><div class="modal-overlay"></div><div class="modal-wrapper"><div class="modal-content"><h2>Modal dialog</h2><p>f as fasdf asd f asdf asd f asf asd f adsf asd f asdf asd fasd f asdf asd fasd f adsf asdf sad fasd </p></div></div></div>
-    -->
 </body>
 
 </html>

@@ -175,6 +175,6 @@ function applyTheme(props, ctx, OriginalComponent, NewComponent) {
  * @param { function } apply apply function
  * @returns { function } apply function
  */
-const chain = (...applies: DReactNative.IThemeWithProps[]) => (type: React.ComponentClass, props: DReactNative.IThemePropsDef) => {
-  return applies.reduce((p, a) => a(type, p), props)
-}
+//const chain = (...applies: DReactNative.IThemeWithProps[]) => (type: React.ComponentClass, props: DReactNative.IThemePropsDef) => {
+//  return applies.reduce((p, a) => a(type, p), props)
+//}
