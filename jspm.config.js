@@ -9,14 +9,6 @@ SystemJS.config({
     "": {
       "defaultExtension": "js"
     },
-    "npm:react@15.6.1": {
-      "main": "dist/react-with-addons.js",
-      "format": "amd"
-    },
-    "npm:react-dom@15.6.1": {
-      "main": "dist/react-dom.js",
-      "format": "amd"
-    },
     "web-overlays": {
       "main": "index.js"
     },
@@ -79,6 +71,12 @@ SystemJS.config({
       "map": {
         "fela-utils": "npm:fela-utils@5.0.2"
       }
+    },
+    "npm:inline-style-prefixer@3.0.6": {
+      "map": {
+        "css-in-js-utils": "npm:css-in-js-utils@1.0.3",
+        "bowser": "npm:bowser@1.7.1"
+      }
     }
   },
   map: {
@@ -95,11 +93,11 @@ SystemJS.config({
     "fela-monolithic": "npm:fela-monolithic@5.0.4",
     "@types/fbemitter": "npm:@types/fbemitter@2.0.32",
     "@types/js-cookie": "npm:@types/js-cookie@2.0.28",
-    "@types/lodash": "npm:@types/lodash@4.14.70",
-    "@types/react": "npm:@types/react@15.0.38",
+    "@types/lodash": "npm:@types/lodash@4.14.71",
+    "@types/react": "npm:@types/react@15.6.0",
     "@types/react-dom": "npm:@types/react-dom@15.5.1",
     "@types/react-intl": "npm:@types/react-intl@2.3.1",
-    "@types/react-redux": "npm:@types/react-redux@4.4.46",
+    "@types/react-redux": "npm:@types/react-redux@4.4.47",
     "animated": "npm:animated@0.2.0",
     "assert": "npm:jspm-nodelibs-assert@0.2.1",
     "buffer": "npm:jspm-nodelibs-buffer@0.2.3",
@@ -131,7 +129,7 @@ SystemJS.config({
     "react-redux": "npm:react-redux@5.0.5",
     "redux": "npm:redux@3.7.2",
     "redux-logger": "npm:redux-logger@3.0.6",
-    "redux-saga": "npm:redux-saga@0.15.5",
+    "redux-saga": "npm:redux-saga@0.15.6",
     "stream": "npm:jspm-nodelibs-stream@0.2.1",
     "string_decoder": "npm:jspm-nodelibs-string_decoder@0.2.1",
     "tslib": "npm:tslib@1.7.1",
@@ -142,6 +140,27 @@ SystemJS.config({
     "zlib": "npm:jspm-nodelibs-zlib@0.2.3"
   },
   packages: {
+    "npm:react@15.6.1": {
+      "main": "dist/react-with-addons.js",
+      "format": "amd",
+      "map": {
+        "loose-envify": "npm:loose-envify@1.3.1",
+        "create-react-class": "npm:create-react-class@15.6.0",
+        "prop-types": "npm:prop-types@15.5.10",
+        "fbjs": "npm:fbjs@0.8.14",
+        "object-assign": "npm:object-assign@4.1.1"
+      }
+    },
+    "npm:react-dom@15.6.1": {
+      "main": "dist/react-dom.js",
+      "format": "amd",
+      "map": {
+        "loose-envify": "npm:loose-envify@1.3.1",
+        "prop-types": "npm:prop-types@15.5.10",
+        "fbjs": "npm:fbjs@0.8.14",
+        "object-assign": "npm:object-assign@4.1.1"
+      }
+    },
     "npm:react-redux@5.0.5": {
       "map": {
         "lodash": "npm:lodash@4.17.4",
@@ -166,34 +185,6 @@ SystemJS.config({
         "deep-diff": "npm:deep-diff@0.3.8"
       }
     },
-    "npm:react-dom@15.6.1": {
-      "map": {
-        "loose-envify": "npm:loose-envify@1.3.1",
-        "prop-types": "npm:prop-types@15.5.10",
-        "fbjs": "npm:fbjs@0.8.12",
-        "object-assign": "npm:object-assign@4.1.1"
-      }
-    },
-    "npm:react@15.6.1": {
-      "map": {
-        "loose-envify": "npm:loose-envify@1.3.1",
-        "create-react-class": "npm:create-react-class@15.6.0",
-        "prop-types": "npm:prop-types@15.5.10",
-        "fbjs": "npm:fbjs@0.8.12",
-        "object-assign": "npm:object-assign@4.1.1"
-      }
-    },
-    "npm:fbjs@0.8.12": {
-      "map": {
-        "core-js": "npm:core-js@1.2.7",
-        "loose-envify": "npm:loose-envify@1.3.1",
-        "object-assign": "npm:object-assign@4.1.1",
-        "promise": "npm:promise@7.3.1",
-        "setimmediate": "npm:setimmediate@1.0.5",
-        "ua-parser-js": "npm:ua-parser-js@0.7.13",
-        "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1"
-      }
-    },
     "npm:intl-relativeformat@1.3.0": {
       "map": {
         "intl-messageformat": "npm:intl-messageformat@1.3.0"
@@ -206,14 +197,14 @@ SystemJS.config({
     },
     "npm:create-react-class@15.6.0": {
       "map": {
-        "fbjs": "npm:fbjs@0.8.12",
+        "fbjs": "npm:fbjs@0.8.14",
         "loose-envify": "npm:loose-envify@1.3.1",
         "object-assign": "npm:object-assign@4.1.1"
       }
     },
     "npm:prop-types@15.5.10": {
       "map": {
-        "fbjs": "npm:fbjs@0.8.12",
+        "fbjs": "npm:fbjs@0.8.14",
         "loose-envify": "npm:loose-envify@1.3.1"
       }
     },
@@ -523,19 +514,13 @@ SystemJS.config({
     },
     "npm:@types/react-dom@15.5.1": {
       "map": {
-        "@types/react": "npm:@types/react@15.0.38"
+        "@types/react": "npm:@types/react@15.6.0"
       }
     },
     "npm:animated@0.2.0": {
       "map": {
         "normalize-css-color": "npm:normalize-css-color@1.0.2",
         "invariant": "npm:invariant@2.2.2"
-      }
-    },
-    "npm:inline-style-prefixer@3.0.6": {
-      "map": {
-        "css-in-js-utils": "npm:css-in-js-utils@1.0.3",
-        "bowser": "npm:bowser@1.7.1"
       }
     },
     "npm:crypto-browserify@3.11.1": {
@@ -550,12 +535,6 @@ SystemJS.config({
         "pbkdf2": "npm:pbkdf2@3.0.12",
         "create-hmac": "npm:create-hmac@1.1.6",
         "browserify-sign": "npm:browserify-sign@4.0.4"
-      }
-    },
-    "npm:@types/react-redux@4.4.46": {
-      "map": {
-        "redux": "npm:redux@3.7.2",
-        "@types/react": "npm:@types/react@15.0.38"
       }
     },
     "npm:redux@3.7.2": {
@@ -612,7 +591,7 @@ SystemJS.config({
       "map": {
         "fela-plugin-fallback-value": "npm:fela-plugin-fallback-value@5.0.5",
         "fela-utils": "npm:fela-utils@5.0.4",
-        "inline-style-prefixer": "npm:inline-style-prefixer@3.0.6",
+        "inline-style-prefixer": "npm:inline-style-prefixer@3.0.7",
         "css-in-js-utils": "npm:css-in-js-utils@1.0.3"
       }
     },
@@ -625,6 +604,29 @@ SystemJS.config({
       "map": {
         "css-in-js-utils": "npm:css-in-js-utils@1.0.3",
         "fela-utils": "npm:fela-utils@5.0.4"
+      }
+    },
+    "npm:@types/react-redux@4.4.47": {
+      "map": {
+        "redux": "npm:redux@3.7.2",
+        "@types/react": "npm:@types/react@15.6.0"
+      }
+    },
+    "npm:inline-style-prefixer@3.0.7": {
+      "map": {
+        "css-in-js-utils": "npm:css-in-js-utils@1.0.3",
+        "bowser": "npm:bowser@1.7.1"
+      }
+    },
+    "npm:fbjs@0.8.14": {
+      "map": {
+        "core-js": "npm:core-js@1.2.7",
+        "loose-envify": "npm:loose-envify@1.3.1",
+        "object-assign": "npm:object-assign@4.1.1",
+        "setimmediate": "npm:setimmediate@1.0.5",
+        "ua-parser-js": "npm:ua-parser-js@0.7.14",
+        "isomorphic-fetch": "npm:isomorphic-fetch@2.2.1",
+        "promise": "npm:promise@7.3.1"
       }
     }
   }
