@@ -132,6 +132,6 @@ export const buttonTheme = (color: string = palette.primary, flat: boolean, disa
   } as CSSProperties
 }
 
-const toolbarTheme = () = ({
+const toolbarTheme = () => ({
   height:64,
 } as CSSProperties);
